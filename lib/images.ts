@@ -27,7 +27,6 @@ export const IMAGES = {
   // ============================================
   hero: {
     logo: `${IMAGEKIT_BASE}/hero/common/kashiyatra-logo.png`,
-    heroLogo: `${IMAGEKIT_BASE}/hero/common/hero-logo.png`,
     ghatsDay: `${IMAGEKIT_BASE}/hero/common/ghats-day.png`,
     ghatsNight: `${IMAGEKIT_BASE}/hero/common/ghats-night.png`,
     temple: `${IMAGEKIT_BASE}/hero/common/kashivishwanath-temple.png`,
@@ -37,15 +36,11 @@ export const IMAGES = {
   },
 
   // ============================================
-  // NAVBAR - Light and Dark variants
+  // NAVBAR - All common
   // ============================================
   navbar: {
-    // Light theme (golden/cream)
     background: `${IMAGEKIT_BASE}/navbar/common/nav-bg.png`,
     badge: `${IMAGEKIT_BASE}/navbar/common/nav-badge.png`,
-    // Dark theme (dark blue/teal)
-    backgroundDark: `${IMAGEKIT_BASE}/navbar/dark/nav-bar-bg-dark.png`,
-    badgeDark: `${IMAGEKIT_BASE}/navbar/dark/nav-bar-badge-dark.png`,
   },
 
   // ============================================
@@ -54,7 +49,6 @@ export const IMAGES = {
   vibes: {
     // Common (both platforms)
     background: `${IMAGEKIT_BASE}/vibes/common/vibes-bg.png`,
-    backgroundDark: `${IMAGEKIT_BASE}/vibes/common/banarasi-vibes-bg-dark.png`,
     mahamana: `${IMAGEKIT_BASE}/vibes/common/mahamana.png`,
     bhuGate: `${IMAGEKIT_BASE}/vibes/common/bhu-gate.png`,
     rickshaw: `${IMAGEKIT_BASE}/vibes/common/rickshaw.png`,
@@ -81,7 +75,9 @@ export const IMAGES = {
   // ============================================
   highlights: {
     // Common
-    background: `${IMAGEKIT_BASE}/festival-vibes/common/festive-vibes-bg.png`,
+    durgaTemple: `${IMAGEKIT_BASE}/highlights/common/durga-temple.svg`,
+    // Desktop-only
+    durga: `${IMAGEKIT_BASE}/highlights/desktop/durga.svg`,
   },
 
   // ============================================
@@ -110,9 +106,6 @@ export const IMAGES = {
     floatingGarland: `${IMAGEKIT_BASE}/footer/desktop/floating-garland.png`,
     ghatSilhouette: `${IMAGEKIT_BASE}/footer/desktop/ghat-silhouette.png`,
     subtleRangoli: `${IMAGEKIT_BASE}/footer/desktop/subtle-rangoli.png`,
-    floatingSpeaker: `${IMAGEKIT_BASE}/footer/desktop/floating-speaker.png`,
-    concertFloor: `${IMAGEKIT_BASE}/footer/desktop/concert-floor.png`,
-    footerDancer: `${IMAGEKIT_BASE}/footer/desktop/footer-dancer.png`,
   },
 
   // ============================================
@@ -127,7 +120,6 @@ export const IMAGES = {
   // ABOUT PAGE - All common
   // ============================================
   about: {
-    background: `${IMAGEKIT_BASE}/about/common/about-bg.png`,
     mandalaOrnament: `${IMAGEKIT_BASE}/about/common/mandala-ornament.png`,
     peacock: `${IMAGEKIT_BASE}/about/common/peacock.png`,
     omLotus: `${IMAGEKIT_BASE}/about/common/om-lotus.png`,
@@ -136,32 +128,6 @@ export const IMAGES = {
     cornerOrnament: `${IMAGEKIT_BASE}/about/common/corner-ornament.png`,
     bhuGate: `${IMAGEKIT_BASE}/about/common/bhu-royal-gate.png`,
     ghatsSilhouette: `${IMAGEKIT_BASE}/about/common/ghats-silhouette.png`,
-    heroLeftAbout: `${IMAGEKIT_BASE}/about/common/hero-left-about.png`,
-    dancerGirlHeroAbout: `${IMAGEKIT_BASE}/about/common/dancer-girl-hero-about.png`,
-    // IIT BHU Stamps
-    stamps: {
-      mandir: `${IMAGEKIT_BASE}/about/stamps/mandir.png`,
-      mainBuilding: `${IMAGEKIT_BASE}/about/stamps/main-building.png`,
-      library: `${IMAGEKIT_BASE}/about/stamps/library.png`,
-      kyVenue: `${IMAGEKIT_BASE}/about/stamps/ky-venue.png`,
-      heritageHostel: `${IMAGEKIT_BASE}/about/stamps/heritage-hostel.png`,
-    },
-    // Slider images - Left row (moving left to right)
-    slider: {
-      left1: `${IMAGEKIT_BASE}/about/slider/left1.jpg`,
-      left2: `${IMAGEKIT_BASE}/about/slider/left2.jpg`,
-      left3: `${IMAGEKIT_BASE}/about/slider/left3.jpg`,
-      left4: `${IMAGEKIT_BASE}/about/slider/left4.jpg`,
-      left5: `${IMAGEKIT_BASE}/about/slider/left5.jpg`,
-      left6: `${IMAGEKIT_BASE}/about/slider/left6.jpg`,
-      // Right row (moving right to left)
-      right1: `${IMAGEKIT_BASE}/about/slider/right1.jpg`,
-      right2: `${IMAGEKIT_BASE}/about/slider/right2.jpg`,
-      right3: `${IMAGEKIT_BASE}/about/slider/right3.jpg`,
-      right4: `${IMAGEKIT_BASE}/about/slider/right4.jpg`,
-      right5: `${IMAGEKIT_BASE}/about/slider/right5.jpg`,
-      right6: `${IMAGEKIT_BASE}/about/slider/right6.jpg`,
-    },
   },
 
   // ============================================
@@ -213,9 +179,6 @@ export const IMAGES = {
   // SPONSORS
   // ============================================
   sponsors: {
-    // Background
-    background: `${IMAGEKIT_BASE}/sponsors/common/sponsor-bg.png`,
-    
     // Decorative elements
     ornamentalDivider: `${IMAGEKIT_BASE}/sponsors/decorative/ornamental-divider.png`,
     rectangularFrame: `${IMAGEKIT_BASE}/sponsors/decorative/rectangular-frame.png`,
@@ -263,14 +226,6 @@ export const IMAGES = {
     innovationPartner: `${IMAGEKIT_BASE}/sponsors/innovation-partner.webp`,
     dalimssNewsPartner: `${IMAGEKIT_BASE}/sponsors/dalimss-news-partner.webp`,
     theVibePartner: `${IMAGEKIT_BASE}/sponsors/the-vibe-partner.png`,
-  },
-
-  // ============================================
-  // INTRO SECTION - Mascot and assets
-  // ============================================
-  intro: {
-    cuteBoyMascot: `${IMAGEKIT_BASE}/intro/common/cute-boy-mascot.png`,
-    logo: `${IMAGEKIT_BASE}/intro/common/intro-logo.png`,
   },
 } as const;
 

@@ -15,7 +15,7 @@ export const KashiYatraText = memo(function KashiYatraText() {
           textShadow: "0 0 20px rgba(255,200,50,0.8), 0 2px 4px rgba(0,0,0,0.5)",
         }}
       >
-        Kashi Yatra
+        काशी यात्रा
       </span>
       <span
         className="text-[16px] font-bold tracking-[0.3em] mt-1"

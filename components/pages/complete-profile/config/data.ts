@@ -1,38 +1,31 @@
-import { GraduationCap, Phone, Shield, Upload } from "lucide-react";
+import { GraduationCap, Phone, Shield } from "lucide-react";
 
 interface StepConfig {
   id: number;
-  key: "aadhaarUpload" | "aadhaarVerify" | "college" | "phone";
+  key: "aadhaar" | "college" | "phone";
   title: string;
   description: string;
   icon: React.ElementType;
 }
 
-// 4 main steps for profile completion
+// 3 main steps for profile completion
 export const STEPS: StepConfig[] = [
   {
     id: 1,
-    key: "aadhaarUpload",
-    title: "Upload Aadhaar",
-    description: "Upload your ID",
-    icon: Upload,
-  },
-  {
-    id: 2,
-    key: "aadhaarVerify",
-    title: "Verify Aadhaar",
+    key: "aadhaar",
+    title: "Aadhaar Verification",
     description: "Identity verification",
     icon: Shield,
   },
   {
-    id: 3,
+    id: 2,
     key: "college",
     title: "College Details",
     description: "Academic information",
     icon: GraduationCap,
   },
   {
-    id: 4,
+    id: 3,
     key: "phone",
     title: "Phone Verification",
     description: "Contact verification",

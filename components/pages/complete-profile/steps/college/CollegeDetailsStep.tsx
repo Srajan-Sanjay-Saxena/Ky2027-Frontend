@@ -2,30 +2,24 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
-import { GraduationCap, Loader2 } from "lucide-react";
-import {
-  useCollegeSearch,
-  useUpdateCollege,
-  type College,
-} from "@/lib/api/hooks";
+import { GraduationCap, ArrowLeft, Loader2 } from "lucide-react";
+import { useCollegeSearch, useUpdateCollege, type College } from "@/lib/api/hooks";
 import { COLORS } from "@/components/pages/complete-profile/constants/palette";
-import {
-  ModeToggle,
-  CollegeSearchInput,
-  CollegeDropdown,
-  SelectedCollegeCard,
-  ManualInput,
-} from "./sections";
-import { useDebounce } from "@/lib/api/hooks/useDebounce";
-import { CollegeLoader } from "./loader";
-import { CollegeErrorState } from "./error";
+import { useDebounce } from "./hooks";
+import { ModeToggle } from "./ModeToggle";
+import { CollegeSearchInput } from "./CollegeSearchInput";
+import { CollegeDropdown } from "./CollegeDropdown";
+import { SelectedCollegeCard } from "./SelectedCollegeCard";
+import { ManualInput } from "./ManualInput";
 
 // ═══════════════════════════════════════════════════════════════════
 // TYPES
 // ═══════════════════════════════════════════════════════════════════
 
 interface CollegeDetailsStepProps {
-  refetchProgress: () => void;
+  onSubmit: (college: string) => void;
+  onBack: () => void;
+  existingCollege?: string;
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -33,17 +27,15 @@ interface CollegeDetailsStepProps {
 // ═══════════════════════════════════════════════════════════════════
 
 export function CollegeDetailsStep({
-  refetchProgress,
+  onSubmit,
+  onBack,
+  existingCollege,
 }: CollegeDetailsStepProps) {
   const { data: session } = useSession();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCollege, setSelectedCollege] = useState<College | null>(null);
-  const [manualCollege, setManualCollege] = useState("");
-
-  // If the person's college is not in our dataset , then he have to enter it manually.
+  const [manualCollege, setManualCollege] = useState(existingCollege || "");
   const [isManualMode, setIsManualMode] = useState(false);
-
-  // Dropdown state
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -54,17 +46,11 @@ export function CollegeDetailsStep({
   // College search hook
   const { colleges, isLoading: isSearching } = useCollegeSearch(
     isManualMode ? "" : debouncedSearch,
-    15,
+    15
   );
 
   // Update college hook
-  const { updateCollege, isPending: isUpdating, isError, error } = useUpdateCollege(
-    session?.user?.id,
-  );
-
-  // Error state
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const { updateCollege, isPending: isUpdating } = useUpdateCollege(session?.user?.id);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -115,59 +101,18 @@ export function CollegeDetailsStep({
     if (!collegeName.trim()) return;
 
     updateCollege(
-      { college: collegeName },
+      { body: { college: collegeName } },
       {
         onSuccess: () => {
-          setShowError(false);
-          refetchProgress();
+          onSubmit(collegeName);
         },
-        onError: (err) => {
-          // Always show user-friendly message, never raw technical errors
-          setErrorMessage("Something went wrong. Please try again.");
-          setShowError(true);
-        },
-      },
+      }
     );
-  }, [
-    isManualMode,
-    manualCollege,
-    selectedCollege,
-    searchQuery,
-    updateCollege,
-    refetchProgress,
-  ]);
-
-  const handleRetry = useCallback(() => {
-    setShowError(false);
-    handleSubmit();
-  }, [handleSubmit]);
-
-  const handleSearchAgain = useCallback(() => {
-    setShowError(false);
-    setSearchQuery("");
-    setSelectedCollege(null);
-    setManualCollege("");
-  }, []);
+  }, [isManualMode, manualCollege, selectedCollege, searchQuery, updateCollege, onSubmit]);
 
   const isValid = isManualMode
     ? manualCollege.trim().length >= 3
     : selectedCollege !== null || searchQuery.trim().length >= 3;
-
-  // Show loader when updating
-  if (isUpdating) {
-    return <CollegeLoader />;
-  }
-
-  // Show error state
-  if (showError) {
-    return (
-      <CollegeErrorState
-        message={errorMessage}
-        onRetry={handleRetry}
-        onSearchAgain={handleSearchAgain}
-      />
-    );
-  }
 
   return (
     <div className="space-y-8">
@@ -182,10 +127,7 @@ export function CollegeDetailsStep({
         >
           <GraduationCap className="h-8 w-8" style={{ color: COLORS.GOLD }} />
         </div>
-        <h2
-          className="text-2xl sm:text-3xl font-bold mb-2"
-          style={{ color: COLORS.CREAM }}
-        >
+        <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: COLORS.CREAM }}>
           Your College Details
         </h2>
         <p style={{ color: `${COLORS.CREAM}60` }}>
@@ -228,15 +170,25 @@ export function CollegeDetailsStep({
         <ManualInput value={manualCollege} onChange={setManualCollege} />
       )}
 
-      {/* Action Button */}
-      <div className="pt-4">
+      {/* Action Buttons */}
+      <div className="flex gap-4 pt-4">
+        <button
+          onClick={onBack}
+          className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium transition-all hover:scale-[1.02]"
+          style={{
+            background: COLORS.BG_ROYAL,
+            border: `1px solid ${COLORS.GOLD}30`,
+            color: COLORS.CREAM,
+          }}
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back
+        </button>
         <button
           onClick={handleSubmit}
           disabled={!isValid || isUpdating}
-          className={`w-full py-3 rounded-xl font-semibold text-lg transition-all duration-300 ${
-            isValid && !isUpdating
-              ? "hover:scale-[1.02] hover:shadow-lg"
-              : "opacity-50 cursor-not-allowed"
+          className={`flex-1 py-3 rounded-xl font-semibold text-lg transition-all duration-300 ${
+            isValid && !isUpdating ? "hover:scale-[1.02] hover:shadow-lg" : "opacity-50 cursor-not-allowed"
           }`}
           style={{
             background: isValid

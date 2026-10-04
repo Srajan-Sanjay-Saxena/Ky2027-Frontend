@@ -1,3 +1,6 @@
-export { MysticDivider, CornerOrnaments, AmbientDecor } from "./decors";
-export { ContactHero, ContactForm, ContactInfo } from "./sections";
-export { ContactPageContent } from "./ContactPageContent";
+export { MysticDivider } from "./MysticDivider";
+export { CornerOrnaments } from "./CornerOrnaments";
+export { AmbientDecor } from "./AmbientDecor";
+export { ContactHero } from "./ContactHero";
+export { ContactForm } from "./ContactForm";
+export { ContactInfo } from "./ContactInfo";

@@ -14,19 +14,19 @@ interface StepConfig {
 // ═══════════════════════════════════════════════════════════════════
 export function StepperIndicator({
   steps,
-  currentStep = 1,
-  completedSteps = 0,
+  currentStep,
+  completedSteps,
 }: {
   steps: StepConfig[];
-  currentStep?: number;
-  completedSteps?: number;
+  currentStep: number;
+  completedSteps: Set<number>;
 }) {
   return (
     <div className="relative">
       {/* Desktop Stepper */}
       <div className="hidden md:flex items-center justify-center gap-0">
         {steps.map((step, index) => {
-          const isCompleted = step.id < currentStep || index < completedSteps;
+          const isCompleted = completedSteps.has(step.id);
           const isCurrent = currentStep === step.id;
           const isLast = index === steps.length - 1;
 
@@ -109,7 +109,7 @@ export function StepperIndicator({
                   style={{
                     background: isCompleted
                       ? `linear-gradient(90deg, ${COLORS.SUCCESS}, ${
-                          steps[index + 1].id < currentStep || (index + 1) < completedSteps
+                          completedSteps.has(steps[index + 1].id)
                             ? COLORS.SUCCESS
                             : `${COLORS.GOLD}30`
                         })`
@@ -126,7 +126,7 @@ export function StepperIndicator({
       <div className="md:hidden">
         <div className="flex items-center justify-center mb-4">
           {steps.map((step, index) => {
-            const isCompleted = step.id < currentStep || index < completedSteps;
+            const isCompleted = completedSteps.has(step.id);
             const isCurrent = currentStep === step.id;
             const isLast = index === steps.length - 1;
 
@@ -175,7 +175,7 @@ export function StepperIndicator({
                     style={{
                       background: isCompleted
                         ? `linear-gradient(90deg, ${COLORS.SUCCESS}, ${
-                            steps[index + 1].id < currentStep || (index + 1) < completedSteps
+                            completedSteps.has(steps[index + 1].id)
                               ? COLORS.SUCCESS
                               : `${COLORS.GOLD}30`
                           })`

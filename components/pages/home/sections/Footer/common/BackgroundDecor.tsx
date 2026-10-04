@@ -1,6 +1,6 @@
 import { memo } from "react";
 import Image from "next/image";
-import { MandalaRing } from "./MandalaRing";
+import { MandalaRing } from "@/components/pages/home/sections/FestHighlights/common/MandlaRing";
 import { DiyaSvg } from "@/components/pages/home/sections/Hero/River/diya/DiyaSvg";
 import { MotionZone } from "@/lib/motion";
 import { IMAGES } from "@/lib/images";

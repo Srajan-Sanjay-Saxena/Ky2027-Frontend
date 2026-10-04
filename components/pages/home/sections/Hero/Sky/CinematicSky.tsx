@@ -120,22 +120,27 @@ export const CinematicSky = memo(function CinematicSky({ className = "" }: { cla
     };
   }, [isMobile]);
 
-  // Generate varied stars - fewer on mobile
-  const starCount = isMobile ? 40 : 120;
-  const stars = Array.from({ length: starCount }, (_, i) => {
-    const size = i < 10 ? 2.5 + Math.random() * 1.5 : i < 30 ? 1.5 + Math.random() : 0.8 + Math.random() * 0.8;
-    const brightness = i < 10 ? 0.9 : i < 30 ? 0.6 + Math.random() * 0.3 : 0.3 + Math.random() * 0.4;
-    return {
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 45,
-      size,
-      brightness,
-      duration: 3 + Math.random() * 5,
-      delay: Math.random() * 8,
-      isBright: i < 10,
-    };
-  });
+  // Generate varied stars on client only to avoid hydration mismatch
+  const [stars, setStars] = useState<any[]>([]);
+
+  useEffect(() => {
+    const starCount = isMobile ? 40 : 120;
+    const generatedStars = Array.from({ length: starCount }, (_, i) => {
+      const size = i < 10 ? 2.5 + Math.random() * 1.5 : i < 30 ? 1.5 + Math.random() : 0.8 + Math.random() * 0.8;
+      const brightness = i < 10 ? 0.9 : i < 30 ? 0.6 + Math.random() * 0.3 : 0.3 + Math.random() * 0.4;
+      return {
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 45,
+        size,
+        brightness,
+        duration: 3 + Math.random() * 5,
+        delay: Math.random() * 8,
+        isBright: i < 10,
+      };
+    });
+    setStars(generatedStars);
+  }, [isMobile]);
 
   return (
     <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>

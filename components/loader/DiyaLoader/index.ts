@@ -1,0 +1,1 @@
+export { DiyaLoader } from "./DiyaLoader";

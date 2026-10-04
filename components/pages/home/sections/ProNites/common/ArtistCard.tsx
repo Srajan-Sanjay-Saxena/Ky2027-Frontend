@@ -1,10 +1,9 @@
 "use client";
 
-import { memo, useMemo } from "react";
+import { memo } from "react";
 import Image from "next/image";
 import { CONCERT_COLORS, Artist } from "../constants";
 import { EqualizerBars } from "./EqualizerBars";
-import { useMotionZone } from "@/lib/motion";
 
 // ═══════════════════════════════════════════════════════════════════
 // MYSTERY SILHOUETTE - Animated question mark
@@ -55,10 +54,12 @@ const RevealedArtist = memo(function RevealedArtist({
   image,
   name,
   accentColor,
+  isHeadliner,
 }: {
   image: string;
   name: string;
   accentColor: string;
+  isHeadliner: boolean;
 }) {
   return (
     <div className="absolute inset-0 overflow-hidden">
@@ -141,7 +142,7 @@ export const HeadlinerCard = memo(function HeadlinerCard({
           }}
         >
           {artist.isRevealed && artist.image ? (
-            <RevealedArtist image={artist.image} name={artist.name} accentColor={accentColor} />
+            <RevealedArtist image={artist.image} name={artist.name} accentColor={accentColor} isHeadliner={true} />
           ) : (
             <MysterySilhouette accentColor={accentColor} isHeadliner={true} />
           )}
@@ -170,7 +171,7 @@ export const HeadlinerCard = memo(function HeadlinerCard({
 });
 
 // ═══════════════════════════════════════════════════════════════════
-// FEATURING CARD - Simplified with static diamond gradient
+// FEATURING CARD - Smaller supporting card (Previous Lineups)
 // ═══════════════════════════════════════════════════════════════════
 export const FeaturingCard = memo(function FeaturingCard({ 
   artist, 
@@ -180,120 +181,57 @@ export const FeaturingCard = memo(function FeaturingCard({
   index: number;
 }) {
   const accentColor = artist.accentColor || CONCERT_COLORS.NEON_PURPLE;
-
-  // Secondary color for gradients
-  const secondaryColor = useMemo(() => {
-    const colors = [
-      CONCERT_COLORS.NEON_PINK,
-      CONCERT_COLORS.NEON_CYAN,
-      CONCERT_COLORS.NEON_PURPLE,
-      CONCERT_COLORS.NEON_GOLD,
-    ];
-    return colors[(index + 1) % colors.length];
-  }, [index]);
   
   return (
-    <div 
-      className="relative group" 
-      style={{ 
-        animationDelay: `${index * 0.1}s`,
-      }}
-    >
-      {/* Static diamond gradient border */}
+    <div className="relative group" style={{ animationDelay: `${index * 0.1}s` }}>
+      {/* Hover glow - desktop only */}
       <div
-        className="absolute -inset-[2px] rounded-2xl opacity-60 sm:group-hover:opacity-100 transition-opacity duration-300"
+        className="hidden sm:block absolute -inset-[1px] rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300"
         style={{
-          background: `linear-gradient(45deg, 
-            ${accentColor} 0%, 
-            ${secondaryColor} 25%, 
-            ${CONCERT_COLORS.NEON_GOLD} 50%, 
-            ${secondaryColor} 75%, 
-            ${accentColor} 100%)`,
+          background: `linear-gradient(135deg, ${accentColor}60 0%, ${CONCERT_COLORS.NEON_PURPLE}40 100%)`,
           filter: "blur(1px)",
         }}
       />
       
-      {/* Main card */}
+      {/* Card */}
       <div
-        className="relative overflow-hidden rounded-2xl transition-all duration-300 sm:group-hover:scale-[1.02]"
+        className="relative overflow-hidden rounded-2xl p-4 sm:transition-transform sm:duration-300 sm:group-hover:scale-[1.02]"
         style={{
-          background: `linear-gradient(135deg, 
-            rgba(15,5,25,0.95) 0%, 
-            rgba(25,10,35,0.9) 50%, 
-            rgba(10,5,20,0.95) 100%)`,
-          border: `2px solid ${accentColor}30`,
-          boxShadow: `0 15px 40px rgba(0,0,0,0.5)`,
+          background: `linear-gradient(160deg, rgba(18,8,32,0.9) 0%, rgba(10,5,18,0.95) 100%)`,
+          border: `1px solid ${accentColor}25`,
+          boxShadow: `0 10px 30px rgba(0,0,0,0.4)`,
         }}
       >
-        {/* Corner accent cuts */}
-        <div 
-          className="absolute top-0 left-0 w-4 h-4"
-          style={{
-            background: `linear-gradient(135deg, ${accentColor} 50%, transparent 50%)`,
-            opacity: 0.8,
-          }}
-        />
-        <div 
-          className="absolute bottom-0 right-0 w-4 h-4"
-          style={{
-            background: `linear-gradient(-45deg, ${secondaryColor} 50%, transparent 50%)`,
-            opacity: 0.8,
-          }}
-        />
+        {/* Genre tag */}
+        <div
+          className="absolute top-3 right-3 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider z-10"
+          style={{ background: `${accentColor}20`, color: accentColor, border: `1px solid ${accentColor}40` }}
+        >
+          {artist.isRevealed ? "PREVIOUS" : artist.genre}
+        </div>
         
-        {/* Inner content container */}
-        <div className="relative p-3 sm:p-4">
-          {/* Artist image with static diamond frame */}
-          <div className="relative mx-auto mb-3 w-full aspect-square max-w-[140px]">
-            {/* Static diamond gradient glow at 45deg */}
-            <div 
-              className="absolute -inset-1 rounded-xl opacity-50 sm:group-hover:opacity-90 transition-opacity duration-300"
-              style={{
-                background: `conic-gradient(from 45deg, ${accentColor}, ${secondaryColor}, ${CONCERT_COLORS.NEON_GOLD}, ${accentColor})`,
-                transform: "rotate(45deg)",
-                filter: "blur(4px)",
-              }}
-            />
-            
-            {/* Image container */}
-            <div 
-              className="relative w-full h-full rounded-xl overflow-hidden"
-              style={{
-                background: `linear-gradient(180deg, ${CONCERT_COLORS.STAGE_PURPLE} 0%, ${CONCERT_COLORS.STAGE_DARK} 100%)`,
-              }}
-            >
-              {artist.isRevealed && artist.image ? (
-                <>
-                  <Image
-                    src={artist.image}
-                    alt={artist.name}
-                    fill
-                    className="object-cover transition-transform duration-300 sm:group-hover:scale-105"
-                  />
-                  {/* Bottom gradient for text readability */}
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background: `linear-gradient(to top, ${CONCERT_COLORS.STAGE_DARK} 0%, transparent 50%)`,
-                    }}
-                  />
-                </>
-              ) : (
-                <MysterySilhouette accentColor={accentColor} isHeadliner={false} />
-              )}
-            </div>
-          </div>
-          
-          {/* Artist name only */}
-          <h4 
-            className="text-center text-sm sm:text-base font-bold tracking-wide transition-all duration-300 sm:group-hover:scale-105"
-            style={{ 
-              color: "#fff",
-              textShadow: `0 0 20px ${accentColor}60`,
-            }}
-          >
-            {artist.name}
-          </h4>
+        {/* Image or Silhouette */}
+        <div
+          className="relative mx-auto mb-3 w-24 h-24 sm:w-32 sm:h-32 rounded-xl overflow-hidden"
+          style={{
+            background: `linear-gradient(180deg, ${accentColor}15 0%, ${CONCERT_COLORS.STAGE_DARK} 100%)`,
+            border: `1px solid ${accentColor}20`,
+          }}
+        >
+          {artist.isRevealed && artist.image ? (
+            <RevealedArtist image={artist.image} name={artist.name} accentColor={accentColor} isHeadliner={false} />
+          ) : (
+            <MysterySilhouette accentColor={accentColor} isHeadliner={false} />
+          )}
+        </div>
+        
+        {/* Name */}
+        <h4 className="text-center text-sm font-bold" style={{ color: accentColor }}>
+          {artist.name}
+        </h4>
+        
+        <div className="hidden sm:flex justify-center mt-2 opacity-60 sm:group-hover:opacity-100 sm:transition-opacity">
+          <EqualizerBars color={accentColor} size="sm" />
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { forwardRef } from "react";
 import { Z_HERO } from "@/components/pages/home/constants";
 import { Water } from "./water";
 import { Stones } from "./stone/Stones";
@@ -9,7 +10,6 @@ import { Boats } from "./boat/Boats";
 
 interface RiverProps {
   className?: string;
-  ref?: React.Ref<HTMLDivElement>;
 }
 
 /**
@@ -24,7 +24,10 @@ interface RiverProps {
  *
  * All elements use individual z-indexes from constants for proper layering
  */
-export function River({ className = "", ref }: RiverProps) {
+export const River = forwardRef<HTMLDivElement, RiverProps>(function River(
+  { className = "" },
+  ref,
+) {
   return (
     <div
       ref={ref}
@@ -56,4 +59,4 @@ export function River({ className = "", ref }: RiverProps) {
       <Stones />
     </div>
   );
-}
+});

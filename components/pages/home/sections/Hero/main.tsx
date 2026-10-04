@@ -18,7 +18,7 @@ import { Kandeels } from "@/components/pages/home/sections/Hero/desktop";
 import { DriftingClouds } from "@/components/pages/home/sections/Hero/desktop";
 import { EmberField } from "@/components/pages/home/sections/Hero/desktop";
 import { MobileKite } from "@/components/pages/home/sections/Hero/mobile";
-import { Ghats } from "@/components/pages/home/sections/Hero/common";
+import { TitleBadge, Ghats } from "@/components/pages/home/sections/Hero/common";
 
 // Register plugin at module level (runs once when file is imported)
 gsap.registerPlugin(ScrollTrigger);
@@ -346,98 +346,22 @@ export function HeroSection() {
       {/* Title - Mobile optimized */}
       <h1
         ref={titleRef}
-        className="absolute top-[22%] sm:top-[24%] md:top-[26%] left-1/2 -translate-x-1/2 text-center z-[1000] w-full px-4"
+        className="absolute top-[12%] sm:top-[14%] md:top-[18%] left-1/2 -translate-x-1/2 text-center z-[1000] w-full px-4"
       >
-        {/* Creative Text Logo */}
-        <div className="relative inline-block">
-          {/* Main Title */}
-          <div 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-wide"
-            style={{
-              fontFamily: "var(--font-cinzel-decorative), serif",
-              background: "linear-gradient(180deg, #FFFAF0 0%, #FFD700 20%, #DAA520 45%, #B8860B 70%, #996515 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.4)) drop-shadow(0 0 40px rgba(255,215,0,0.6))",
-            }}
-          >
-            KASHI YATRA
-          </div>
-          
-          {/* Decorative Divider with Lotus */}
-          <div className="flex items-center justify-center gap-2 sm:gap-3 mt-1">
-            <div className="h-[1px] w-10 sm:w-14 md:w-20 bg-gradient-to-r from-transparent via-amber-500/80 to-amber-400" />
-            <span 
-              className="text-amber-400 text-base sm:text-lg md:text-xl"
-              style={{ 
-                textShadow: "0 0 15px rgba(255,215,0,0.9), 0 0 30px rgba(255,165,0,0.5)"
-              }}
-            >
-              ✦ 🪷 ✦
-            </span>
-            <div className="h-[1px] w-10 sm:w-14 md:w-20 bg-gradient-to-l from-transparent via-amber-500/80 to-amber-400" />
-          </div>
-          
-          {/* Year */}
-          <div 
-            className="mt-1 sm:mt-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-[0.3em] sm:tracking-[0.4em]"
-            style={{
-              fontFamily: "var(--font-cinzel), serif",
-              background: "linear-gradient(180deg, #FFE4B5 0%, #FFD700 50%, #FFA500 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3)) drop-shadow(0 0 20px rgba(255,165,0,0.5))",
-            }}
-          >
-            2027
-          </div>
+        <Image
+          src={IMAGES.hero.logo}
+          alt="काशी यात्रा"
+          width={500}
+          height={150}
+          className="w-[200px] sm:w-[280px] md:w-[350px] lg:w-[450px] h-auto mx-auto"
+          style={{
+            filter:
+              "drop-shadow(0 0 30px rgba(255,215,0,0.7)) drop-shadow(0 0 15px rgba(255,165,0,0.5))",
+          }}
+          priority
+        />
 
-          {/* Mobile Tagline - Only visible on mobile */}
-          <div className="sm:hidden mt-6 px-2">
-            {/* Main tagline */}
-            <p
-              className="text-sm tracking-wide leading-relaxed"
-              style={{
-                fontFamily: "'Georgia', serif",
-                fontStyle: "italic",
-                color: "rgba(253,246,227,0.8)",
-              }}
-            >
-              Where the sacred Ganga meets
-            </p>
-            <p
-              className="text-base tracking-wide font-semibold mt-0.5"
-              style={{
-                fontFamily: "'Georgia', serif",
-                background: "linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FFD700 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-                filter: "drop-shadow(0 0 10px rgba(255,215,0,0.5))",
-              }}
-            >
-              the rhythm of celebration
-            </p>
-
-            {/* Subtle divider */}
-            <div
-              className="mx-auto mt-4 w-16 h-px"
-              style={{
-                background: "linear-gradient(90deg, transparent, rgba(255,215,0,0.6), transparent)",
-              }}
-            />
-
-            {/* Date */}
-            <p
-              className="mt-3 text-xs uppercase tracking-[0.2em] font-medium"
-              style={{
-                color: "rgba(255,215,0,0.7)",
-              }}
-            >
-              14–17 January 2027
-            </p>
-          </div>
-        </div>
+        <TitleBadge />
       </h1>
 
       {/* GHATS - Day/Night variants with different positioning */}

@@ -5,4 +5,3 @@ export { PassesSection } from "@/components/pages/passes";
 export { ProNitesSection } from "./ProNites";
 export { BanarasiVibesSection } from "./BanarasiVibes";
 export { FooterSection } from "./Footer";
-export { IntroSection, IntroProvider, useIntro } from "./Intro";

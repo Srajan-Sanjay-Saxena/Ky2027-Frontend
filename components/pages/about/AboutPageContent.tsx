@@ -1,6 +1,7 @@
 "use client";
 
-import { LightNavbar } from "@/components/navbar/Navbar";
+import { JAZZ_COLORS } from "@/components/pages/home/constants/palette";
+import { NavbarDesign as Navbar } from "@/components/navbar/Design";
 import {
   HeroSection,
   LegacySection,
@@ -9,26 +10,32 @@ import {
   VisionSection,
   CTASection,
 } from ".";
-import { NeonGridBackground, LaserBeams } from "./decors";
 
 // ═══════════════════════════════════════════════════════════════════
-// MAIN PAGE CONTENT - Clean minimal design
+// MAIN PAGE CONTENT
 // ═══════════════════════════════════════════════════════════════════
 export function AboutPageContent() {
   return (
     <>
-      {/* Fixed navbar - Light theme */}
+      {/* Fixed navbar - always visible (matches events/passes internal pages) */}
       <div className="fixed inset-x-0 top-0 z-[200]">
-        <LightNavbar position="relative" topOffset={18} />
+        <Navbar position="relative" topOffset={18} />
       </div>
 
-      {/* Subtle background */}
-      <NeonGridBackground />
-      
-      {/* Laser beams effect from top to bottom */}
-      <LaserBeams />
-
-      <main className="relative min-h-screen pt-20 sm:pt-24 z-10">
+      <main
+        className="min-h-screen pt-20 sm:pt-24"
+        style={{
+          background: `linear-gradient(180deg, 
+            ${JAZZ_COLORS.BG_DEEP} 0%, 
+            ${JAZZ_COLORS.BG_ROYAL} 10%,
+            ${JAZZ_COLORS.BG_WINE} 30%,
+            ${JAZZ_COLORS.BG_ROYAL} 50%,
+            ${JAZZ_COLORS.BG_WINE} 70%,
+            ${JAZZ_COLORS.BG_ROYAL} 90%,
+            ${JAZZ_COLORS.BG_DEEP} 100%
+          )`,
+        }}
+      >
         <HeroSection />
         <LegacySection />
         <StatsSection />

@@ -1,121 +1,88 @@
 "use client";
 
+import { useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { NavbarDesign as Navbar } from "@/components/navbar/Design";
-import {
-  MyAccountProgressQuery,
-  MyAccountProgressResponseType,
-} from "@/lib/api/graphql/queries/user.queries";
-import { useQuery } from "@apollo/client/react";
-import { useEffect, useState } from "react";
-import Footer from "./Footer";
-import { StepperIndicator } from "./StepperIndicator";
-import { STEPS } from "./config/data";
-import { COLORS } from "./constants/palette";
-import { ErrorState } from "./error";
-import { CompleteProfileLoader } from "./loader";
-import { AadhaarUploadStep } from "./steps/adhaar/upload";
-import { AadhaarVerifyStep } from "./steps/adhaar/verify";
+import { AadhaarStep } from "./steps/adhaar/AadhaarStep";
 import { CollegeDetailsStep } from "./steps/college/CollegeDetailsStep";
 import { PhoneVerificationStep } from "./steps/phone/PhoneVerificationStep";
+import { StepperIndicator } from "./StepperIndicator";
+import { COLORS } from "./constants/palette";
+import { STEPS } from "./config/data";
+import type { AadhaarExtractedData } from "@/lib/api/hooks";
+
+// ═══════════════════════════════════════════════════════════════════
+// TYPES
+// ═══════════════════════════════════════════════════════════════════
+interface CompleteProfileContentProps {
+  user: {
+    id?: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+}
 
 // ═══════════════════════════════════════════════════════════════════
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════════════════════════
-export function CompleteProfileContent() {
-  const [currentStep, setCurrentStep] = useState<null | number>(null);
-  const {
-    data,
-    loading: stepLoading,
-    error,
-    refetch: refetchProgress,
-  } = useQuery<MyAccountProgressResponseType>(MyAccountProgressQuery, {
-    fetchPolicy: "cache-first",
-  });
+export function CompleteProfileContent({ user }: CompleteProfileContentProps) {
+  const router = useRouter();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
 
-  useEffect(() => {
-    if (data?.myAccount?.progress.currentStep !== undefined) {
-      setCurrentStep(data.myAccount.progress.currentStep);
+  // Shared state across steps
+  const [aadhaarData, setAadhaarData] = useState<AadhaarExtractedData | null>(
+    null,
+  );
+  const [selectedCollege, setSelectedCollege] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+
+  // Step navigation
+  const goToNextStep = useCallback(() => {
+    setCompletedSteps((prev) => new Set(prev).add(currentStep));
+    if (currentStep < STEPS.length) {
+      setCurrentStep((prev) => prev + 1);
     }
-  }, [data]);
+  }, [currentStep]);
 
-  // Render loading or error content inside the styled wrapper
-  const renderContent = () => {
-    if (stepLoading) {
-      return <CompleteProfileLoader />;
+  const goToPreviousStep = useCallback(() => {
+    if (currentStep > 1) {
+      setCurrentStep((prev) => prev - 1);
     }
+  }, [currentStep]);
 
-    if (error) {
-      return <ErrorState />;
-    }
+  const handleComplete = useCallback(() => {
+    setCompletedSteps((prev) => new Set(prev).add(currentStep));
+    router.push("/profile");
+  }, [currentStep, router]);
 
-    return (
-      <>
-        {/* Header */}
-        <div className="text-center mb-10">
-          <h1
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3"
-            style={{
-              background: `linear-gradient(135deg, ${COLORS.CREAM} 0%, ${COLORS.GOLD_LIGHT} 50%, ${COLORS.GOLD} 100%)`,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            Complete Your Profile
-          </h1>
-          <p style={{ color: `${COLORS.CREAM}60` }}>
-            Just a few steps to unlock the full Kashi Yatra experience
-          </p>
-        </div>
+  // Handle Aadhaar complete - step 1 done, move to step 2
+  const handleAadhaarComplete = useCallback(
+    (data: AadhaarExtractedData) => {
+      setAadhaarData(data);
+      goToNextStep();
+    },
+    [goToNextStep],
+  );
 
-        {/* Stepper Indicator */}
-        <div className="mb-10">
-          <StepperIndicator
-            steps={STEPS}
-            currentStep={data?.myAccount?.progress.currentStep}
-            completedSteps={data?.myAccount?.progress.completedSteps}
-          />
-        </div>
+  // Handle College selection from Step 2
+  const handleCollegeSubmit = useCallback(
+    (college: string) => {
+      setSelectedCollege(college);
+      goToNextStep();
+    },
+    [goToNextStep],
+  );
 
-        {/* Step Content Card */}
-        <div
-          className="rounded-3xl overflow-hidden"
-          style={{
-            background: `linear-gradient(145deg, ${COLORS.BG_WINE}60 0%, ${COLORS.BG_ROYAL}80 100%)`,
-            border: `1px solid ${COLORS.GOLD}20`,
-            boxShadow: `0 0 60px ${COLORS.GOLD}05, 0 25px 50px rgba(0,0,0,0.4)`,
-          }}
-        >
-          {/* Decorative top border */}
-          <div
-            className="h-1"
-            style={{
-              background: `linear-gradient(90deg, transparent, ${COLORS.GOLD}60, transparent)`,
-            }}
-          />
-
-          <div className="p-6 sm:p-10">
-            {/* Step Content */}
-            {currentStep === 1 && (
-              <AadhaarUploadStep refetchProgress={refetchProgress} />
-            )}
-            {currentStep === 2 && (
-              <AadhaarVerifyStep refetchProgress={refetchProgress} />
-            )}
-            {currentStep === 3 && (
-              <CollegeDetailsStep refetchProgress={refetchProgress} />
-            )}
-            {currentStep === 4 && (
-              <PhoneVerificationStep refetchProgress={refetchProgress} />
-            )}
-          </div>
-        </div>
-
-        {/* Footer Decoration */}
-        <Footer />
-      </>
-    );
-  };
+  // Handle Phone verification from Step 3
+  const handlePhoneVerified = useCallback(
+    (phone: string) => {
+      setPhoneNumber(phone);
+      handleComplete();
+    },
+    [handleComplete],
+  );
 
   return (
     <>
@@ -124,7 +91,6 @@ export function CompleteProfileContent() {
         <Navbar position="relative" topOffset={18} />
       </div>
 
-      {/* Main content with background - always rendered */}
       <main
         className="min-h-screen pt-28 sm:pt-32 pb-12 px-4"
         style={{
@@ -136,7 +102,96 @@ export function CompleteProfileContent() {
         }}
       >
         <div className="max-w-4xl mx-auto">
-          {renderContent()}
+          {/* Header */}
+          <div className="text-center mb-10">
+            <h1
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3"
+              style={{
+                background: `linear-gradient(135deg, ${COLORS.CREAM} 0%, ${COLORS.GOLD_LIGHT} 50%, ${COLORS.GOLD} 100%)`,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Complete Your Profile
+            </h1>
+            <p style={{ color: `${COLORS.CREAM}60` }}>
+              Just a few steps to unlock the full Kashi Yatra experience
+            </p>
+          </div>
+
+          {/* Stepper Indicator */}
+          <div className="mb-10">
+            <StepperIndicator
+              steps={STEPS}
+              currentStep={currentStep}
+              completedSteps={completedSteps}
+            />
+          </div>
+
+          {/* Step Content Card */}
+          <div
+            className="rounded-3xl overflow-hidden"
+            style={{
+              background: `linear-gradient(145deg, ${COLORS.BG_WINE}60 0%, ${COLORS.BG_ROYAL}80 100%)`,
+              border: `1px solid ${COLORS.GOLD}20`,
+              boxShadow: `0 0 60px ${COLORS.GOLD}05, 0 25px 50px rgba(0,0,0,0.4)`,
+            }}
+          >
+            {/* Decorative top border */}
+            <div
+              className="h-1"
+              style={{
+                background: `linear-gradient(90deg, transparent, ${COLORS.GOLD}60, transparent)`,
+              }}
+            />
+
+            <div className="p-6 sm:p-10">
+              {/* Step Content */}
+              {currentStep === 1 && (
+                <AadhaarStep onComplete={handleAadhaarComplete} />
+              )}
+
+              {currentStep === 2 && (
+                <CollegeDetailsStep
+                  onSubmit={handleCollegeSubmit}
+                  onBack={goToPreviousStep}
+                  existingCollege={selectedCollege}
+                />
+              )}
+
+              {currentStep === 3 && (
+                <PhoneVerificationStep
+                  onVerified={handlePhoneVerified}
+                  onBack={goToPreviousStep}
+                  existingPhone={phoneNumber}
+                />
+              )}
+            </div>
+          </div>
+
+          {/* Footer Decoration */}
+          <div className="mt-10 flex items-center justify-center gap-4">
+            <div
+              className="h-px w-20"
+              style={{
+                background: `linear-gradient(90deg, transparent, ${COLORS.GOLD}40)`,
+              }}
+            />
+            <span className="text-2xl">🪔</span>
+            <div
+              className="h-px w-20"
+              style={{
+                background: `linear-gradient(90deg, ${COLORS.GOLD}40, transparent)`,
+              }}
+            />
+          </div>
+          <p
+            className="text-center text-xs mt-3 tracking-widest uppercase"
+            style={{ color: `${COLORS.GOLD}50` }}
+          >
+            Your data is secure and encrypted
+          </p>
         </div>
       </main>
     </>

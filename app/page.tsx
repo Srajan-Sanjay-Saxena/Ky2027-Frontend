@@ -1,7 +1,4 @@
-"use client";
-
 import { Suspense } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   HeroSection,
   ProNitesSection,
@@ -9,74 +6,41 @@ import {
   BanarasiVibesSection,
   FooterSection,
   FestHighlightsSection,
-  IntroSection,
-  IntroProvider,
-  useIntro,
 } from "@/components/pages/home/sections";
 import { Navbar } from "@/components/navbar/Navbar";
 import { AuthToastHandler } from "@/components/auth";
 
 export default function Home() {
   return (
-    <IntroProvider>
-      <HomeContent />
-    </IntroProvider>
-  );
-}
-
-function HomeContent() {
-  const { isIntroComplete } = useIntro();
-
-  return (
     <main>
-      {/* Centralized auth toast handler */}
+      {/* Centralized auth toast handler - handles sign-in/sign-out toasts
+          Must be wrapped in Suspense because it uses useSearchParams */}
       <Suspense fallback={null}>
         <AuthToastHandler />
       </Suspense>
 
-      {/* Intro Section - renders until complete */}
-      {!isIntroComplete && (
-        <div className="fixed inset-0 z-[200]">
-          <IntroSection />
-        </div>
-      )}
+      {/* Page-level navbar: hidden over the Hero, revealed for every section
+          below it. Sits above all section wrappers so nothing paints over it. */}
+      <Navbar />
 
-      {/* Main site content - always rendered but hidden during intro */}
-      <AnimatePresence>
-        {isIntroComplete && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Navbar - revealed after intro */}
-            <Navbar />
-
-            {/* Hero Section - the beautiful river section */}
-            <div className="sticky top-0 h-screen z-0">
-              <HeroSection />
-            </div>
-
-            {/* Rest of the sections */}
-            <div className="relative z-10">
-              <ProNitesSection />
-            </div>
-            <div className="relative z-15">
-              <TheExperience />
-            </div>
-            <div className="sticky top-0 z-20">
-              <BanarasiVibesSection />
-            </div>
-            <div className="sticky top-0 z-30">
-              <FestHighlightsSection />
-            </div>
-            {/* Footer uses relative with high z-index to cover sticky sections */}
-            <div className="relative z-[100]">
-              <FooterSection />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div className="sticky top-0 h-screen z-0">
+        <HeroSection />
+      </div>
+      <div className="relative z-10">
+        <ProNitesSection />
+      </div>
+      <div className="relative z-15">
+        <TheExperience />
+      </div>
+      <div className="sticky top-0 z-20">
+        <BanarasiVibesSection />
+      </div>
+      <div className="sticky top-0 z-30">
+        <FestHighlightsSection />
+      </div>
+      <div className="relative z-70">
+        <FooterSection />
+      </div>
     </main>
   );
 }

@@ -1,10 +1,8 @@
-export { MysticDivider, CornerOrnaments } from "./decors";
-export {
-  HeroSection,
-  LegacySection,
-  StatsSection,
-  EssenceSection,
-  VisionSection,
-  CTASection,
-} from "./sections";
-export { AboutPageContent } from "./AboutPageContent";
+export { MysticDivider } from "./MysticDivider";
+export { CornerOrnaments } from "./CornerOrnaments";
+export { HeroSection } from "./HeroSection";
+export { LegacySection } from "./LegacySection";
+export { StatsSection } from "./StatsSection";
+export { EssenceSection } from "./EssenceSection";
+export { VisionSection } from "./VisionSection";
+export { CTASection } from "./CTASection";

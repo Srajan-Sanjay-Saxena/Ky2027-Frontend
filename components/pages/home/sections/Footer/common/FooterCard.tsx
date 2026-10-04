@@ -1,5 +1,5 @@
 import { memo, type ReactNode } from "react";
-import { MandalaRing } from "./MandalaRing";
+import { MandalaRing } from "@/components/pages/home/sections/FestHighlights/common/MandlaRing";
 import { COLORS } from "@/components/pages/home/constants/palette";
 
 // ═══════════════════════════════════════════════════════════════════
