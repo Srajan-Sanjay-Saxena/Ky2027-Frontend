@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { FEST_DAYS, SCHEDULED_EVENTS, type ScheduledEvent } from "../config/campusMap.config";
 
@@ -7,6 +8,7 @@ import { FEST_DAYS, SCHEDULED_EVENTS, type ScheduledEvent } from "../config/camp
 // WHAT'S ON
 // Auto-scrolling list of every scheduled event. Each card opens the
 // venue the event is held at.
+// On hover: pauses auto-scroll and enables manual wheel/touch scrolling.
 // ═══════════════════════════════════════════════════════════════════
 
 // Interleave days so the loop shows a mix rather than all of Day 1 first
@@ -20,7 +22,7 @@ export function EventCard({ item, tabIndex }: { item: ScheduledEvent; tabIndex?:
     <Link
       href={`/schedule/${venue.slug}`}
       tabIndex={tabIndex}
-      className="group block rounded-sm border border-white/[0.07] bg-[#10132a]/80 px-4 py-3 transition-colors hover:border-white/20 hover:bg-[#161a36]"
+      className="group block shrink-0 rounded-sm border border-white/[0.07] bg-[#10132a]/80 px-4 py-3 transition-colors hover:border-white/20 hover:bg-[#161a36]"
       style={{ borderLeft: `2px solid ${category.color}` }}
     >
       <div className="flex items-center justify-between text-[10px] font-semibold tracking-[0.2em] uppercase">
@@ -41,6 +43,17 @@ export function EventCard({ item, tabIndex }: { item: ScheduledEvent; tabIndex?:
 }
 
 export function WhatsOnSidebar({ className = "" }: { className?: string }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseEnter = useCallback(() => {
+    setIsHovered(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsHovered(false);
+  }, []);
+
   return (
     <aside className={`flex min-h-0 flex-col ${className}`} aria-label="What's on">
       <h2 className="mb-3 flex items-center gap-2 px-1 text-[11px] font-bold tracking-[0.3em] text-[#f3ead6] uppercase">
@@ -48,7 +61,13 @@ export function WhatsOnSidebar({ className = "" }: { className?: string }) {
         What&apos;s On
       </h2>
 
-      <div className="whats-on-viewport min-h-0 flex-1" data-lenis-prevent>
+      <div
+        ref={scrollRef}
+        className={`whats-on-viewport min-h-0 flex-1 ${isHovered ? "is-hovered" : ""}`}
+        data-lenis-prevent
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <div
           className="whats-on-track"
           style={{ "--duration": `${FEED.length * 3.5}s` } as React.CSSProperties}
@@ -56,12 +75,14 @@ export function WhatsOnSidebar({ className = "" }: { className?: string }) {
           {FEED.map((item) => (
             <EventCard key={item.event.id} item={item} />
           ))}
-          {/* Duplicate for a seamless loop (hidden from assistive tech) */}
-          <div aria-hidden className="flex flex-col gap-2">
-            {FEED.map((item) => (
-              <EventCard key={`dup-${item.event.id}`} item={item} tabIndex={-1} />
-            ))}
-          </div>
+          {/* Duplicate for a seamless loop (hidden from assistive tech) - only when not hovered */}
+          {!isHovered && (
+            <div aria-hidden className="flex flex-col gap-2">
+              {FEED.map((item) => (
+                <EventCard key={`dup-${item.event.id}`} item={item} tabIndex={-1} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </aside>
