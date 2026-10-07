@@ -44,11 +44,11 @@ export const NavbarDesktop = memo(function NavbarDesktop({
             <Link
               key={link.label}
               href={link.href}
-              className="nav-pill group flex items-center gap-1 rounded-full px-2 py-0.5 tracking-[0.1em] whitespace-nowrap uppercase transition-all duration-300 hover:scale-[1.05] lg:gap-1.5 lg:px-3 lg:py-1"
+              className="nav-pill group flex items-center gap-1 rounded-full px-2 py-0.5 tracking-[0.1em] whitespace-nowrap uppercase transition-all duration-300 hover:scale-[1.05] lg:gap-1.5 lg:px-2.5 lg:py-0.5"
               style={{
                 fontFamily: "var(--font-ethereal), serif",
                 fontWeight: 900,
-                fontSize: "clamp(10px, 0.85vw, 14px)",
+                fontSize: "clamp(8px, 0.7vw, 12px)",
                 color: active ? linkStyle.activeColor : linkStyle.color,
                 background: active ? linkStyle.activeBg : linkStyle.inactiveBg,
                 border: active ? linkStyle.activeBorder : linkStyle.inactiveBorder,
@@ -84,7 +84,7 @@ export const NavbarDesktop = memo(function NavbarDesktop({
               style={{
                 fontFamily: "var(--font-ethereal), serif",
                 fontWeight: 900,
-                fontSize: "clamp(10px, 0.85vw, 14px)",
+                fontSize: "clamp(8px, 0.7vw, 12px)",
                 color: active ? linkStyle.activeColor : linkStyle.color,
                 textShadow: active ? linkStyle.activeTextShadow : linkStyle.inactiveTextShadow,
                 filter: active

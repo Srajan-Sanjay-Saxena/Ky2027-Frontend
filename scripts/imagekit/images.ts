@@ -621,4 +621,38 @@ export const IMAGES_TO_UPLOAD: ImageToUpload[] = [
   // ============================================
   { localFile: "intro/cuteBoy.png", remoteName: "cute-boy-mascot.png", folder: "/intro/common" },
   { localFile: "intro/introLogo.png", remoteName: "intro-logo.png", folder: "/intro/common" },
+
+  // ============================================
+  // CAMPUS AMBASSADOR PAGE
+  // ============================================
+  {
+    localFile: "ca/cosmicBackground.png",
+    remoteName: "cosmic-background.png",
+    folder: "/ca/common",
+  },
+  {
+    localFile: "ca/GoldenBadge.png",
+    remoteName: "golden-badge.png",
+    folder: "/ca/common",
+  },
+  {
+    localFile: "ca/ambassador-dj.png",
+    remoteName: "ambassador-dj.png",
+    folder: "/ca/common",
+  },
+  {
+    localFile: "ca/ambassador-dancing.png",
+    remoteName: "ambassador-dancing.png",
+    folder: "/ca/common",
+  },
+  {
+    localFile: "ca/ambassador-pose.png",
+    remoteName: "ambassador-pose.png",
+    folder: "/ca/common",
+  },
+  {
+    localFile: "ca/ambassador-walking.png",
+    remoteName: "ambassador-walking.png",
+    folder: "/ca/common",
+  },
 ];

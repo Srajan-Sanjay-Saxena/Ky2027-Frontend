@@ -2,8 +2,8 @@
 
 import { memo } from "react";
 import Link from "next/link";
-import { EventCategory } from "../config/events.config";
-import { COLORS, JAZZ_COLORS } from "../constants";
+import type { EventCategory } from "@/lib/api/helper/types";
+import { COLORS, JAZZ_COLORS } from "../constants/palette";
 
 // ═══════════════════════════════════════════════════════════════════
 // CATEGORY CARD COMPONENT

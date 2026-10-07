@@ -1,8 +1,8 @@
 "use client";
 
 import { memo } from "react";
-import { SubEvent } from "../config/events.config";
-import { COLORS, EVENT_TYPE_COLORS } from "../constants";
+import type { SubEvent } from "@/lib/api/helper/types";
+import { COLORS, EVENT_TYPE_COLORS } from "../constants/palette";
 
 // ═══════════════════════════════════════════════════════════════════
 // SUB-EVENT CARD COMPONENT

@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@apollo/client/react";
 import { LightNavbar } from "@/components/navbar/Navbar";
 import {
-  MyAccountProgressQuery,
-  MyAccountProgressResponseType,
+  ACCOUNT_PROGRESS_WITH_STEPS_QUERY,
+  type AccountProgressWithStepsQueryResponse,
 } from "@/lib/api/graphql/queries/user.queries";
 import Footer from "./Footer";
 import { StepperIndicator } from "./StepperIndicator";
@@ -41,7 +41,7 @@ export function CompleteProfileContent() {
     loading: stepLoading,
     error,
     refetch: refetchProgress,
-  } = useQuery<MyAccountProgressResponseType>(MyAccountProgressQuery, {
+  } = useQuery<AccountProgressWithStepsQueryResponse>(ACCOUNT_PROGRESS_WITH_STEPS_QUERY, {
     fetchPolicy: "cache-first",
   });
 

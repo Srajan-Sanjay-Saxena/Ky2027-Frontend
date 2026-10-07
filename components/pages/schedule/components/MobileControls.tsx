@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { LAYERS } from "../constants";
+import type { MapLayers, Layer } from "@/lib/api/helper/types";
 
 // ═══════════════════════════════════════════════════════════════════
 // MOBILE CONTROLS
@@ -9,10 +10,12 @@ import { LAYERS } from "../constants";
 // ═══════════════════════════════════════════════════════════════════
 
 interface MobileControlsProps {
+  layers: MapLayers;
+  onLayerToggle: (key: Layer) => void;
   onSearchClick: () => void;
 }
 
-export function MobileControls({ onSearchClick }: MobileControlsProps) {
+export function MobileControls({ layers, onLayerToggle, onSearchClick }: MobileControlsProps) {
   const [layersOpen, setLayersOpen] = useState(false);
 
   const btnStyle = {
@@ -81,8 +84,13 @@ export function MobileControls({ onSearchClick }: MobileControlsProps) {
               <button
                 key={key}
                 type="button"
+                onClick={() => onLayerToggle(key)}
                 title={label}
-                className="flex h-8 w-full items-center justify-center rounded-lg text-lg text-[#D4A853]/80 transition-all hover:bg-[#D4A853]/20 hover:text-[#FFD700]"
+                className={`flex h-8 w-full items-center justify-center rounded-lg text-lg transition-all ${
+                  layers[key]
+                    ? "bg-[rgba(80,110,180,0.35)] text-[rgba(220,230,255,1)]"
+                    : "text-[#D4A853]/80 hover:bg-[#D4A853]/20 hover:text-[#FFD700]"
+                }`}
               >
                 <span>{icon}</span>
               </button>

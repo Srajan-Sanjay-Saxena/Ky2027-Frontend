@@ -1,8 +1,8 @@
 "use client";
 
 import { LightNavbar } from "@/components/navbar/Navbar";
-import { EventCategory } from "../config/events.config";
-import { JAZZ_COLORS } from "../constants";
+import type { EventCategory } from "@/lib/api/helper/types";
+import { JAZZ_COLORS } from "../constants/palette";
 import { SubEventCard, CategoryHeader } from "../components";
 
 // ═══════════════════════════════════════════════════════════════════

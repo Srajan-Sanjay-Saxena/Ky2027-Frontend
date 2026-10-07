@@ -2,13 +2,20 @@
 export { SchedulePageContent } from "./SchedulePageContent";
 
 // Sections
-export { CampusMap, EventSearchOverlay, WhatsOnSidebar, VenuePageContent } from "./sections";
+export {
+  CampusMap,
+  EventSearchOverlay,
+  WhatsOnSidebar,
+  VenuePageContent,
+  DecorativeElements,
+  ScheduleLoader,
+} from "./sections";
 
 // Components
-export { Navigation, MobileControls, MobileLogo, DecorativeElements } from "./components";
+export { Navigation, MobileControls, MobileLogo } from "./components";
 
 // Types
-export type { Layer, MapLayers, LayerConfig, NavigationLink } from "./types";
+export type { Layer, MapLayers, LayerConfig, NavigationLink } from "@/lib/api/helper/types";
 
 // Constants
 export { DEFAULT_LAYERS, LAYERS, TONE_COLORS } from "./constants";

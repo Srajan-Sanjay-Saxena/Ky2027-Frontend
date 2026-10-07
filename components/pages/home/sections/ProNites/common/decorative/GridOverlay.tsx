@@ -1,7 +1,7 @@
 "use client";
 
 import { memo } from "react";
-import { CONCERT_COLORS } from "../../constants";
+import { CONCERT_COLORS } from "@/components/pages/home/sections/ProNites/constants";
 
 /**
  * GridOverlay - Subtle grid pattern

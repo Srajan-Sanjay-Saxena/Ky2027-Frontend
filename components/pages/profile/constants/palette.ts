@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════
-// PROFILE PAGE - SHARED TYPES & CONSTANTS
+// PROFILE PAGE - SHARED COLOR CONSTANTS
 // ═══════════════════════════════════════════════════════════════════
 
 export const COLORS = {
@@ -17,33 +17,3 @@ export const COLORS = {
   MAROON: "#5c1a1a",
   PURPLE_DEEP: "#2d1b4e",
 } as const;
-
-export interface UserData {
-  id?: string;
-  firstName?: string | null;
-  email?: string | null;
-  phone?: string | null;
-  college?: string | null;
-  gender?: string | null;
-  aadhaarNumber?: string | null;
-  avatarUrl?: string | null;
-  joinedAt?: string | null;
-}
-
-export interface ProgressData {
-  isProfileComplete: boolean;
-  completionPercentage: number;
-  steps: {
-    aadhaarUploaded: boolean;
-    aadhaarVerified: boolean;
-    college: boolean;
-    phone: boolean;
-  };
-}
-
-export interface ProfileUser {
-  id?: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-}

@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 import { toast } from "sonner";
-import { COLORS, JAZZ_COLORS } from "../constants";
+import { COLORS, JAZZ_COLORS } from "../constants/palette";
 
 // ═══════════════════════════════════════════════════════════════════
 // PAGE TITLE COMPONENT

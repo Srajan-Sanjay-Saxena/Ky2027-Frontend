@@ -2,8 +2,9 @@
 
 import { LightNavbar } from "@/components/navbar/Navbar";
 import { EVENT_CATEGORIES } from "../config/events.config";
-import { COLORS, JAZZ_COLORS } from "../constants";
+import { COLORS, JAZZ_COLORS } from "../constants/palette";
 import { CategoryCard, PageTitle } from "../components";
+import { DecorativeElements } from "./decor/DecorativeElements";
 
 // ═══════════════════════════════════════════════════════════════════
 // EVENTS PAGE CONTENT
@@ -31,15 +32,7 @@ export function EventsPageContent() {
         }}
       >
         {/* Background decorative elements */}
-        <div
-          className="pointer-events-none fixed inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `
-              radial-gradient(circle at 20% 30%, ${JAZZ_COLORS.HOT_PINK} 0%, transparent 50%),
-              radial-gradient(circle at 80% 70%, ${JAZZ_COLORS.ROYAL_PURPLE} 0%, transparent 50%)
-            `,
-          }}
-        />
+        <DecorativeElements />
 
         <div className="relative z-10 mx-auto max-w-7xl">
           <PageTitle />

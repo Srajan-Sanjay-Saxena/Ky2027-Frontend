@@ -2,7 +2,8 @@
 
 import { useRef, useState, useCallback } from "react";
 import Link from "next/link";
-import { FEST_DAYS, SCHEDULED_EVENTS, type ScheduledEvent } from "../config/campusMap.config";
+import { FEST_DAYS, SCHEDULED_EVENTS } from "../config/campusMap.config";
+import type { ScheduledEvent } from "@/lib/api/helper/types";
 
 // ═══════════════════════════════════════════════════════════════════
 // WHAT'S ON

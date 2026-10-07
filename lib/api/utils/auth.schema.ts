@@ -14,7 +14,7 @@ const GoogleUserSchema = z.object({
   id: z.string(),
   email: z.email(),
   slugName: z.string(),
-  avatarUrl: z.url().optional(),
+  googleAvatarUrl: z.url().optional(),
 });
 
 type GoogleUserSchemaType = z.infer<typeof GoogleUserSchema>;

@@ -2,21 +2,21 @@
 
 import Image from "next/image";
 import { IMAGES } from "@/lib/images";
-import { ROYAL_COLORS } from "../constants";
+import { ROYAL_COLORS } from "@/components/pages/login/constants";
 
 export function MysticGateSection() {
   return (
-    <div className="hidden lg:block relative">
+    <div className="relative hidden lg:block">
       {/* Mystic Login Image with animations */}
       <div
-        className="relative w-full max-w-[500px] mx-auto"
+        className="relative mx-auto w-full max-w-[500px]"
         style={{
           animation: "floatUpDown 4s ease-in-out infinite",
         }}
       >
         {/* Glow effect behind image */}
         <div
-          className="absolute inset-0 -inset-10 pointer-events-none"
+          className="pointer-events-none absolute -inset-10 inset-0"
           style={{
             background: `radial-gradient(ellipse at center, rgba(255,215,0,0.2) 0%, rgba(255,107,0,0.1) 40%, transparent 70%)`,
             filter: "blur(40px)",
@@ -29,7 +29,7 @@ export function MysticGateSection() {
           alt="Gateway to Kashi Yatra"
           width={600}
           height={800}
-          className="relative w-full h-auto rounded-2xl"
+          className="relative h-auto w-full rounded-2xl"
           style={{
             filter:
               "drop-shadow(0 0 40px rgba(255,215,0,0.3)) drop-shadow(0 20px 40px rgba(0,0,0,0.5))",
@@ -38,11 +38,11 @@ export function MysticGateSection() {
         />
 
         {/* Floating sparkles around the image */}
-        <div className="absolute inset-0 pointer-events-none overflow-visible">
+        <div className="pointer-events-none absolute inset-0 overflow-visible">
           {[...Array(6)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-2 h-2 rounded-full"
+              className="absolute h-2 w-2 rounded-full"
               style={{
                 left: `${10 + i * 15}%`,
                 top: `${15 + (i % 3) * 30}%`,
@@ -59,7 +59,7 @@ export function MysticGateSection() {
       {/* Decorative quote below image */}
       <div className="mt-8 text-center">
         <p
-          className="text-lg italic leading-relaxed"
+          className="text-lg leading-relaxed italic"
           style={{
             color: `${ROYAL_COLORS.CREAM}70`,
             fontFamily: "Georgia, serif",
@@ -69,7 +69,7 @@ export function MysticGateSection() {
           <br />
           and every step is a dance of devotion.&rdquo;
         </p>
-        <div className="flex items-center justify-center gap-3 mt-4">
+        <div className="mt-4 flex items-center justify-center gap-3">
           <div
             className="h-px w-12"
             style={{

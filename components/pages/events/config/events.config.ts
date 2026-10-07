@@ -3,30 +3,7 @@
  * All event categories and their sub-events for Kashi Yatra 2027
  */
 
-export interface SubEvent {
-  id: string;
-  name: string;
-  tagline: string;
-  description: string;
-  type: "individual" | "team" | "duo";
-  teamSize?: string;
-  registrationOpen: boolean;
-  image?: string;
-  rules?: string[];
-  prizePool?: string;
-}
-
-export interface EventCategory {
-  id: string;
-  name: string;
-  slug: string;
-  tagline: string;
-  description: string;
-  icon: string; // emoji for now, replace with actual icons later
-  color: string; // accent color for the category
-  image?: string; // category card image
-  subEvents: SubEvent[];
-}
+import type { SubEvent, EventCategory } from "@/lib/api/helper/types";
 
 export const EVENT_CATEGORIES: EventCategory[] = [
   {
@@ -474,10 +451,7 @@ export function getCategoryBySlug(slug: string): EventCategory | undefined {
   return EVENT_CATEGORIES.find((cat) => cat.slug === slug);
 }
 
-export function getSubEventById(
-  categorySlug: string,
-  eventId: string,
-): SubEvent | undefined {
+export function getSubEventById(categorySlug: string, eventId: string): SubEvent | undefined {
   const category = getCategoryBySlug(categorySlug);
   return category?.subEvents.find((event) => event.id === eventId);
 }

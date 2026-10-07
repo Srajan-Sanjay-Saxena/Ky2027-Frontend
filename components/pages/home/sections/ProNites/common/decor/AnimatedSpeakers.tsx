@@ -1,11 +1,11 @@
 "use client";
 
 import { memo } from "react";
-import { CONCERT_COLORS } from "../../constants";
+import { CONCERT_COLORS } from "@/components/pages/home/sections/ProNites/constants";
 
 export const AnimatedSpeakers = memo(function AnimatedSpeakers() {
   return (
-    <div className="hidden lg:flex absolute bottom-8 right-6 items-end gap-3 pointer-events-none z-10">
+    <div className="pointer-events-none absolute right-6 bottom-8 z-10 hidden items-end gap-3 lg:flex">
       {/* Left Speaker */}
       <div className="relative" style={{ transform: "rotate(-8deg)" }}>
         <svg
@@ -38,28 +38,59 @@ export const AnimatedSpeakers = memo(function AnimatedSpeakers() {
             strokeWidth="1"
             strokeOpacity="0.5"
           />
-          <circle cx="50" cy="35" r="12" fill="#1a1a2e" stroke={CONCERT_COLORS.NEON_PINK} strokeWidth="2" />
+          <circle
+            cx="50"
+            cy="35"
+            r="12"
+            fill="#1a1a2e"
+            stroke={CONCERT_COLORS.NEON_PINK}
+            strokeWidth="2"
+          />
           <circle
             cx="50"
             cy="35"
             r="6"
             fill={CONCERT_COLORS.NEON_PINK}
-            style={{ 
+            style={{
               animation: "speakerPulse 0.5s ease-in-out infinite alternate",
               filter: `drop-shadow(0 0 8px ${CONCERT_COLORS.NEON_PINK})`,
             }}
           />
-          <circle cx="50" cy="85" r="32" fill="#0d0d20" stroke={CONCERT_COLORS.NEON_CYAN} strokeWidth="2" />
-          <circle cx="50" cy="85" r="24" fill="#1a1a2e" stroke={CONCERT_COLORS.NEON_CYAN} strokeWidth="1" strokeOpacity="0.6" />
+          <circle
+            cx="50"
+            cy="85"
+            r="32"
+            fill="#0d0d20"
+            stroke={CONCERT_COLORS.NEON_CYAN}
+            strokeWidth="2"
+          />
+          <circle
+            cx="50"
+            cy="85"
+            r="24"
+            fill="#1a1a2e"
+            stroke={CONCERT_COLORS.NEON_CYAN}
+            strokeWidth="1"
+            strokeOpacity="0.6"
+          />
           <circle
             cx="50"
             cy="85"
             r="14"
             fill={CONCERT_COLORS.NEON_CYAN}
             fillOpacity="0.3"
-            style={{ animation: "speakerBass 0.3s ease-in-out infinite alternate", transformOrigin: "center" }}
+            style={{
+              animation: "speakerBass 0.3s ease-in-out infinite alternate",
+              transformOrigin: "center",
+            }}
           />
-          <circle cx="50" cy="85" r="6" fill={CONCERT_COLORS.NEON_CYAN} style={{ filter: `drop-shadow(0 0 10px ${CONCERT_COLORS.NEON_CYAN})` }} />
+          <circle
+            cx="50"
+            cy="85"
+            r="6"
+            fill={CONCERT_COLORS.NEON_CYAN}
+            style={{ filter: `drop-shadow(0 0 10px ${CONCERT_COLORS.NEON_CYAN})` }}
+          />
           <defs>
             <linearGradient id="speakerGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#2a1a35" />
@@ -127,29 +158,61 @@ export const AnimatedSpeakers = memo(function AnimatedSpeakers() {
             strokeWidth="1"
             strokeOpacity="0.4"
           />
-          <circle cx="50" cy="35" r="12" fill="#1a1a2e" stroke={CONCERT_COLORS.NEON_GOLD} strokeWidth="2" />
+          <circle
+            cx="50"
+            cy="35"
+            r="12"
+            fill="#1a1a2e"
+            stroke={CONCERT_COLORS.NEON_GOLD}
+            strokeWidth="2"
+          />
           <circle
             cx="50"
             cy="35"
             r="6"
             fill={CONCERT_COLORS.NEON_GOLD}
-            style={{ 
+            style={{
               animation: "speakerPulse 0.4s ease-in-out infinite alternate",
               animationDelay: "0.1s",
               filter: `drop-shadow(0 0 10px ${CONCERT_COLORS.NEON_GOLD})`,
             }}
           />
-          <circle cx="50" cy="85" r="32" fill="#0d0d20" stroke={CONCERT_COLORS.NEON_PINK} strokeWidth="2" />
-          <circle cx="50" cy="85" r="24" fill="#1a1a2e" stroke={CONCERT_COLORS.NEON_PINK} strokeWidth="1" strokeOpacity="0.5" />
+          <circle
+            cx="50"
+            cy="85"
+            r="32"
+            fill="#0d0d20"
+            stroke={CONCERT_COLORS.NEON_PINK}
+            strokeWidth="2"
+          />
+          <circle
+            cx="50"
+            cy="85"
+            r="24"
+            fill="#1a1a2e"
+            stroke={CONCERT_COLORS.NEON_PINK}
+            strokeWidth="1"
+            strokeOpacity="0.5"
+          />
           <circle
             cx="50"
             cy="85"
             r="14"
             fill={CONCERT_COLORS.NEON_PINK}
             fillOpacity="0.3"
-            style={{ animation: "speakerBass 0.25s ease-in-out infinite alternate", animationDelay: "0.05s", transformOrigin: "center" }}
+            style={{
+              animation: "speakerBass 0.25s ease-in-out infinite alternate",
+              animationDelay: "0.05s",
+              transformOrigin: "center",
+            }}
           />
-          <circle cx="50" cy="85" r="6" fill={CONCERT_COLORS.NEON_PINK} style={{ filter: `drop-shadow(0 0 12px ${CONCERT_COLORS.NEON_PINK})` }} />
+          <circle
+            cx="50"
+            cy="85"
+            r="6"
+            fill={CONCERT_COLORS.NEON_PINK}
+            style={{ filter: `drop-shadow(0 0 12px ${CONCERT_COLORS.NEON_PINK})` }}
+          />
           <defs>
             <linearGradient id="speakerGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor="#352a1a" />

@@ -1,24 +1,59 @@
-export { useContact } from "./useContact";
+// ═══════════════════════════════════════════════════════════════════
+// CONTACT FORM
+// ═══════════════════════════════════════════════════════════════════
 
-// Profile hooks
+export { useContact } from "./useContactForm";
+
+// ═══════════════════════════════════════════════════════════════════
+// PROFILE - College Update
+// ═══════════════════════════════════════════════════════════════════
+
 export { useUpdateCollege, type UpdateCollegeData } from "./profile/useProfile";
 
-// Aadhaar hooks
+// ═══════════════════════════════════════════════════════════════════
+// PROFILE - Aadhaar Verification
+// ═══════════════════════════════════════════════════════════════════
+
 export {
   useAadhaarUpload,
   useAadhaarVerify,
   type AadhaarExtractedData,
 } from "./profile/useAadhaar";
 
-// Phone hook (no OTP)
-export { useUpdatePhone } from "./usePhone";
+// ═══════════════════════════════════════════════════════════════════
+// PROFILE - Phone Update
+// ═══════════════════════════════════════════════════════════════════
 
-// College hooks
-export { useCollegeSearch, type College } from "./profile/useColleges";
+export { useUpdatePhone } from "./usePhoneUpdate";
 
-// Auth hooks
-export { useSignIn } from "./profile/useSignIn";
-export { useSignOut } from "./profile/useSignOut";
+// ═══════════════════════════════════════════════════════════════════
+// PROFILE - College Search
+// ═══════════════════════════════════════════════════════════════════
 
-// GraphQL hooks
-export { useMyAccount } from "./profile/useMyAccount";
+export { useCollegeSearch, type College } from "./profile/useCollegeSearch";
+
+// ═══════════════════════════════════════════════════════════════════
+// AUTH - Sign In / Sign Out
+// ═══════════════════════════════════════════════════════════════════
+
+export { useSignIn } from "./profile/useGoogleSignIn";
+export { useSignOut } from "./profile/useSessionSignOut";
+
+// ═══════════════════════════════════════════════════════════════════
+// GRAPHQL HOOKS - Account & Profile Queries
+// ═══════════════════════════════════════════════════════════════════
+
+// Full account data (profile + progress) - for settings & dashboard
+export { useFullAccount } from "./profile/useFullAccount";
+
+// Profile with avatar + completion status - for navbar & greeting
+export { useProfileCompletionStatus } from "./profile/useProfileCompletionStatus";
+
+// Account status only (most lightweight) - for feature gating
+export { useAccountAccessStatus } from "./profile/useAccountAccessStatus";
+
+// ═══════════════════════════════════════════════════════════════════
+// PASSES
+// ═══════════════════════════════════════════════════════════════════
+
+export { usePasses, type Pass, type PassBenefit, type PassDetail } from "./passes/usePasses";

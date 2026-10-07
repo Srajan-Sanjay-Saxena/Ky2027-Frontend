@@ -3,12 +3,12 @@
 import Image from "next/image";
 import { memo, type FormEvent, useRef } from "react";
 import { IMAGES } from "@/lib/images";
-import { COLORS, JAZZ_COLORS } from "@/components/pages/home/constants/palette";
-import { CornerOrnaments } from "../decors";
+import { COLORS, JAZZ_COLORS } from "@/components/pages/contact/constants/palette";
+import { CornerOrnaments } from "@/components/pages/contact/decors";
 import { useContact } from "@/lib/api/hooks";
-import { ContactSuccessToast } from "../toasts/success";
-import { ContactErrorToast } from "../toasts/error";
-import { DiyaLoader } from "../loader";
+import { ContactSuccessToast } from "@/components/pages/contact/toasts/success";
+import { ContactErrorToast } from "@/components/pages/contact/toasts/error";
+import { DiyaLoader } from "@/components/pages/contact/loader";
 
 const fieldStyle = {
   background: "rgba(12,8,16,0.6)",
@@ -43,32 +43,31 @@ export const ContactForm = memo(function ContactForm() {
   }
 
   return (
-    <section className="relative py-14 sm:py-20 px-4 sm:px-6">
+    <section className="relative px-4 py-14 sm:px-6 sm:py-20">
       {/* Lotus mandala backdrop - Desktop only */}
-      <div className="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[760px] h-[760px] opacity-[0.06] pointer-events-none">
+      <div className="pointer-events-none absolute top-1/2 left-1/2 hidden h-[760px] w-[760px] -translate-x-1/2 -translate-y-1/2 opacity-[0.06] lg:block">
         <Image
           src={IMAGES.contact.lotusMandala}
           alt=""
           fill
-          className="object-contain animate-spin"
+          className="animate-spin object-contain"
           style={{ animationDuration: "180s" }}
         />
       </div>
 
-      <div className="relative z-10 max-w-2xl mx-auto">
+      <div className="relative z-10 mx-auto max-w-2xl">
         <div
-          className="relative p-6 sm:p-10 rounded-2xl"
+          className="relative rounded-2xl p-6 sm:p-10"
           style={{
             background: `linear-gradient(160deg, ${JAZZ_COLORS.BG_ROYAL} 0%, ${JAZZ_COLORS.BG_WINE}cc 100%)`,
             border: `2px solid ${COLORS.BRIGHT_GOLD}25`,
-            boxShadow:
-              "0 10px 40px rgba(0,0,0,0.4), 0 0 60px rgba(255,215,0,0.06)",
+            boxShadow: "0 10px 40px rgba(0,0,0,0.4), 0 0 60px rgba(255,215,0,0.06)",
           }}
         >
           <CornerOrnaments />
 
           <h2
-            className="text-2xl sm:text-3xl font-bold mb-2 text-center"
+            className="mb-2 text-center text-2xl font-bold sm:text-3xl"
             style={{
               fontFamily: "Georgia, serif",
               color: COLORS.BRIGHT_GOLD,
@@ -77,20 +76,14 @@ export const ContactForm = memo(function ContactForm() {
           >
             Get In Touch
           </h2>
-          <p
-            className="text-center text-sm mb-8"
-            style={{ color: "rgba(255,255,255,0.6)" }}
-          >
+          <p className="mb-8 text-center text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>
             Leave your details and our team will reach out to you.
           </p>
 
           <form ref={formRef} className="space-y-5" onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <label className="block">
-                <span
-                  className="text-xs uppercase tracking-wider"
-                  style={{ color: COLORS.GOLD }}
-                >
+                <span className="text-xs tracking-wider uppercase" style={{ color: COLORS.GOLD }}>
                   Name
                 </span>
                 <input
@@ -98,15 +91,12 @@ export const ContactForm = memo(function ContactForm() {
                   name="name"
                   required
                   placeholder="Your name"
-                  className="mt-2 w-full rounded-lg px-4 py-3 text-sm outline-none focus:border-yellow-400/70 transition-colors"
+                  className="mt-2 w-full rounded-lg px-4 py-3 text-sm transition-colors outline-none focus:border-yellow-400/70"
                   style={fieldStyle}
                 />
               </label>
               <label className="block">
-                <span
-                  className="text-xs uppercase tracking-wider"
-                  style={{ color: COLORS.GOLD }}
-                >
+                <span className="text-xs tracking-wider uppercase" style={{ color: COLORS.GOLD }}>
                   Email
                 </span>
                 <input
@@ -114,7 +104,7 @@ export const ContactForm = memo(function ContactForm() {
                   name="email"
                   required
                   placeholder="you@example.com"
-                  className="mt-2 w-full rounded-lg px-4 py-3 text-sm outline-none focus:border-yellow-400/70 transition-colors"
+                  className="mt-2 w-full rounded-lg px-4 py-3 text-sm transition-colors outline-none focus:border-yellow-400/70"
                   style={fieldStyle}
                 />
               </label>
@@ -125,11 +115,11 @@ export const ContactForm = memo(function ContactForm() {
               <button
                 type="submit"
                 disabled={isPending}
-                className="group relative w-full sm:w-auto disabled:opacity-70 disabled:cursor-not-allowed"
+                className="group relative w-full disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
               >
                 {/* Soft outer aura on hover */}
                 <div
-                  className="absolute -inset-1.5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  className="absolute -inset-1.5 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                   style={{
                     background: `radial-gradient(ellipse at center, ${COLORS.BRIGHT_GOLD}55, ${COLORS.SAFFRON}25, transparent 70%)`,
                     filter: "blur(12px)",
@@ -145,7 +135,7 @@ export const ContactForm = memo(function ContactForm() {
                   }}
                 >
                   <div
-                    className="relative rounded-[10px] px-10 sm:px-14 py-3.5 overflow-hidden"
+                    className="relative overflow-hidden rounded-[10px] px-10 py-3.5 sm:px-14"
                     style={{
                       background: `linear-gradient(180deg, #FFD84D 0%, #F0C020 45%, #D4A017 100%)`,
                       boxShadow: `inset 0 2px 3px rgba(255,255,255,0.6), inset 0 -2px 4px rgba(0,0,0,0.25)`,
@@ -154,7 +144,7 @@ export const ContactForm = memo(function ContactForm() {
                     {/* Shimmer sweep - desktop only */}
                     {!isPending && (
                       <div
-                        className="hidden lg:block absolute inset-0 opacity-40"
+                        className="absolute inset-0 hidden opacity-40 lg:block"
                         style={{
                           background:
                             "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.85) 50%, transparent 60%)",
@@ -163,7 +153,7 @@ export const ContactForm = memo(function ContactForm() {
                       />
                     )}
                     <span
-                      className="relative z-10 font-black text-sm sm:text-base uppercase tracking-[0.22em] flex items-center justify-center gap-3"
+                      className="relative z-10 flex items-center justify-center gap-3 text-sm font-black tracking-[0.22em] uppercase sm:text-base"
                       style={{
                         color: "#3d0a18",
                         textShadow: "0 1px 0 rgba(255,255,255,0.35)",

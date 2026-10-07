@@ -6,32 +6,10 @@
  * All positions are percentages of the map image (1332 × 1252).
  */
 
-import {
-  EVENT_CATEGORIES,
-  type EventCategory,
-  type SubEvent,
-} from "@/components/pages/events/config/events.config";
+import { EVENT_CATEGORIES } from "@/components/pages/events/config/events.config";
+import type { ScheduledEvent, Venue, EventCategory, SubEvent } from "@/lib/api/helper/types";
 
 export const MAP_ASPECT = 1332 / 1252;
-
-/** Label colour variants from the original map design. */
-export type LabelTone = "blue" | "red" | "green" | "white" | "text";
-
-export interface Venue {
-  slug: string;
-  name: string;
-  /** Text shown on the map label (may contain line breaks). */
-  label: string;
-  tone: LabelTone;
-  large?: boolean;
-  /** Label centre. */
-  x: number;
-  y: number;
-  /** Point on the map the label's leader line points to. */
-  anchor?: [number, number];
-  /** Direction signs etc. are drawn but not clickable. */
-  clickable?: boolean;
-}
 
 export const VENUES: Venue[] = [
   {
@@ -423,13 +401,6 @@ const SCHEDULE: [string, string, string, number][] = [
   ["zaika", "bake-off", "adv-ground", 3],
   ["zaika", "mocktail", "adv-ground", 4],
 ];
-
-export interface ScheduledEvent {
-  event: SubEvent;
-  category: EventCategory;
-  venue: Venue;
-  day: number;
-}
 
 export const SCHEDULED_EVENTS: ScheduledEvent[] = SCHEDULE.flatMap(
   ([categorySlug, eventId, venueSlug, day]) => {

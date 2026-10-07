@@ -1,6 +1,6 @@
 "use client";
 
-import { JAZZ_COLORS } from "@/components/pages/home/constants/palette";
+import { JAZZ_COLORS } from "@/components/pages/contact/constants/palette";
 import { LightNavbar } from "@/components/navbar/Navbar";
 import { AmbientDecor, ContactHero, ContactForm, ContactInfo } from ".";
 

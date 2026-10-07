@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { memo, type ReactNode } from "react";
 import { IMAGES } from "@/lib/images";
-import { COLORS, JAZZ_COLORS } from "@/components/pages/home/constants/palette";
-import { CornerOrnaments } from "../decors";
+import { COLORS, JAZZ_COLORS } from "@/components/pages/contact/constants/palette";
+import { CornerOrnaments } from "@/components/pages/contact/decors";
 
 // ═══════════════════════════════════════════════════════════════════
 // ROYAL GOLD LINE ICONS
@@ -71,9 +71,9 @@ const infoCards: {
 // ═══════════════════════════════════════════════════════════════════
 export const ContactInfo = memo(function ContactInfo() {
   return (
-    <section className="relative py-14 sm:py-20 px-4 sm:px-6 overflow-hidden">
+    <section className="relative overflow-hidden px-4 py-14 sm:px-6 sm:py-20">
       {/* Royal letter scroll - Desktop only, top-right flourish */}
-      <div className="hidden lg:block absolute -right-16 -top-10 w-[28rem] h-[28rem] opacity-75 pointer-events-none rotate-6 lg:animate-[floatOm_7s_ease-in-out_infinite]">
+      <div className="pointer-events-none absolute -top-10 -right-16 hidden h-[28rem] w-[28rem] rotate-6 opacity-75 lg:block lg:animate-[floatOm_7s_ease-in-out_infinite]">
         <Image
           src={IMAGES.contact.envelopeScroll}
           alt=""
@@ -83,9 +83,9 @@ export const ContactInfo = memo(function ContactInfo() {
         />
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto">
+      <div className="relative z-10 mx-auto max-w-5xl">
         <h2
-          className="text-2xl sm:text-3xl md:text-4xl font-bold mb-10 sm:mb-12 text-center"
+          className="mb-10 text-center text-2xl font-bold sm:mb-12 sm:text-3xl md:text-4xl"
           style={{
             fontFamily: "Georgia, serif",
             color: COLORS.BRIGHT_GOLD,
@@ -96,16 +96,14 @@ export const ContactInfo = memo(function ContactInfo() {
         </h2>
 
         {/* Info cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-8">
           {infoCards.map((card) => (
             <a
               key={card.label}
               href={card.href}
               target={card.href.startsWith("http") ? "_blank" : undefined}
-              rel={
-                card.href.startsWith("http") ? "noopener noreferrer" : undefined
-              }
-              className="relative p-6 sm:p-8 rounded-2xl text-center group transition-transform duration-300 hover:-translate-y-1"
+              rel={card.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              className="group relative rounded-2xl p-6 text-center transition-transform duration-300 hover:-translate-y-1 sm:p-8"
               style={{
                 background: `linear-gradient(160deg, ${JAZZ_COLORS.BG_ROYAL} 0%, ${JAZZ_COLORS.BG_WINE}80 100%)`,
                 border: `2px solid ${COLORS.BRIGHT_GOLD}25`,
@@ -115,9 +113,9 @@ export const ContactInfo = memo(function ContactInfo() {
               <CornerOrnaments />
 
               {/* Icon in a gold-ringed medallion */}
-              <div className="flex justify-center mb-4">
+              <div className="mb-4 flex justify-center">
                 <div
-                  className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full"
+                  className="flex h-14 w-14 items-center justify-center rounded-full sm:h-16 sm:w-16"
                   style={{
                     background: `radial-gradient(circle, ${COLORS.DEEP_MAROON} 0%, ${COLORS.DARK_MAROON} 100%)`,
                     border: `1.5px solid ${COLORS.BRIGHT_GOLD}70`,
@@ -129,7 +127,7 @@ export const ContactInfo = memo(function ContactInfo() {
               </div>
 
               <h3
-                className="text-lg sm:text-xl font-bold mb-2"
+                className="mb-2 text-lg font-bold sm:text-xl"
                 style={{
                   color: COLORS.BRIGHT_GOLD,
                   fontFamily: "Georgia, serif",

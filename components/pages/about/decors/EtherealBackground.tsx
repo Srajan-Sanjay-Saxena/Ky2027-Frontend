@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useState, useCallback, useEffect } from "react";
-import { COLORS } from "@/components/pages/home/constants/palette";
+import { COLORS } from "@/components/pages/about/constants/palette";
 
 // ═══════════════════════════════════════════════════════════════════
 // ETHEREAL BACKGROUND - Interactive constellations & sacred geometry
@@ -38,15 +38,15 @@ const generateStars = (count: number): Star[] => {
 
 // Sacred geometry constellation points (Sri Yantra inspired)
 const constellationPoints = [
-  { x: 50, y: 15 },   // Top
-  { x: 25, y: 45 },   // Left upper
-  { x: 75, y: 45 },   // Right upper
-  { x: 15, y: 70 },   // Left lower
-  { x: 85, y: 70 },   // Right lower
-  { x: 50, y: 85 },   // Bottom center
-  { x: 35, y: 60 },   // Inner left
-  { x: 65, y: 60 },   // Inner right
-  { x: 50, y: 50 },   // Center
+  { x: 50, y: 15 }, // Top
+  { x: 25, y: 45 }, // Left upper
+  { x: 75, y: 45 }, // Right upper
+  { x: 15, y: 70 }, // Left lower
+  { x: 85, y: 70 }, // Right lower
+  { x: 50, y: 85 }, // Bottom center
+  { x: 35, y: 60 }, // Inner left
+  { x: 65, y: 60 }, // Inner right
+  { x: 50, y: 50 }, // Center
 ];
 
 // Lines connecting constellation
@@ -90,23 +90,26 @@ export const EtherealBackground = memo(function EtherealBackground() {
   const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([]);
   const [rippleId, setRippleId] = useState(0);
 
-  const handleNodeClick = useCallback((index: number, x: number, y: number) => {
-    setActiveNode(index);
-    setRipples(prev => [...prev, { id: rippleId, x, y }]);
-    setRippleId(prev => prev + 1);
-    
-    // Reset active node after animation
-    setTimeout(() => setActiveNode(null), 1000);
-  }, [rippleId]);
+  const handleNodeClick = useCallback(
+    (index: number, x: number, y: number) => {
+      setActiveNode(index);
+      setRipples((prev) => [...prev, { id: rippleId, x, y }]);
+      setRippleId((prev) => prev + 1);
+
+      // Reset active node after animation
+      setTimeout(() => setActiveNode(null), 1000);
+    },
+    [rippleId]
+  );
 
   const removeRipple = useCallback((id: number) => {
-    setRipples(prev => prev.filter(r => r.id !== id));
+    setRipples((prev) => prev.filter((r) => r.id !== id));
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {/* Gradient overlay */}
-      <div 
+      <div
         className="absolute inset-0"
         style={{
           background: `radial-gradient(ellipse at 50% 30%, 
@@ -116,10 +119,10 @@ export const EtherealBackground = memo(function EtherealBackground() {
           )`,
         }}
       />
-      
+
       {/* SVG Stars & Constellation */}
-      <svg 
-        className="absolute inset-0 w-full h-full pointer-events-auto"
+      <svg
+        className="pointer-events-auto absolute inset-0 h-full w-full"
         viewBox="0 0 100 100"
         preserveAspectRatio="xMidYMid slice"
       >
@@ -132,7 +135,7 @@ export const EtherealBackground = memo(function EtherealBackground() {
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
-          
+
           {/* Sacred node glow */}
           <filter id="sacredGlow" x="-100%" y="-100%" width="300%" height="300%">
             <feGaussianBlur stdDeviation="0.8" result="blur" />
@@ -149,7 +152,7 @@ export const EtherealBackground = memo(function EtherealBackground() {
             <stop offset="100%" stopColor={COLORS.SAFFRON} stopOpacity="0" />
           </radialGradient>
         </defs>
-        
+
         {/* Background stars */}
         {stars.map((star) => (
           <circle
@@ -164,7 +167,7 @@ export const EtherealBackground = memo(function EtherealBackground() {
             style={{ animationDelay: `${star.delay}s` }}
           />
         ))}
-        
+
         {/* Constellation lines - appear on hover */}
         <g className="transition-opacity duration-1000" opacity="0.15">
           {constellationLines.map((line) => (
@@ -182,10 +185,10 @@ export const EtherealBackground = memo(function EtherealBackground() {
             />
           ))}
         </g>
-        
+
         {/* Interactive constellation nodes */}
         {constellationPoints.map((point, i) => (
-          <g 
+          <g
             key={i}
             onClick={() => handleNodeClick(i, point.x, point.y)}
             className="cursor-pointer"
@@ -201,7 +204,7 @@ export const EtherealBackground = memo(function EtherealBackground() {
               opacity={activeNode === i ? 0.8 : 0.2}
               className="transition-all duration-500"
             />
-            
+
             {/* Inner sacred node */}
             <circle
               cx={point.x}
@@ -212,7 +215,7 @@ export const EtherealBackground = memo(function EtherealBackground() {
               opacity={activeNode === i ? 1 : 0.5}
               className="transition-all duration-300 hover:opacity-100"
             />
-            
+
             {/* Active state burst */}
             {activeNode === i && (
               <circle
@@ -225,7 +228,7 @@ export const EtherealBackground = memo(function EtherealBackground() {
             )}
           </g>
         ))}
-        
+
         {/* Ripple effects */}
         {ripples.map((ripple) => (
           <Ripple
@@ -235,7 +238,7 @@ export const EtherealBackground = memo(function EtherealBackground() {
             onComplete={() => removeRipple(ripple.id)}
           />
         ))}
-        
+
         {/* Central Om symbol - purely decorative sacred geometry */}
         <g opacity="0.08" transform="translate(45, 45) scale(0.1)">
           <path
@@ -247,13 +250,13 @@ export const EtherealBackground = memo(function EtherealBackground() {
           />
         </g>
       </svg>
-      
+
       {/* Floating particles layer */}
       <div className="absolute inset-0">
         {Array.from({ length: 20 }).map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 rounded-full animate-floatParticle"
+            className="animate-floatParticle absolute h-1 w-1 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,

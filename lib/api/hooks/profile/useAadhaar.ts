@@ -4,63 +4,16 @@ import { useApiMutation } from "wire-axon/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useCallback } from "react";
 import { z } from "zod";
-import { BACKEND_URL, sharedFeatureConfig } from "../../constants";
+import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { AadhaarUploadUrlSchema, ConfirmUploadSchema } from "@/lib/api/utils/aadhaar.schema";
+import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
+import type {
+  AadhaarUploadUrlData,
+  AadhaarExtractedData,
+} from "@/lib/api/helper/types/aadhaar.types";
 
-// ═══════════════════════════════════════════════════════════════════
-// TYPES
-// ═══════════════════════════════════════════════════════════════════
-
-/** Response from /aadhaar/upload-url endpoint */
-interface AadhaarUploadUrlData {
-  uploadUrl: string;
-  s3Key: string;
-  expiresAt: string;
-}
-
-/** Response from /aadhaar/extract-details endpoint */
-export interface AadhaarExtractedData {
-  aadhaarLast4: string;
-  name: string;
-  gender: "MALE" | "FEMALE" | "OTHER";
-  dateOfBirth: string;
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// SCHEMAS
-// ═══════════════════════════════════════════════════════════════════
-
-const AadhaarUploadUrlSchema = z.object({
-  fileType: z.enum(["image/jpeg", "image/png"]),
-});
-
-const ConfirmUploadSchema = z.object({
-  s3Key: z.string(),
-});
-
-// ═══════════════════════════════════════════════════════════════════
-// HELPER
-// ═══════════════════════════════════════════════════════════════════
-
-function extractErrorMessage(error: unknown, fallback: string): string {
-  if (!error) return fallback;
-
-  const axiosError = error as {
-    response?: { data?: { info?: string; message?: string } };
-    message?: string;
-  };
-
-  if (axiosError.response?.data?.info) {
-    return axiosError.response.data.info;
-  }
-  if (axiosError.response?.data?.message) {
-    return axiosError.response.data.message;
-  }
-  if (axiosError.message) {
-    return axiosError.message;
-  }
-
-  return fallback;
-}
+// Re-export for backward compatibility
+export type { AadhaarExtractedData } from "@/lib/api/helper/types/aadhaar.types";
 
 // ═══════════════════════════════════════════════════════════════════
 // HOOK 1: useAadhaarUpload
@@ -74,15 +27,14 @@ export function useAadhaarUpload(userId?: string) {
   const [isLoading, setIsLoading] = useState(false);
 
   // Get presigned URL mutation
-  const { mutate: mutateUploadUrl, reset: resetUploadUrl } =
-    useApiMutation<AadhaarUploadUrlData>({
-      url: "/aadhaar/upload-url",
-      method: "post",
-      baseURL: BACKEND_URL,
-      featureConfig: sharedFeatureConfig,
-      bodyValidator: { bodySchema: AadhaarUploadUrlSchema },
-      mutationOptions: { retry: false },
-    });
+  const { mutate: mutateUploadUrl, reset: resetUploadUrl } = useApiMutation<AadhaarUploadUrlData>({
+    url: "/aadhaar/upload-url",
+    method: "post",
+    baseURL: BACKEND_URL,
+    featureConfig: sharedFeatureConfig,
+    bodyValidator: { bodySchema: AadhaarUploadUrlSchema },
+    mutationOptions: { retry: false },
+  });
 
   // Confirm upload mutation
   const { mutate: mutateConfirm, reset: resetConfirm } = useApiMutation<{
@@ -105,11 +57,11 @@ export function useAadhaarUpload(userId?: string) {
           {
             onSuccess: (response) => resolve(response.data),
             onError: (err) => reject(err),
-          },
+          }
         );
       });
     },
-    [mutateUploadUrl],
+    [mutateUploadUrl]
   );
 
   // Promisified confirm upload
@@ -121,11 +73,11 @@ export function useAadhaarUpload(userId?: string) {
           {
             onSuccess: (response) => resolve(response.data),
             onError: (err) => reject(err),
-          },
+          }
         );
       });
     },
-    [mutateConfirm],
+    [mutateConfirm]
   );
 
   /**
@@ -153,9 +105,7 @@ export function useAadhaarUpload(userId?: string) {
       try {
         setIsLoading(true);
         // Step 1: Get presigned URL
-        const uploadUrlData = await getUploadUrl(
-          file.type as "image/jpeg" | "image/png",
-        );
+        const uploadUrlData = await getUploadUrl(file.type as "image/jpeg" | "image/png");
 
         // Step 2: Upload to S3
         const s3Response = await fetch(uploadUrlData.uploadUrl, {
@@ -190,7 +140,7 @@ export function useAadhaarUpload(userId?: string) {
         setIsLoading(false);
       }
     },
-    [getUploadUrl, confirmUpload, queryClient, userId],
+    [getUploadUrl, confirmUpload, queryClient, userId]
   );
 
   const reset = useCallback(() => {
@@ -257,7 +207,7 @@ export function useAadhaarVerify(userId?: string) {
             setErrorMessage(message);
             resolve(false);
           },
-        },
+        }
       );
     });
   }, [mutate, queryClient, userId]);

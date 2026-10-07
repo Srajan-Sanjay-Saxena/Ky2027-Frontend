@@ -3,8 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { IMAGES } from "@/lib/images";
-import { ArrowRight, Sparkles, BadgeCheck } from "lucide-react";
-import { COLORS, UserData, ProgressData, ProfileUser } from "../constants/palette";
+import { ArrowRight, Sparkles, BadgeCheck, Shield, Crown, Star } from "lucide-react";
+import { COLORS } from "../constants/palette";
+import { UserData, ProgressData, ProfileUser } from "@/lib/api/helper/types";
 
 // ═══════════════════════════════════════════════════════════════════
 // PROFILE HERO SECTION
@@ -185,14 +186,14 @@ function AvatarSection({
             className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full ring-4 ring-[#0a0612] sm:h-32 sm:w-32"
             style={{
               background:
-                userData?.avatarUrl || user.image
+                userData?.candidatePhotoUrl || userData?.googleAvatarUrl || user.image
                   ? COLORS.BG_DEEP
                   : `linear-gradient(135deg, ${COLORS.BG_ROYAL} 0%, ${COLORS.BG_WINE} 100%)`,
             }}
           >
-            {userData?.avatarUrl || user.image ? (
+            {userData?.candidatePhotoUrl || userData?.googleAvatarUrl || user.image ? (
               <Image
-                src={userData?.avatarUrl || user.image || ""}
+                src={userData?.candidatePhotoUrl || userData?.googleAvatarUrl || user.image || ""}
                 alt={userData?.firstName || user.name || "User"}
                 width={128}
                 height={128}
@@ -317,9 +318,76 @@ function AvatarSection({
 }
 
 // ═══════════════════════════════════════════════════════════════════
+// ADMIN ROLE BADGE
+// Shows special badge for MASTER_ADMIN, MANAGER, OPERATOR roles
+// ═══════════════════════════════════════════════════════════════════
+const ROLE_CONFIG = {
+  MASTER_ADMIN: {
+    label: "Master Admin",
+    icon: Crown,
+    gradient: "linear-gradient(135deg, #ffd700, #ff8c00)",
+    bgGradient: "linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 140, 0, 0.1))",
+    borderColor: "rgba(255, 215, 0, 0.5)",
+    glowColor: "rgba(255, 215, 0, 0.3)",
+  },
+  MANAGER: {
+    label: "Manager",
+    icon: Shield,
+    gradient: "linear-gradient(135deg, #a855f7, #6366f1)",
+    bgGradient: "linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(99, 102, 241, 0.1))",
+    borderColor: "rgba(168, 85, 247, 0.5)",
+    glowColor: "rgba(168, 85, 247, 0.3)",
+  },
+  OPERATOR: {
+    label: "Operator",
+    icon: Star,
+    gradient: "linear-gradient(135deg, #22c55e, #14b8a6)",
+    bgGradient: "linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(20, 184, 166, 0.1))",
+    borderColor: "rgba(34, 197, 94, 0.5)",
+    glowColor: "rgba(34, 197, 94, 0.3)",
+  },
+} as const;
+
+function AdminRoleBadge({ role }: { role: "MASTER_ADMIN" | "MANAGER" | "OPERATOR" }) {
+  const config = ROLE_CONFIG[role];
+  const Icon = config.icon;
+
+  return (
+    <div
+      className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold tracking-wide"
+      style={{
+        background: config.bgGradient,
+        border: `1px solid ${config.borderColor}`,
+        boxShadow: `0 0 20px ${config.glowColor}, 0 4px 15px rgba(0, 0, 0, 0.2)`,
+      }}
+    >
+      <div
+        className="flex h-6 w-6 items-center justify-center rounded-full"
+        style={{ background: config.gradient }}
+      >
+        <Icon className="h-3.5 w-3.5 text-white" />
+      </div>
+      <span
+        style={{
+          background: config.gradient,
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          backgroundClip: "text",
+        }}
+      >
+        {config.label}
+      </span>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
 // USER INFO SECTION
 // ═══════════════════════════════════════════════════════════════════
 function UserInfoSection({ userData, user, progress }: ProfileHeroProps) {
+  const roleLevel = userData?.role?.level;
+  const isAdmin = roleLevel && roleLevel !== "USER";
+
   return (
     <div className="flex-1 text-center lg:text-left">
       {/* Decorative Title Line */}
@@ -332,7 +400,7 @@ function UserInfoSection({ userData, user, progress }: ProfileHeroProps) {
       </div>
 
       <h1
-        className="mb-6 text-2xl font-bold sm:text-3xl lg:text-4xl"
+        className="mb-4 text-2xl font-bold sm:text-3xl lg:text-4xl"
         style={{
           background: `linear-gradient(135deg, ${COLORS.CREAM} 0%, ${COLORS.GOLD_LIGHT} 30%, ${COLORS.GOLD} 60%, ${COLORS.GOLD_LIGHT} 100%)`,
           WebkitBackgroundClip: "text",
@@ -344,6 +412,13 @@ function UserInfoSection({ userData, user, progress }: ProfileHeroProps) {
       >
         {userData?.firstName || user.name || "Traveler"}
       </h1>
+
+      {/* Admin Role Badge - Only show for non-USER roles */}
+      {isAdmin && (
+        <div className="mb-6 flex justify-center lg:justify-start">
+          <AdminRoleBadge role={roleLevel as "MASTER_ADMIN" | "MANAGER" | "OPERATOR"} />
+        </div>
+      )}
 
       {/* Complete Profile Button - Royal CTA */}
       {!progress?.isProfileComplete && (

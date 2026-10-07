@@ -2,7 +2,7 @@
 
 import { memo, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { COLORS } from "@/components/pages/home/constants/palette";
+import { COLORS } from "@/components/pages/about/constants/palette";
 import { useAnimationPolicy } from "@/hooks";
 
 // ═══════════════════════════════════════════════════════════════════

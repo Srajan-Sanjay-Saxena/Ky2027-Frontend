@@ -3,11 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { GraduationCap, Loader2 } from "lucide-react";
-import {
-  useCollegeSearch,
-  useUpdateCollege,
-  type College,
-} from "@/lib/api/hooks";
+import { useCollegeSearch, useUpdateCollege, type College } from "@/lib/api/hooks";
 import { COLORS } from "@/components/pages/complete-profile/constants/palette";
 import {
   ModeToggle,
@@ -32,9 +28,7 @@ interface CollegeDetailsStepProps {
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════════════════════════
 
-export function CollegeDetailsStep({
-  refetchProgress,
-}: CollegeDetailsStepProps) {
+export function CollegeDetailsStep({ refetchProgress }: CollegeDetailsStepProps) {
   const { data: session } = useSession();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCollege, setSelectedCollege] = useState<College | null>(null);
@@ -54,17 +48,19 @@ export function CollegeDetailsStep({
   // College search hook
   const { colleges, isLoading: isSearching } = useCollegeSearch(
     isManualMode ? "" : debouncedSearch,
-    15,
+    15
   );
 
   // Update college hook
-  const { updateCollege, isPending: isUpdating, isError, error } = useUpdateCollege(
-    session?.user?.id,
-  );
+  const {
+    updateCollege,
+    isPending: isUpdating,
+    isError,
+    errorMessage,
+  } = useUpdateCollege(session?.user?.id);
 
   // Error state
   const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -108,9 +104,7 @@ export function CollegeDetailsStep({
   }, []);
 
   const handleSubmit = useCallback(() => {
-    const collegeName = isManualMode
-      ? manualCollege
-      : selectedCollege?.name || searchQuery;
+    const collegeName = isManualMode ? manualCollege : selectedCollege?.name || searchQuery;
 
     if (!collegeName.trim()) return;
 
@@ -121,21 +115,13 @@ export function CollegeDetailsStep({
           setShowError(false);
           refetchProgress();
         },
-        onError: (err) => {
-          // Always show user-friendly message, never raw technical errors
-          setErrorMessage("Something went wrong. Please try again.");
+        onError: () => {
+          // Hook derives a user-friendly errorMessage; just surface the error state
           setShowError(true);
         },
-      },
+      }
     );
-  }, [
-    isManualMode,
-    manualCollege,
-    selectedCollege,
-    searchQuery,
-    updateCollege,
-    refetchProgress,
-  ]);
+  }, [isManualMode, manualCollege, selectedCollege, searchQuery, updateCollege, refetchProgress]);
 
   const handleRetry = useCallback(() => {
     setShowError(false);
@@ -162,7 +148,7 @@ export function CollegeDetailsStep({
   if (showError) {
     return (
       <CollegeErrorState
-        message={errorMessage}
+        message={errorMessage ?? "Something went wrong. Please try again."}
         onRetry={handleRetry}
         onSearchAgain={handleSearchAgain}
       />
@@ -174,7 +160,7 @@ export function CollegeDetailsStep({
       {/* Header */}
       <div className="text-center">
         <div
-          className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4"
+          className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl"
           style={{
             background: `linear-gradient(135deg, ${COLORS.GOLD}20 0%, ${COLORS.GOLD_DARK}10 100%)`,
             border: `1px solid ${COLORS.GOLD}30`,
@@ -182,10 +168,7 @@ export function CollegeDetailsStep({
         >
           <GraduationCap className="h-8 w-8" style={{ color: COLORS.GOLD }} />
         </div>
-        <h2
-          className="text-2xl sm:text-3xl font-bold mb-2"
-          style={{ color: COLORS.CREAM }}
-        >
+        <h2 className="mb-2 text-2xl font-bold sm:text-3xl" style={{ color: COLORS.CREAM }}>
           Your College Details
         </h2>
         <p style={{ color: `${COLORS.CREAM}60` }}>
@@ -233,10 +216,10 @@ export function CollegeDetailsStep({
         <button
           onClick={handleSubmit}
           disabled={!isValid || isUpdating}
-          className={`w-full py-3 rounded-xl font-semibold text-lg transition-all duration-300 ${
+          className={`w-full rounded-xl py-3 text-lg font-semibold transition-all duration-300 ${
             isValid && !isUpdating
               ? "hover:scale-[1.02] hover:shadow-lg"
-              : "opacity-50 cursor-not-allowed"
+              : "cursor-not-allowed opacity-50"
           }`}
           style={{
             background: isValid

@@ -3,7 +3,12 @@
 import Link from "next/link";
 import { memo } from "react";
 import { motion } from "framer-motion";
-import { GlitchText, NeonText, InteractiveSpeaker, WaveformVisualizer } from "../decors";
+import {
+  GlitchText,
+  NeonText,
+  InteractiveSpeaker,
+  WaveformVisualizer,
+} from "@/components/pages/about/decors";
 import { useAnimationPolicy } from "@/hooks";
 
 // ═══════════════════════════════════════════════════════════════════

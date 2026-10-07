@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { memo } from "react";
 import { IMAGES } from "@/lib/images";
-import { COLORS } from "@/components/pages/home/constants/palette";
+import { COLORS } from "@/components/pages/contact/constants/palette";
 import { useAnimationPolicy } from "@/hooks";
 
 /**

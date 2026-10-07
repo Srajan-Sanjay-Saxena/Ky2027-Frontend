@@ -4,23 +4,10 @@
  */
 
 import { IMAGES } from "@/lib/images";
+import type { PassBenefit, PassDetailItem, PassConfig } from "@/lib/api/helper/types";
 
-export interface PassBenefit {
-  text: string;
-  highlight?: boolean; // For premium benefits
-}
-
-export interface PassConfig {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  tagline: string;
-  accentColor: string;
-  glowColor: string;
-  benefits: PassBenefit[];
-  popular?: boolean; // For highlighting recommended pass
-}
+// Re-export so existing consumers importing from this config path keep working.
+export type { PassBenefit, PassDetailItem, PassConfig };
 
 export const PASSES: PassConfig[] = [
   {
@@ -36,6 +23,29 @@ export const PASSES: PassConfig[] = [
       { text: "All Cultural Events" },
       { text: "IIT BHU Campus Access" },
       { text: "Festival Merchandise (Basic)" },
+    ],
+    details: [
+      {
+        icon: "🎤",
+        title: "Pro Nights Entry",
+        description: "Exclusive access to all professional artist performances and star nights",
+      },
+      {
+        icon: "🎁",
+        title: "Welcome Kit",
+        description:
+          "Festival welcome kit with essentials, ID card, and exclusive Kashi Yatra merchandise",
+      },
+      {
+        icon: "🏛️",
+        title: "Campus Tour",
+        description: "Free guided tour of the historic IIT BHU campus and its heritage buildings",
+      },
+      {
+        icon: "🎭",
+        title: "All Cultural Events",
+        description: "Entry to all cultural performances, competitions, and exhibitions",
+      },
     ],
   },
   {
@@ -54,6 +64,34 @@ export const PASSES: PassConfig[] = [
       { text: "Exclusive Workshops" },
       { text: "Festival Kit" },
     ],
+    details: [
+      {
+        icon: "🍽️",
+        title: "Complimentary Meals",
+        description: "Free food throughout the festival - breakfast, lunch, and dinner included",
+      },
+      {
+        icon: "🎤",
+        title: "Pro Nights Entry",
+        description: "Premium access to all professional artist performances with priority seating",
+      },
+      {
+        icon: "🏛️",
+        title: "Campus Tour",
+        description: "Free guided tour with exclusive backstage access to event venues",
+      },
+      {
+        icon: "🎁",
+        title: "Premium Festival Kit",
+        description: "Exclusive Darbar kit with premium merchandise, souvenirs, and memorabilia",
+      },
+      {
+        icon: "🎯",
+        title: "Priority Registration",
+        description:
+          "Skip the queues with priority registration for all competitions and workshops",
+      },
+    ],
   },
   {
     id: "swarnim",
@@ -71,6 +109,40 @@ export const PASSES: PassConfig[] = [
       { text: "Premium Merch Kit" },
       { text: "Complimentary Refreshments" },
     ],
+    details: [
+      {
+        icon: "🏨",
+        title: "Free Accommodation",
+        description: "Comfortable stay in IIT BHU hostels for the entire festival duration",
+      },
+      {
+        icon: "🍽️",
+        title: "All Meals Included",
+        description: "Premium dining experience with all meals and refreshments covered",
+      },
+      {
+        icon: "👑",
+        title: "VIP Lounge Access",
+        description: "Exclusive access to the VIP lounge with premium amenities and refreshments",
+      },
+      {
+        icon: "🎤",
+        title: "Front Row + Meet & Greet",
+        description:
+          "Front row seating at all events plus exclusive meet & greet with performing artists",
+      },
+      {
+        icon: "🎁",
+        title: "Swarnim Premium Kit",
+        description:
+          "Ultimate festival kit with limited edition merchandise and exclusive collectibles",
+      },
+      {
+        icon: "🚗",
+        title: "Airport/Station Pickup",
+        description: "Complimentary pickup and drop service from Varanasi airport/railway station",
+      },
+    ],
   },
 ] as const;
 
@@ -82,6 +154,15 @@ export const ANIMATION = {
   stagger: {
     delayChildren: 0.2,
     staggerChildren: 0.15,
+  },
+
+  // Container variants for section animations
+  containerVariants: {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { delayChildren: 0.2, staggerChildren: 0.15, when: "beforeChildren" },
+    },
   },
 
   // Card variants

@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 import { motion } from "framer-motion";
-import { COLORS } from "@/components/pages/home/constants/palette";
+import { COLORS } from "@/components/pages/about/constants/palette";
 import { useAnimationPolicy } from "@/hooks";
 
 // ═══════════════════════════════════════════════════════════════════

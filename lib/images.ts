@@ -289,6 +289,18 @@ export const IMAGES = {
     cuteBoyMascot: `${IMAGEKIT_BASE}/intro/common/cute-boy-mascot.png`,
     logo: `${IMAGEKIT_BASE}/intro/common/intro-logo.png`,
   },
+
+  // ============================================
+  // CAMPUS AMBASSADOR PAGE
+  // ============================================
+  ca: {
+    cosmicBackground: `${IMAGEKIT_BASE}/ca/common/cosmic-background.png`,
+    goldenBadge: `${IMAGEKIT_BASE}/ca/common/golden-badge.png`,
+    ambassadorDj: `${IMAGEKIT_BASE}/ca/common/ambassador-dj.png`,
+    ambassadorDancing: `${IMAGEKIT_BASE}/ca/common/ambassador-dancing.png`,
+    ambassadorPose: `${IMAGEKIT_BASE}/ca/common/ambassador-pose.png`,
+    ambassadorWalking: `${IMAGEKIT_BASE}/ca/common/ambassador-walking.png`,
+  },
 } as const;
 
 /**

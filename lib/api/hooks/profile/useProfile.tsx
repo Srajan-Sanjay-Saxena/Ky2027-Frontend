@@ -1,25 +1,18 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useApiMutation } from "wire-axon/hooks";
-import { z } from "zod";
-import { BACKEND_URL, sharedFeatureConfig } from "../../constants";
-import { CollegeSuccessToast, CollegeErrorToast } from "@/components/pages/complete-profile/steps/college/toasts";
+import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import {
+  CollegeSuccessToast,
+  CollegeErrorToast,
+} from "@/components/pages/complete-profile/steps/college/toasts";
+import type { UpdateCollegeData } from "@/lib/api/helper/types/profile.types";
+import { UpdateCollegeSchema } from "@/lib/api/utils/profile.schema";
+import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
 
-// ═══════════════════════════════════════════════════════════════════
-// TYPES
-// ═══════════════════════════════════════════════════════════════════
-
-export interface UpdateCollegeData {
-  college: string;
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// SCHEMAS
-// ═══════════════════════════════════════════════════════════════════
-
-const UpdateCollegeSchema = z.object({
-  college: z.string().min(2).max(200),
-});
+// Re-export for backward compatibility
+export type { UpdateCollegeData };
 
 // ═══════════════════════════════════════════════════════════════════
 // HOOKS
@@ -30,9 +23,10 @@ const UpdateCollegeSchema = z.object({
  * @param userId - User ID for cache invalidation
  */
 export function useUpdateCollege(userId?: string) {
-  const { mutate, isPending, isSuccess, isError, error } = useApiMutation<
-    { id: string; college: string }
-  >({
+  const { mutate, isPending, isSuccess, isError, error } = useApiMutation<{
+    id: string;
+    college: string;
+  }>({
     url: "/user/profile",
     method: "patch",
     baseURL: BACKEND_URL,
@@ -45,11 +39,21 @@ export function useUpdateCollege(userId?: string) {
     },
   });
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (error) {
+      setErrorMessage(extractErrorMessage(error, "Failed to update college"));
+    } else {
+      setErrorMessage(null);
+    }
+  }, [error]);
+
   return {
     updateCollege: mutate,
     isPending,
     isSuccess,
     isError,
-    error,
+    errorMessage,
   };
 }

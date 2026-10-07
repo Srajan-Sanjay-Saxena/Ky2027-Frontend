@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { CampusMap, EventSearchOverlay, WhatsOnSidebar } from "./sections";
-import { Navigation, MobileControls, MobileLogo, DecorativeElements } from "./components";
+import { CampusMap, EventSearchOverlay, WhatsOnSidebar, DecorativeElements } from "./sections";
+import { Navigation, MobileControls, MobileLogo } from "./components";
+import { DEFAULT_LAYERS } from "./constants";
+import type { MapLayers, Layer } from "@/lib/api/helper/types";
 
 // ═══════════════════════════════════════════════════════════════════
 // SCHEDULE PAGE CONTENT
@@ -14,6 +16,11 @@ import { Navigation, MobileControls, MobileLogo, DecorativeElements } from "./co
 export function SchedulePageContent() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
+  const [layers, setLayers] = useState<MapLayers>(DEFAULT_LAYERS);
+
+  const toggleLayer = (key: Layer) => {
+    setLayers((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   return (
     <>
@@ -43,11 +50,13 @@ export function SchedulePageContent() {
 
         {/* Map - zoomed in on mobile, scrollable */}
         <div className="absolute inset-0 [scrollbar-width:none] scrollbar-none overflow-auto [-ms-overflow-style:none] lg:left-[260px] lg:overflow-hidden [&::-webkit-scrollbar]:hidden">
-          <div className="h-[140%] w-[140%] origin-top-left lg:h-full lg:w-full">
+          <div className="h-[150%] w-[150%] origin-top-left lg:h-full lg:w-full">
             <CampusMap
               hoverZoom
               edgeFade
               fill
+              layers={layers}
+              onLayerToggle={toggleLayer}
               onSearchClick={() => setSearchOpen(true)}
               className="[&>div:last-child]:hidden [&>div:last-child]:lg:flex"
             />
@@ -55,7 +64,11 @@ export function SchedulePageContent() {
         </div>
 
         {/* Mobile Controls */}
-        <MobileControls onSearchClick={() => setSearchOpen(true)} />
+        <MobileControls
+          layers={layers}
+          onLayerToggle={toggleLayer}
+          onSearchClick={() => setSearchOpen(true)}
+        />
 
         {/* Footer hint */}
         <p className="absolute bottom-3 left-1/2 -translate-x-1/2 text-center font-[family-name:var(--font-cormorant)] text-[12px] font-semibold tracking-[0.2em] text-[#efe4cc]/50 uppercase lg:left-[calc(50%+130px)]">

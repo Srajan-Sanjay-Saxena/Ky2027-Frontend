@@ -2,10 +2,11 @@
 
 import { LightNavbar } from "@/components/navbar/Navbar";
 import { ProfileLoader } from "./loader";
-import { useMyAccount, useSignOut } from "@/lib/api/hooks";
+import { useFullAccount, useSignOut } from "@/lib/api/hooks";
 import { ProfileHero, DetailedInfo, ProfileFooter } from "./sections";
 import { ErrorState } from "./error";
-import { COLORS, ProfileUser } from "./constants/palette";
+import { COLORS } from "./constants/palette";
+import { ProfileUser } from "@/lib/api/helper/types";
 
 // ═══════════════════════════════════════════════════════════════════
 // PROFILE PAGE CONTENT
@@ -20,7 +21,7 @@ export function ProfilePageContent({ user }: ProfilePageContentProps) {
   const { isSigningOut, handleSignOut } = useSignOut();
 
   // Fetch account data via GraphQL - returns profile + progress
-  const { profile: userData, progress, isLoading, isError } = useMyAccount();
+  const { profile: userData, progress, isLoading, isError } = useFullAccount();
 
   return (
     <>

@@ -1,31 +1,23 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import gsap from "gsap";
-import { PassCard, PassesHeading } from "../common";
-import { PASSES, ANIMATION } from "../config/passes.config";
-import { Z_INDEX } from "../constants/theme";
-import { useAnimationPolicy } from "@/hooks";
-import { COLORS, GRADIENT_BORDER_ORNATE } from "@/components/pages/home/constants/palette";
+import { PassCard, PassesHeading, PassDetailsModal } from "@/components/pages/passes/components";
 import {
   BanarasiPatternAnimated,
   GeometricPattern,
   VignetteOverlay,
-} from "../desktop/BackgroundDecor";
-import { MandalaRing } from "../desktop/MandalaRing";
-import { FloatingParticles } from "../desktop/FloatingParticles";
-
-// ============================================
-// Animation Variants
-// ============================================
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { ...ANIMATION.stagger, when: "beforeChildren" },
-  },
-};
+  MandalaRing,
+  FloatingParticles,
+} from "@/components/pages/passes/sections/decor";
+import { PassesLoader, PassesError } from "@/components/pages/passes/loader";
+import { toPassConfig } from "@/lib/api/helper/functions";
+import { ANIMATION, type PassConfig } from "@/components/pages/passes/config/passes.config";
+import { usePasses } from "@/lib/api/hooks";
+import { Z_INDEX } from "@/components/pages/passes/constants/palette";
+import { useAnimationPolicy } from "@/hooks";
+import { COLORS, GRADIENT_BORDER_ORNATE } from "@/components/pages/passes/constants/palette";
 
 // ============================================
 // Main PassesSection Component
@@ -35,6 +27,13 @@ export function PassesSection() {
   const mandalaLeftRef = useRef<HTMLDivElement>(null);
   const mandalaRightRef = useRef<HTMLDivElement>(null);
   const mandalaCenterRef = useRef<HTMLDivElement>(null);
+
+  const [selectedPass, setSelectedPass] = useState<PassConfig | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Fetch passes from backend
+  const { passes, isLoading, isError, refetch } = usePasses();
+  const passConfigs = passes.map(toPassConfig);
 
   const { isMobile, shouldAnimate } = useAnimationPolicy();
   const isInView = useInView(sectionRef, { once: false, amount: 0.1 });
@@ -70,8 +69,13 @@ export function PassesSection() {
     return () => ctx.revert();
   }, [isInView, shouldAnimate]);
 
-  const handleSelect = useCallback((passId: string) => {
-    console.log(`Selected pass: ${passId}`);
+  const handleDetailsClick = useCallback((pass: PassConfig) => {
+    setSelectedPass(pass);
+    setIsModalOpen(true);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
   }, []);
 
   return (
@@ -157,7 +161,7 @@ export function PassesSection() {
       <motion.div
         className="relative mx-auto max-w-7xl px-4 pt-20 sm:px-6 md:pt-24 lg:px-8"
         style={{ zIndex: Z_INDEX.cards }}
-        variants={containerVariants}
+        variants={ANIMATION.containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
@@ -165,34 +169,49 @@ export function PassesSection() {
         {/* Heading */}
         <PassesHeading isMobile={isMobile} />
 
-        {/* Hover instruction */}
-        <motion.p
-          className="mb-8 hidden text-center text-sm text-gray-500 sm:block"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { delay: 0.5 } },
-          }}
-        >
-          [ HOVER TO SEE BENEFITS ]
-        </motion.p>
+        {/* Hover instruction - only show when passes loaded */}
+        {!isLoading && !isError && (
+          <motion.p
+            className="mb-8 hidden text-center text-sm text-gray-500 sm:block"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { delay: 0.5 } },
+            }}
+          >
+            [ HOVER TO SEE BENEFITS ]
+          </motion.p>
+        )}
 
         {/* Pass cards */}
-        <div className="grid grid-cols-1 items-end justify-items-center gap-8 sm:grid-cols-3 sm:gap-6 lg:gap-10">
-          {PASSES.map((pass, index) => (
-            <PassCard key={pass.id} pass={pass} index={index} onSelect={handleSelect} />
-          ))}
-        </div>
+        {isLoading ? (
+          <PassesLoader />
+        ) : isError ? (
+          <PassesError onRetry={() => refetch()} />
+        ) : (
+          <div className="grid grid-cols-1 items-end justify-items-center gap-8 sm:grid-cols-3 sm:gap-6 lg:gap-10">
+            {passConfigs.map((pass, index) => (
+              <PassCard
+                key={pass.id}
+                pass={pass}
+                index={index}
+                onDetailsClick={handleDetailsClick}
+              />
+            ))}
+          </div>
+        )}
 
-        {/* Mobile tap instruction */}
-        <motion.p
-          className="mt-8 text-center text-sm text-gray-500 sm:hidden"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { delay: 0.5 } },
-          }}
-        >
-          [ TAP TO SEE BENEFITS ]
-        </motion.p>
+        {/* Mobile tap instruction - only show when passes loaded */}
+        {!isLoading && !isError && (
+          <motion.p
+            className="mt-8 text-center text-sm text-gray-500 sm:hidden"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { delay: 0.5 } },
+            }}
+          >
+            [ TAP TO SEE BENEFITS ]
+          </motion.p>
+        )}
 
         {/* Footer note */}
         <motion.p
@@ -211,6 +230,9 @@ export function PassesSection() {
         className="absolute right-0 bottom-0 left-0 h-[3px]"
         style={{ background: GRADIENT_BORDER_ORNATE }}
       />
+
+      {/* Pass Details Modal */}
+      <PassDetailsModal pass={selectedPass} isOpen={isModalOpen} onClose={handleCloseModal} />
     </section>
   );
 }

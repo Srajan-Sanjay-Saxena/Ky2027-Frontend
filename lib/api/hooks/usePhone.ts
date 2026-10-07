@@ -1,24 +1,12 @@
 "use client";
 
 import { useApiMutation } from "wire-axon/hooks";
-import { z } from "zod";
-import { BACKEND_URL, sharedFeatureConfig } from "../constants";
+import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import type { PhoneUpdateData } from "@/lib/api/helper/types/phone.types";
+import { UpdatePhoneSchema } from "@/lib/api/utils/phone.schema";
 
-// ═══════════════════════════════════════════════════════════════════
-// TYPES
-// ═══════════════════════════════════════════════════════════════════
-
-export interface PhoneUpdateData {
-  info: string;
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// SCHEMAS
-// ═══════════════════════════════════════════════════════════════════
-
-const UpdatePhoneSchema = z.object({
-  phoneNumber: z.string().min(10).max(15),
-});
+// Re-exported for backward compatibility.
+export type { PhoneUpdateData };
 
 // ═══════════════════════════════════════════════════════════════════
 // HOOKS

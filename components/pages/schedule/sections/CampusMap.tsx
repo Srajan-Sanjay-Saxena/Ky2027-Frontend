@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { VENUES, LAMPS, SCHEDULED_EVENTS, type Venue } from "../config/campusMap.config";
+import { VENUES, LAMPS, SCHEDULED_EVENTS } from "../config/campusMap.config";
+import type { Layer, MapLayers, Venue } from "@/lib/api/helper/types";
 
 // ═══════════════════════════════════════════════════════════════════
 // CAMPUS MAP
@@ -55,9 +56,6 @@ const EVENT_COUNTS = SCHEDULED_EVENTS.reduce<Record<string, number>>(
   (acc, s) => ({ ...acc, [s.venue.slug]: (acc[s.venue.slug] ?? 0) + 1 }),
   {}
 );
-
-export type Layer = "night" | "lights" | "clouds" | "birds" | "labels";
-export type MapLayers = Record<Layer, boolean>;
 
 export const DEFAULT_LAYERS: MapLayers = {
   night: true,
@@ -252,6 +250,7 @@ interface CampusMapProps {
   edgeFade?: boolean;
   fill?: boolean;
   layers?: MapLayers;
+  onLayerToggle?: (key: Layer) => void;
   onSearchClick?: () => void;
   className?: string;
   style?: React.CSSProperties;
@@ -264,6 +263,7 @@ export function CampusMap({
   edgeFade = false,
   fill = false,
   layers: controlledLayers,
+  onLayerToggle,
   onSearchClick,
   className = "",
   style,
@@ -299,7 +299,13 @@ export function CampusMap({
     transform = `translate(${tx}%, ${ty}%) scale(${scale})`;
   }
 
-  const toggle = (key: Layer) => setLayers((prev) => ({ ...prev, [key]: !prev[key] }));
+  const toggle = (key: Layer) => {
+    if (onLayerToggle) {
+      onLayerToggle(key);
+    } else {
+      setLayers((prev) => ({ ...prev, [key]: !prev[key] }));
+    }
+  };
 
   // Label styles based on night/day mode
   const getLabelStyle = (v: Venue, isActive: boolean) => {
@@ -612,7 +618,7 @@ export function CampusMap({
         </div>
       </div>
 
-      {showControls && !controlledLayers && (
+      {showControls && (
         <MapControls
           layers={layers}
           onToggle={toggle}

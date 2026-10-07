@@ -1,18 +1,15 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import type { Session } from "@auth/core/types";
-import { EnhancedSession } from "./helper/types";
+import { EnhancedSession } from "./helper/types/index";
 
-const BACKEND_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
 const isProduction = process.env.NODE_ENV === "production";
-
 
 const authenticatedUser = {
   role: null,
   accountStatus: null,
 };
-
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -24,9 +21,7 @@ export const authOptions: NextAuthOptions = {
 
   cookies: {
     sessionToken: {
-      name: isProduction
-        ? "__Secure-next-auth.session-token"
-        : "next-auth.session-token",
+      name: isProduction ? "__Secure-next-auth.session-token" : "next-auth.session-token",
       options: {
         httpOnly: true,
         sameSite: "lax",
@@ -37,9 +32,7 @@ export const authOptions: NextAuthOptions = {
       },
     },
     callbackUrl: {
-      name: isProduction
-        ? "__Secure-next-auth.callback-url"
-        : "next-auth.callback-url",
+      name: isProduction ? "__Secure-next-auth.callback-url" : "next-auth.callback-url",
       options: {
         httpOnly: true,
         sameSite: "lax",
@@ -48,9 +41,7 @@ export const authOptions: NextAuthOptions = {
       },
     },
     csrfToken: {
-      name: isProduction
-        ? "__Host-next-auth.csrf-token"
-        : "next-auth.csrf-token",
+      name: isProduction ? "__Host-next-auth.csrf-token" : "next-auth.csrf-token",
       options: {
         httpOnly: true,
         sameSite: "lax",
@@ -75,7 +66,7 @@ export const authOptions: NextAuthOptions = {
               id: user.id,
               email: user.email,
               slugName,
-              avatarUrl: user.image ?? undefined,
+              googleAvatarUrl: user.image ?? undefined,
             }),
           });
 
@@ -116,8 +107,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email as string;
         session.user.image = token.picture as string;
         (session as EnhancedSession).user.role = authenticatedUser.role!;
-        (session as EnhancedSession).user.accountStatus = authenticatedUser.accountStatus!; 
-
+        (session as EnhancedSession).user.accountStatus = authenticatedUser.accountStatus!;
       }
       return session;
     },

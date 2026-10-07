@@ -3,27 +3,27 @@
 import Image from "next/image";
 import { memo } from "react";
 import { IMAGES } from "@/lib/images";
-import { COLORS } from "@/components/pages/home/constants/palette";
-import { MysticDivider } from "../decors";
+import { COLORS } from "@/components/pages/contact/constants/palette";
+import { MysticDivider } from "@/components/pages/contact/decors";
 
 // ═══════════════════════════════════════════════════════════════════
 // HERO SECTION
 // ═══════════════════════════════════════════════════════════════════
 export const ContactHero = memo(function ContactHero() {
   return (
-    <section className="relative min-h-[52vh] sm:min-h-[58vh] flex flex-col items-center justify-center overflow-hidden pt-6">
+    <section className="relative flex min-h-[52vh] flex-col items-center justify-center overflow-hidden pt-6 sm:min-h-[58vh]">
       {/* Golden Conch (Shankha) centerpiece */}
       <div className="relative mb-2 sm:mb-4">
         {/* Radiant halo behind the conch */}
         <div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[440px] sm:h-[440px] pointer-events-none"
+          className="pointer-events-none absolute top-1/2 left-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 sm:h-[440px] sm:w-[440px]"
           style={{
             background:
               "radial-gradient(circle, rgba(255,215,0,0.25) 0%, rgba(255,180,50,0.12) 40%, transparent 70%)",
             filter: "blur(30px)",
           }}
         />
-        <div className="relative w-[240px] sm:w-[360px] md:w-[420px] aspect-[1420/770] lg:animate-[floatOm_6s_ease-in-out_infinite]">
+        <div className="relative aspect-[1420/770] w-[240px] sm:w-[360px] md:w-[420px] lg:animate-[floatOm_6s_ease-in-out_infinite]">
           <Image
             src={IMAGES.contact.conch}
             alt="Sacred golden conch"
@@ -38,9 +38,9 @@ export const ContactHero = memo(function ContactHero() {
         </div>
       </div>
 
-      <div className="relative z-10 text-center px-4 sm:px-6 max-w-3xl mx-auto">
+      <div className="relative z-10 mx-auto max-w-3xl px-4 text-center sm:px-6">
         {/* Eyebrow */}
-        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-5 sm:mb-6">
+        <div className="mb-5 flex items-center justify-center gap-3 sm:mb-6 sm:gap-4">
           <div
             className="h-[1px] w-12 sm:w-20"
             style={{
@@ -49,7 +49,7 @@ export const ContactHero = memo(function ContactHero() {
           />
           <span className="text-lg sm:text-xl">🪔</span>
           <p
-            className="text-xs sm:text-sm uppercase tracking-[0.25em] sm:tracking-[0.35em] font-bold"
+            className="text-xs font-bold tracking-[0.25em] uppercase sm:text-sm sm:tracking-[0.35em]"
             style={{
               color: COLORS.BRIGHT_GOLD,
               textShadow: "0 0 20px rgba(255,215,0,0.5)",
@@ -68,7 +68,7 @@ export const ContactHero = memo(function ContactHero() {
 
         {/* Title */}
         <h1
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black italic mb-6"
+          className="mb-6 text-4xl font-black italic sm:text-5xl md:text-6xl lg:text-7xl"
           style={{
             fontFamily: "Georgia, serif",
             background: `linear-gradient(135deg, ${COLORS.CREAM} 0%, ${COLORS.BRIGHT_GOLD} 40%, ${COLORS.GOLD} 60%, ${COLORS.CREAM} 100%)`,
@@ -83,7 +83,7 @@ export const ContactHero = memo(function ContactHero() {
 
         {/* Tagline */}
         <p
-          className="text-lg sm:text-xl md:text-2xl leading-relaxed font-medium mb-8"
+          className="mb-8 text-lg leading-relaxed font-medium sm:text-xl md:text-2xl"
           style={{ fontFamily: "Georgia, serif", fontStyle: "italic" }}
         >
           <span style={{ color: "rgba(255,255,255,0.7)" }}>Let your </span>
@@ -95,10 +95,7 @@ export const ContactHero = memo(function ContactHero() {
           >
             words
           </span>
-          <span style={{ color: "rgba(255,255,255,0.7)" }}>
-            {" "}
-            travel down the{" "}
-          </span>
+          <span style={{ color: "rgba(255,255,255,0.7)" }}> travel down the </span>
           <span
             style={{
               color: COLORS.SAFFRON,

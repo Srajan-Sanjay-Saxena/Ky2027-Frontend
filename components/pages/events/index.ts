@@ -1,15 +1,25 @@
 // Page content components
 export { EventsPageContent, CategoryPageContent } from "./sections";
 
+// Decor & loader
+export { DecorativeElements, EventsLoader } from "./sections";
+
 // Reusable components
 export { CategoryCard, PageTitle, SubEventCard, CategoryHeader } from "./components";
 
 // Types
-export * from "./types";
+export type {
+  SubEvent,
+  EventType,
+  EventCategory,
+  CategoryCardProps,
+  SubEventCardProps,
+  CategoryHeaderProps,
+  CategoryPageContentProps,
+} from "@/lib/api/helper/types";
 
 // Config
 export { EVENT_CATEGORIES } from "./config/events.config";
-export type { EventCategory, SubEvent } from "./config/events.config";
 
 // Constants
-export { COLORS, JAZZ_COLORS, EVENT_TYPE_COLORS } from "./constants";
+export { COLORS, JAZZ_COLORS, EVENT_TYPE_COLORS } from "./constants/palette";
