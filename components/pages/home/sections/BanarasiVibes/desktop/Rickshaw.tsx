@@ -11,7 +11,7 @@ export const Rickshaw = memo(function Rickshaw({ ref }: RickshawProps) {
   return (
     <div
       ref={ref}
-      className="pointer-events-none hidden sm:block sm:absolute sm:w-[500px] sm:h-[300px]"
+      className="pointer-events-none hidden sm:absolute sm:block sm:h-[230px] sm:w-[380px]"
       style={{
         left: "-200px",
         bottom: "5px",
@@ -26,8 +26,9 @@ export const Rickshaw = memo(function Rickshaw({ ref }: RickshawProps) {
           width: "100%",
           height: "100%",
           objectFit: "contain",
-          filter: "drop-shadow(5px 5px 20px rgba(0,0,0,0.7))",
-          transform: "scaleX(-1)",
+          // warm sunset grade so the auto sits in the scene's lighting
+          filter:
+            "brightness(0.82) sepia(0.3) saturate(1.15) hue-rotate(-8deg) drop-shadow(0 10px 8px rgba(0,0,0,0.65)) drop-shadow(0 0 18px rgba(255,140,40,0.25))",
         }}
       />
     </div>
