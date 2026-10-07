@@ -15,12 +15,13 @@ interface PaymentStatusApiResponse {
   info: string;
   data: {
     hasPaid: boolean;
-    purchasedAt: string | null;
+    isIITBhuUser: boolean;
   };
 }
 
 // ═══════════════════════════════════════════════════════════════════
 // usePaymentStatus - Check if user has paid for a pass
+// Also returns isIITBhuUser (IIT BHU users get free access)
 // ═══════════════════════════════════════════════════════════════════
 
 export function usePaymentStatus() {
@@ -47,7 +48,7 @@ export function usePaymentStatus() {
 
   return {
     hasPaid: data?.data?.hasPaid ?? false,
-    purchasedAt: data?.data?.purchasedAt ?? null,
+    isIITBhuUser: data?.data?.isIITBhuUser ?? false,
     isLoading,
     isError,
     errorMessage,
