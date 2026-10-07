@@ -89,6 +89,8 @@ export function useMyTeams() {
       staleTime: 1000 * 60 * 2, // 2 minutes
       gcTime: 1000 * 60 * 15, // 15 minutes
       retry: 3,
+      refetchInterval: false,
+      refetchOnWindowFocus: false,
     },
   });
 

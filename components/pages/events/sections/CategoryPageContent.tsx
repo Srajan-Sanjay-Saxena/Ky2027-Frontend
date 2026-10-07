@@ -2,10 +2,17 @@
 
 import { LightNavbar } from "@/components/navbar/Navbar";
 import type { EventCategory, EventCategorySlug } from "@/lib/api/helper/types";
-import { useEventsByCategory, CATEGORY_METADATA } from "@/lib/api/hooks";
+import {
+  useEventsByCategory,
+  useMyRegistrations,
+  usePaymentStatus,
+  CATEGORY_METADATA,
+} from "@/lib/api/hooks";
 import { JAZZ_COLORS } from "../constants/palette";
 import { SubEventCard, CategoryHeader } from "../components";
 import { EventsLoader } from "./loader/EventsLoader";
+import { AlertCircle } from "lucide-react";
+import Link from "next/link";
 
 // ═══════════════════════════════════════════════════════════════════
 // SLUG MAPPING
@@ -49,6 +56,12 @@ export function CategoryPageContent({
     categoryKey ?? "NATRAJ" // Fallback to prevent hook error, but we check categoryKey below
   );
 
+  // Fetch registrations once at parent level
+  const { isRegisteredFor, refetch: refetchRegistrations } = useMyRegistrations();
+
+  // Check payment status
+  const { hasPaid } = usePaymentStatus();
+
   // If no valid category slug provided
   if (!categoryKey || !categoryMeta) {
     return (
@@ -89,12 +102,15 @@ export function CategoryPageContent({
     color: categoryMeta.color,
     subEvents: events.map((e) => ({
       id: e.id,
+      slug: e.slug, // Pass slug for registration
       name: e.name,
       tagline: e.tagline,
       description: e.description ?? e.tagline,
       type: e.participationType.toLowerCase() as "individual" | "team" | "duo",
       teamSize:
         e.minTeamSize && e.maxTeamSize ? `${e.minTeamSize}-${e.maxTeamSize} members` : undefined,
+      minTeamSize: e.minTeamSize ?? undefined,
+      maxTeamSize: e.maxTeamSize ?? undefined,
       registrationOpen: e.registrationOpen,
       image: e.imageUrl ?? undefined,
       prizePool: e.prizePool ?? undefined,
@@ -133,6 +149,30 @@ export function CategoryPageContent({
         <div className="relative z-10 mx-auto max-w-6xl">
           <CategoryHeader category={category} />
 
+          {/* Payment required banner */}
+          {!hasPaid && (
+            <div
+              className="mb-6 flex flex-col items-center justify-between gap-3 rounded-xl border px-5 py-4 sm:flex-row"
+              style={{
+                background: "rgba(239, 68, 68, 0.1)",
+                borderColor: "rgba(239, 68, 68, 0.3)",
+              }}
+            >
+              <div className="flex items-center gap-3 text-center sm:text-left">
+                <AlertCircle className="h-5 w-5 flex-shrink-0 text-red-400" />
+                <p className="text-sm text-red-200">
+                  You need to purchase a pass to register for events
+                </p>
+              </div>
+              <Link
+                href="/passes"
+                className="rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600"
+              >
+                Buy Pass
+              </Link>
+            </div>
+          )}
+
           {/* Sub-events grid */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {category.subEvents.map((event, index) => (
@@ -141,6 +181,9 @@ export function CategoryPageContent({
                 event={event}
                 categoryColor={category.color}
                 index={index}
+                isRegistered={isRegisteredFor(event.slug ?? event.id)}
+                onRegistrationSuccess={refetchRegistrations}
+                canRegister={hasPaid}
               />
             ))}
           </div>

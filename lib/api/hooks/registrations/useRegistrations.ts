@@ -72,6 +72,9 @@ export function useMyRegistrations() {
       staleTime: 1000 * 60 * 2, // 2 minutes
       gcTime: 1000 * 60 * 15, // 15 minutes
       retry: 3,
+      refetchInterval: false, // Disable polling
+      refetchOnWindowFocus: false, // Don't refetch when tab regains focus
+      refetchOnMount: false, // Don't refetch on every mount if data exists
     },
   });
 

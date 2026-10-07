@@ -1,0 +1,56 @@
+"use client";
+
+import { useMemo } from "react";
+import { useApiQuery } from "wire-axon/hooks";
+import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
+
+// ═══════════════════════════════════════════════════════════════════
+// TYPES
+// ═══════════════════════════════════════════════════════════════════
+
+interface PaymentStatusApiResponse {
+  statusCode: number;
+  message: string;
+  info: string;
+  data: {
+    hasPaid: boolean;
+    purchasedAt: string | null;
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// usePaymentStatus - Check if user has paid for a pass
+// ═══════════════════════════════════════════════════════════════════
+
+export function usePaymentStatus() {
+  const { data, isLoading, isError, error, refetch } = useApiQuery<PaymentStatusApiResponse>({
+    queryKey: ["payment-status"],
+    url: "/user/payment-status",
+    baseURL: BACKEND_URL,
+    featureConfig: sharedFeatureConfig,
+    queryOptions: {
+      staleTime: 1000 * 60 * 5, // 5 minutes - payment status doesn't change often
+      gcTime: 1000 * 60 * 30, // 30 minutes
+      retry: 2,
+      refetchInterval: false,
+      refetchOnWindowFocus: false,
+    },
+  });
+
+  const errorMessage = useMemo(() => {
+    if (error) {
+      return extractErrorMessage(error, "Failed to check payment status");
+    }
+    return null;
+  }, [error]);
+
+  return {
+    hasPaid: data?.data?.hasPaid ?? false,
+    purchasedAt: data?.data?.purchasedAt ?? null,
+    isLoading,
+    isError,
+    errorMessage,
+    refetch,
+  };
+}

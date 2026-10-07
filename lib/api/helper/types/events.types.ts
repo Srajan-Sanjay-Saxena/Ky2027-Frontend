@@ -101,11 +101,14 @@ export interface EventCategory {
  */
 export interface SubEvent {
   id: string;
+  slug?: string; // API slug for registration
   name: string;
   tagline: string;
   description: string;
   type: "individual" | "team" | "duo";
   teamSize?: string;
+  minTeamSize?: number;
+  maxTeamSize?: number;
   registrationOpen: boolean;
   image?: string;
   rules?: string[];

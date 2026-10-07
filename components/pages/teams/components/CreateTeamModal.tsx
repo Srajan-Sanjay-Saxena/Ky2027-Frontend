@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
-import { useCreateTeam, useUserSearch, type SearchedUser } from "@/lib/api/hooks";
+import { useState, useCallback, useEffect, useMemo } from "react";
+import { useCreateTeam, useUserSearch, useFullAccount, type SearchedUser } from "@/lib/api/hooks";
 import { TEAMS_COLORS } from "../constants/palette";
-import { X, Search, UserPlus, Trash2, Users, Loader2 } from "lucide-react";
+import { X, Search, UserPlus, Trash2, Users, Loader2, Crown } from "lucide-react";
 import Image from "next/image";
 import { useDebounce } from "@/lib/api/hooks/useDebounce";
 
@@ -18,9 +18,25 @@ export function CreateTeamModal({ isOpen, onClose, onSuccess }: CreateTeamModalP
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMembers, setSelectedMembers] = useState<SearchedUser[]>([]);
 
+  const { account } = useFullAccount();
   const debouncedSearch = useDebounce(searchQuery, 300);
   const { users, isLoading: isSearching } = useUserSearch(debouncedSearch);
   const { createTeam, isCreating, isSuccess, isError, errorMessage, reset } = useCreateTeam();
+
+  // Current user as creator (non-removable)
+  const creator: SearchedUser | null = useMemo(() => {
+    if (!account?.profile) return null;
+    return {
+      id: account.profile.id,
+      firstName: account.profile.firstName ?? null,
+      lastName: account.profile.lastName ?? null,
+      email: account.profile.email,
+      slugName: account.profile.slugName ?? null,
+      googleAvatarUrl: account.profile.googleAvatarUrl ?? null,
+      candidatePhotoUrl: account.profile.candidatePhotoUrl ?? null,
+      college: account.profile.college ?? null,
+    };
+  }, [account]);
 
   // Reset form when modal closes
   useEffect(() => {
@@ -54,15 +70,16 @@ export function CreateTeamModal({ isOpen, onClose, onSuccess }: CreateTeamModalP
   }, []);
 
   const handleSubmit = useCallback(() => {
-    if (!teamName.trim() || selectedMembers.length === 0) return;
-    createTeam(
-      teamName.trim(),
-      selectedMembers.map((m) => m.id)
-    );
+    if (!teamName.trim() || selectedMembers.length === 0) return; // Need at least 1 other member
+    // Only send other members - backend adds creator automatically
+    const memberIds = selectedMembers.map((m) => m.id);
+    createTeam(teamName.trim(), memberIds);
   }, [teamName, selectedMembers, createTeam]);
 
-  // Filter out already selected users from search results
-  const filteredUsers = users.filter((user) => !selectedMembers.find((m) => m.id === user.id));
+  // Filter out already selected users AND creator from search results
+  const filteredUsers = users.filter(
+    (user) => !selectedMembers.find((m) => m.id === user.id) && user.id !== creator?.id
+  );
 
   if (!isOpen) return null;
 
@@ -180,54 +197,91 @@ export function CreateTeamModal({ isOpen, onClose, onSuccess }: CreateTeamModalP
           </div>
 
           {/* Selected Members */}
-          {selectedMembers.length > 0 && (
-            <div>
-              <label className="mb-2 block text-sm font-medium text-white/80">
-                Selected Members ({selectedMembers.length})
-              </label>
-              <div className="space-y-2">
-                {selectedMembers.map((member) => (
-                  <div
-                    key={member.id}
-                    className="flex items-center justify-between rounded-lg border px-3 py-2"
-                    style={{
-                      background: TEAMS_COLORS.GOLD_DIM,
-                      borderColor: TEAMS_COLORS.BORDER_ACCENT,
-                    }}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="relative h-7 w-7 overflow-hidden rounded-full bg-white/10">
-                        {member.candidatePhotoUrl || member.googleAvatarUrl ? (
-                          <Image
-                            src={member.candidatePhotoUrl ?? member.googleAvatarUrl ?? ""}
-                            alt={member.firstName ?? "User"}
-                            fill
-                            className="object-cover"
-                          />
-                        ) : (
-                          <div className="flex h-full w-full items-center justify-center text-xs font-medium text-white/60">
-                            {(member.firstName?.[0] ?? member.email[0]).toUpperCase()}
-                          </div>
-                        )}
-                      </div>
-                      <div>
-                        <p className="text-sm text-white">
-                          {member.firstName ?? ""} {member.lastName ?? ""}
-                        </p>
-                        <p className="text-xs text-white/50">{member.email}</p>
-                      </div>
+          <div>
+            <label className="mb-2 block text-sm font-medium text-white/80">
+              Team Members ({1 + selectedMembers.length})
+            </label>
+            <div className="space-y-2">
+              {/* Creator (non-removable) */}
+              {creator && (
+                <div
+                  className="flex items-center justify-between rounded-lg border px-3 py-2"
+                  style={{
+                    background: TEAMS_COLORS.GOLD_DIM,
+                    borderColor: TEAMS_COLORS.GOLD,
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="relative h-7 w-7 overflow-hidden rounded-full bg-white/10">
+                      {creator.candidatePhotoUrl || creator.googleAvatarUrl ? (
+                        <Image
+                          src={creator.candidatePhotoUrl ?? creator.googleAvatarUrl ?? ""}
+                          alt={creator.firstName ?? "You"}
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-xs font-medium text-white/60">
+                          {(creator.firstName?.[0] ?? creator.email[0]).toUpperCase()}
+                        </div>
+                      )}
                     </div>
-                    <button
-                      onClick={() => handleRemoveMember(member.id)}
-                      className="rounded p-1 text-red-400 transition-colors hover:bg-red-500/20"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm text-white">
+                          {creator.firstName ?? ""} {creator.lastName ?? ""} (You)
+                        </p>
+                        <Crown className="h-3.5 w-3.5" style={{ color: TEAMS_COLORS.GOLD }} />
+                      </div>
+                      <p className="text-xs text-white/50">{creator.email}</p>
+                    </div>
                   </div>
-                ))}
-              </div>
+                  <span className="text-xs text-white/40">Creator</span>
+                </div>
+              )}
+
+              {/* Other members */}
+              {selectedMembers.map((member) => (
+                <div
+                  key={member.id}
+                  className="flex items-center justify-between rounded-lg border px-3 py-2"
+                  style={{
+                    background: TEAMS_COLORS.GOLD_DIM,
+                    borderColor: TEAMS_COLORS.BORDER_ACCENT,
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="relative h-7 w-7 overflow-hidden rounded-full bg-white/10">
+                      {member.candidatePhotoUrl || member.googleAvatarUrl ? (
+                        <Image
+                          src={member.candidatePhotoUrl ?? member.googleAvatarUrl ?? ""}
+                          alt={member.firstName ?? "User"}
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-xs font-medium text-white/60">
+                          {(member.firstName?.[0] ?? member.email[0]).toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-sm text-white">
+                        {member.firstName ?? ""} {member.lastName ?? ""}
+                      </p>
+                      <p className="text-xs text-white/50">{member.email}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleRemoveMember(member.id)}
+                    className="rounded p-1 text-red-400 transition-colors hover:bg-red-500/20"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
             </div>
-          )}
+          </div>
 
           {/* Error */}
           {isError && <p className="text-sm text-red-400">{errorMessage}</p>}
