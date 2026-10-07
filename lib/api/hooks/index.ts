@@ -74,3 +74,27 @@ export {
   type ParticipationType,
   type EventsQueryParams,
 } from "./events/useEvents";
+
+// ═══════════════════════════════════════════════════════════════════
+// REGISTRATIONS
+// ═══════════════════════════════════════════════════════════════════
+
+export {
+  useMyRegistrations,
+  useEventRegisterIndividual,
+  useEventRegisterTeam,
+  type Registration,
+} from "./registrations/useRegistrations";
+
+// ═══════════════════════════════════════════════════════════════════
+// TEAMS
+// ═══════════════════════════════════════════════════════════════════
+
+export {
+  useMyTeams,
+  useCreateTeam,
+  useUserSearch,
+  type Team,
+  type TeamMember,
+  type SearchedUser,
+} from "./teams/useTeams";
