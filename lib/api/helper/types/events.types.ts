@@ -25,6 +25,7 @@ export interface Event {
   slug: string;
   name: string;
   tagline: string;
+  description: string | null;
   category: EventCategorySlug;
   participationType: ParticipationType;
   minTeamSize: number | null;

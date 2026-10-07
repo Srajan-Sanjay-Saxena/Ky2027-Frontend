@@ -1,9 +1,27 @@
 "use client";
 
 import { LightNavbar } from "@/components/navbar/Navbar";
-import type { EventCategory } from "@/lib/api/helper/types";
+import type { EventCategory, EventCategorySlug } from "@/lib/api/helper/types";
+import { useEventsByCategory, CATEGORY_METADATA } from "@/lib/api/hooks";
 import { JAZZ_COLORS } from "../constants/palette";
 import { SubEventCard, CategoryHeader } from "../components";
+import { EventsLoader } from "./loader/EventsLoader";
+
+// ═══════════════════════════════════════════════════════════════════
+// SLUG MAPPING
+// ═══════════════════════════════════════════════════════════════════
+
+const SLUG_TO_CATEGORY: Record<string, EventCategorySlug> = {
+  natraj: "NATRAJ",
+  crosswindz: "CROSSWINDZ",
+  bandish: "BANDISH",
+  abhinay: "ABHINAY",
+  mirage: "MIRAGE",
+  toolika: "TOOLIKA",
+  enquizta: "ENQUIZTA",
+  samwaad: "SAMWAAD",
+  zaika: "ZAIKA",
+};
 
 // ═══════════════════════════════════════════════════════════════════
 // CATEGORY PAGE CONTENT
@@ -11,10 +29,78 @@ import { SubEventCard, CategoryHeader } from "../components";
 // ═══════════════════════════════════════════════════════════════════
 
 interface CategoryPageContentProps {
-  category: EventCategory;
+  category?: EventCategory; // Legacy prop (from static config)
+  categorySlug?: string; // New prop (for API-based fetching)
 }
 
-export function CategoryPageContent({ category }: CategoryPageContentProps) {
+export function CategoryPageContent({
+  category: legacyCategory,
+  categorySlug,
+}: CategoryPageContentProps) {
+  // Determine which category to use
+  const slug = categorySlug ?? legacyCategory?.slug;
+  const categoryKey = slug ? SLUG_TO_CATEGORY[slug.toLowerCase()] : null;
+
+  // Get category metadata first (this is synchronous)
+  const categoryMeta = categoryKey ? CATEGORY_METADATA[categoryKey] : null;
+
+  // Fetch events from API if we have a valid category key
+  const { events, isLoading, isError, errorMessage } = useEventsByCategory(
+    categoryKey ?? "NATRAJ" // Fallback to prevent hook error, but we check categoryKey below
+  );
+
+  // If no valid category slug provided
+  if (!categoryKey || !categoryMeta) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#0a0612]">
+        <div className="text-center text-white">
+          <h2 className="text-2xl font-bold">Category not found</h2>
+          <p className="mt-2 text-gray-400">The category &quot;{slug}&quot; does not exist.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Loading state - show loader while fetching from API
+  if (isLoading && !legacyCategory) {
+    return <EventsLoader />;
+  }
+
+  // Error state
+  if (isError && !legacyCategory) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#0a0612]">
+        <div className="text-center text-white">
+          <h2 className="text-2xl font-bold">Failed to load events</h2>
+          <p className="mt-2 text-gray-400">{errorMessage}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Build category object from metadata + API events
+  const category: EventCategory = legacyCategory ?? {
+    id: categoryKey,
+    name: categoryMeta.name,
+    slug: slug!,
+    tagline: categoryMeta.tagline,
+    description: categoryMeta.description,
+    icon: categoryMeta.icon,
+    color: categoryMeta.color,
+    subEvents: events.map((e) => ({
+      id: e.id,
+      name: e.name,
+      tagline: e.tagline,
+      description: e.description ?? e.tagline,
+      type: e.participationType.toLowerCase() as "individual" | "team" | "duo",
+      teamSize:
+        e.minTeamSize && e.maxTeamSize ? `${e.minTeamSize}-${e.maxTeamSize} members` : undefined,
+      registrationOpen: e.registrationOpen,
+      image: e.imageUrl ?? undefined,
+      prizePool: e.prizePool ?? undefined,
+    })),
+  };
+
   return (
     <>
       {/* Fixed navbar */}
