@@ -57,3 +57,20 @@ export { useAccountAccessStatus } from "./profile/useAccountAccessStatus";
 // ═══════════════════════════════════════════════════════════════════
 
 export { usePasses, type Pass, type PassBenefit, type PassDetail } from "./passes/usePasses";
+
+// ═══════════════════════════════════════════════════════════════════
+// EVENTS
+// ═══════════════════════════════════════════════════════════════════
+
+export {
+  useEvents,
+  useEvent,
+  useEventsByCategory,
+  CATEGORY_METADATA,
+  type Event,
+  type EventDetails,
+  type EventCategorySlug,
+  type EventCategory,
+  type ParticipationType,
+  type EventsQueryParams,
+} from "./events/useEvents";
