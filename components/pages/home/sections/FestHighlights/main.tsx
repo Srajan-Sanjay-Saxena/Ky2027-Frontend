@@ -70,7 +70,7 @@ function DiscoBall3D() {
       className="relative mx-auto h-36 w-36 sm:h-44 sm:w-44"
       initial={{ y: -200, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
-      viewport={{ once: true }}
+      viewport={{ once: false }}
       transition={{
         type: "spring",
         stiffness: 60,
@@ -701,7 +701,7 @@ function AnimatedHighlightCard({ item, index }: { item: (typeof highlights)[0]; 
       className="highlight-card group relative cursor-pointer overflow-hidden rounded-2xl p-4 sm:p-6"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: false }}
       transition={{ delay: index * 0.1 }}
       whileHover={{ scale: 1.05, y: -5 }}
     >

@@ -2,8 +2,8 @@
 
 import { LightNavbar } from "@/components/navbar/Navbar";
 import type { EventCategory } from "@/lib/api/helper/types";
-import { JAZZ_COLORS } from "../constants/palette";
-import { SubEventCard, CategoryHeader } from "../components";
+import { JAZZ_COLORS } from "@/components/pages/events/constants/palette";
+import { SubEventCard, CategoryHeader } from "@/components/pages/events/components";
 
 // ═══════════════════════════════════════════════════════════════════
 // CATEGORY PAGE CONTENT

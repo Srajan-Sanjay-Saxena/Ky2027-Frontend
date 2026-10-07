@@ -4,9 +4,9 @@ import { memo, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Spinner } from "@/components/ui/spinner";
-import { useNavbar } from "../config/NavbarContext";
-import type { NavbarTheme } from "../types";
-import { MOBILE_THEME_STYLES } from "../config/mobile.config";
+import { useNavbar } from "@/components/navbar/config/NavbarContext";
+import type { NavbarTheme } from "@/components/navbar/types/navbar.types";
+import { MOBILE_THEME_STYLES } from "@/components/navbar/config/mobile.config";
 
 /**
  * Theme-aware Mobile Navbar

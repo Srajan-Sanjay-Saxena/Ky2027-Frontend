@@ -9,6 +9,7 @@ import { useProfileCompletionStatus } from "@/lib/api/hooks";
 import { AnimatedRocket } from "@/components/pages/ca/components/AnimatedRocket";
 import { ProfileIncompleteToast } from "@/components/pages/ca/toasts/error/ProfileIncompleteToast";
 import { CA_FORM_URL, CA_LOGIN_CALLBACK } from "@/components/pages/ca/config/ca.config";
+import { COLORS_RGBA, GRADIENTS } from "@/components/pages/ca/constants/palette";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -70,7 +71,7 @@ export function CTASection() {
           <div
             className="absolute inset-0 opacity-30 blur-3xl"
             style={{
-              background: "radial-gradient(ellipse, rgba(236, 72, 153, 0.5) 0%, transparent 70%)",
+              background: `radial-gradient(ellipse, ${COLORS_RGBA.PINK_50} 0%, transparent 70%)`,
             }}
           />
           <AnimatedRocket size={100} />
@@ -93,7 +94,7 @@ export function CTASection() {
           disabled={isLoading || isAuthLoading}
           className="group relative inline-flex items-center gap-3 rounded-full px-8 py-4 text-lg font-bold transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50"
           style={{
-            background: "linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #06b6d4 100%)",
+            background: GRADIENTS.TRI,
             backgroundSize: "200% 200%",
             animation: "caGradientShift 4s ease infinite",
           }}
@@ -101,7 +102,7 @@ export function CTASection() {
           <span
             className="absolute inset-0 rounded-full opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-100"
             style={{
-              background: "linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)",
+              background: GRADIENTS.PINK_PURPLE,
             }}
           />
 

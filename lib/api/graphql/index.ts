@@ -32,4 +32,4 @@ export type {
   // Account Access Status
   AccountAccessStatusQueryResponse,
   AccountAccessStatusData,
-} from "./queries/user.queries";
+} from "../helper/types";

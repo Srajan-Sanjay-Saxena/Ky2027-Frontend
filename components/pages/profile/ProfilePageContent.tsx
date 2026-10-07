@@ -1,10 +1,8 @@
 "use client";
 
 import { LightNavbar } from "@/components/navbar/Navbar";
-import { ProfileLoader } from "./loader";
 import { useFullAccount, useSignOut } from "@/lib/api/hooks";
-import { ProfileHero, DetailedInfo, ProfileFooter } from "./sections";
-import { ErrorState } from "./error";
+import { ProfileHero, DetailedInfo, ProfileFooter, ProfileLoader, ErrorState } from "./sections";
 import { COLORS } from "./constants/palette";
 import { ProfileUser } from "@/lib/api/helper/types";
 

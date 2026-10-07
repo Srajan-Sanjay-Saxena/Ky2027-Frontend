@@ -7,7 +7,7 @@ import { gql } from "@apollo/client/core";
 // Use for: Account settings page, profile editing, user dashboard
 // ═══════════════════════════════════════════════════════════════════
 
-const fullAccountQueryDef = query("GetFullAccount", {
+export const fullAccountQueryDef = query("GetFullAccount", {
   myAccount: optional({
     profile: {
       id: types.string,
@@ -51,7 +51,7 @@ const fullAccountQueryDef = query("GetFullAccount", {
 // Use for: Profile completion wizard, progress bars, step navigation
 // ═══════════════════════════════════════════════════════════════════
 
-const accountProgressWithStepsQueryDef = query("GetAccountProgressWithSteps", {
+export const accountProgressWithStepsQueryDef = query("GetAccountProgressWithSteps", {
   myAccount: optional({
     progress: {
       steps: {
@@ -76,7 +76,7 @@ const accountProgressWithStepsQueryDef = query("GetAccountProgressWithSteps", {
 // Use for: Navbar avatar, user greeting, profile dropdown display
 // ═══════════════════════════════════════════════════════════════════
 
-const userNavbarDisplayQueryDef = query("GetUserNavbarDisplay", {
+export const userNavbarDisplayQueryDef = query("GetUserNavbarDisplay", {
   myAccount: optional({
     profile: {
       id: types.string,
@@ -99,7 +99,7 @@ const userNavbarDisplayQueryDef = query("GetUserNavbarDisplay", {
 // Use for: Feature gating, access control checks, quick eligibility
 // ═══════════════════════════════════════════════════════════════════
 
-const accountAccessStatusQueryDef = query("GetAccountAccessStatus", {
+export const accountAccessStatusQueryDef = query("GetAccountAccessStatus", {
   myAccount: optional({
     progress: {
       isProfileComplete: types.boolean,
@@ -133,34 +133,21 @@ export const ACCOUNT_ACCESS_STATUS_QUERY = gql`
 `;
 
 // ═══════════════════════════════════════════════════════════════════
-// TYPES - Full Account
+// TYPES
+// Account types derived from these query definitions now live in
+// helper/types/account.types.ts (re-exported via @/lib/api/helper/types).
 // ═══════════════════════════════════════════════════════════════════
 
-export type FullAccountQueryResponse = typeof fullAccountQueryDef.data;
-export type FullAccountData = NonNullable<FullAccountQueryResponse["myAccount"]>;
-export type UserProfile = FullAccountData["profile"];
-export type UserAccountProgress = FullAccountData["progress"];
-
-// ═══════════════════════════════════════════════════════════════════
-// TYPES - Account Progress With Steps
-// ═══════════════════════════════════════════════════════════════════
-
-export type AccountProgressWithStepsQueryResponse = typeof accountProgressWithStepsQueryDef.data;
-export type AccountProgressWithStepsData = NonNullable<
-  AccountProgressWithStepsQueryResponse["myAccount"]
->;
-export type ProgressSteps = AccountProgressWithStepsData["progress"]["steps"];
-
-// ═══════════════════════════════════════════════════════════════════
-// TYPES - User Navbar Display
-// ═══════════════════════════════════════════════════════════════════
-
-export type UserNavbarDisplayQueryResponse = typeof userNavbarDisplayQueryDef.data;
-export type UserNavbarDisplayData = NonNullable<UserNavbarDisplayQueryResponse["myAccount"]>;
-
-// ═══════════════════════════════════════════════════════════════════
-// TYPES - Account Access Status
-// ═══════════════════════════════════════════════════════════════════
-
-export type AccountAccessStatusQueryResponse = typeof accountAccessStatusQueryDef.data;
-export type AccountAccessStatusData = NonNullable<AccountAccessStatusQueryResponse["myAccount"]>;
+export type {
+  FullAccountQueryResponse,
+  FullAccountData,
+  UserProfile,
+  UserAccountProgress,
+  AccountProgressWithStepsQueryResponse,
+  AccountProgressWithStepsData,
+  ProgressSteps,
+  UserNavbarDisplayQueryResponse,
+  UserNavbarDisplayData,
+  AccountAccessStatusQueryResponse,
+  AccountAccessStatusData,
+} from "@/lib/api/helper/types";

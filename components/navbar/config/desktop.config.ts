@@ -4,7 +4,7 @@ import type {
   ThemeVisualConfig,
   DesktopLayoutConfig,
   DimensionConstraints,
-} from "../types";
+} from "@/components/navbar/types/navbar.types";
 
 // ═══════════════════════════════════════════════════════════════════
 // DESKTOP NAVBAR CONFIGURATION

@@ -9,7 +9,7 @@ import {
   VisionSection,
   CTASection,
 } from ".";
-import { NeonGridBackground, LaserBeams } from "./decors";
+import { NeonGridBackground, LaserBeams } from "./sections/decor";
 
 // ═══════════════════════════════════════════════════════════════════
 // MAIN PAGE CONTENT - Clean minimal design

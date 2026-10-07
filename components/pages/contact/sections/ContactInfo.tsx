@@ -4,7 +4,7 @@ import Image from "next/image";
 import { memo, type ReactNode } from "react";
 import { IMAGES } from "@/lib/images";
 import { COLORS, JAZZ_COLORS } from "@/components/pages/contact/constants/palette";
-import { CornerOrnaments } from "@/components/pages/contact/decors";
+import { CornerOrnaments } from "./decor";
 
 // ═══════════════════════════════════════════════════════════════════
 // ROYAL GOLD LINE ICONS

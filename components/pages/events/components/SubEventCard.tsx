@@ -2,7 +2,7 @@
 
 import { memo } from "react";
 import type { SubEvent } from "@/lib/api/helper/types";
-import { COLORS, EVENT_TYPE_COLORS } from "../constants/palette";
+import { COLORS, EVENT_TYPE_COLORS } from "@/components/pages/events/constants/palette";
 
 // ═══════════════════════════════════════════════════════════════════
 // SUB-EVENT CARD COMPONENT

@@ -301,9 +301,44 @@ components/pages/{page-name}/
 ### File Organization
 
 1. **ONE COMPONENT PER FILE** - Never have 2+ components in the same file
-2. **Decorative elements go in `decor/`** - Background effects, floating elements, visual-only items
-3. **Loaders go in `loader/`** - All loading states and skeleton components
-4. **Toasts go in `toasts/`** - Separate success and error toasts
+
+2. **Large components with subcomponents go in a subfolder**
+   When breaking a big component into multiple smaller ones, create a subfolder:
+
+   ```
+   components/
+   ├── PassCard/                    # Folder for complex component
+   │   ├── PassCard.tsx             # Main component
+   │   ├── PassIcon.tsx             # Subcomponent
+   │   ├── AnimatedMandala.tsx      # Subcomponent
+   │   ├── RoyalPrice.tsx           # Subcomponent
+   │   ├── RoyalButton.tsx          # Subcomponent
+   │   └── index.ts                 # Export main + public subcomponents
+   ├── SimpleComponent.tsx          # Simple component stays as single file
+   ```
+
+   **Examples of components that need subfolders:**
+   - Cards with multiple internal pieces (PassCard, ArtistCard, SponsorCard)
+   - Modals with header/body/footer components
+   - Complex forms with field components
+   - Any component you split into 3+ subcomponents
+
+   ```tsx
+   // ✅ Good - complex card in its own folder
+   // components/PassCard/index.ts
+   export { PassCard } from "./PassCard";
+   export { PassIcon } from "./PassIcon"; // If needed externally
+
+   // ✅ Good - importing the complex card
+   import { PassCard } from "@/components/pages/passes/components/PassCard";
+
+   // ❌ Bad - all subcomponents in one file
+   // PassCard.tsx with PassIcon, AnimatedMandala, RoyalPrice all inside
+   ```
+
+3. **Decorative elements go in `decor/`** - Background effects, floating elements, visual-only items
+4. **Loaders go in `loader/`** - All loading states and skeleton components
+5. **Toasts go in `toasts/`** - Separate success and error toasts
 
 ### Imports
 

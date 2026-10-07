@@ -12,9 +12,9 @@ import {
   SelectedCollegeCard,
   ManualInput,
 } from "./sections";
-import { useDebounce } from "@/lib/api/hooks/useDebounce";
-import { CollegeLoader } from "./loader";
-import { CollegeErrorState } from "./error";
+import { useDebounce } from "@/hooks/useDebounce";
+import { CollegeLoader } from "./loader/CollegeLoader";
+import { CollegeErrorState } from "./error/CollegeErrorState";
 
 // ═══════════════════════════════════════════════════════════════════
 // TYPES

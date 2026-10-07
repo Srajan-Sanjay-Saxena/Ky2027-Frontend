@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { User, LogOut, Loader2 } from "lucide-react";
 import { useSignOut } from "@/lib/api/hooks";
-import { useNavbar } from "../config/NavbarContext";
-import { DROPDOWN_THEMES } from "../config/dropdown.config";
+import { useNavbar } from "@/components/navbar/config/NavbarContext";
+import { DROPDOWN_THEMES } from "@/components/navbar/config/dropdown.config";
 
 interface UserAvatarDropdownProps {
   user: {

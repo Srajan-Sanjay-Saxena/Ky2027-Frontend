@@ -8,12 +8,6 @@ import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions"
 import type { PhoneUpdateData } from "@/lib/api/helper/types";
 
 // ═══════════════════════════════════════════════════════════════════
-// TYPES
-// ═══════════════════════════════════════════════════════════════════
-
-export type { PhoneUpdateData } from "@/lib/api/helper/types";
-
-// ═══════════════════════════════════════════════════════════════════
 // SCHEMAS
 // ═══════════════════════════════════════════════════════════════════
 
