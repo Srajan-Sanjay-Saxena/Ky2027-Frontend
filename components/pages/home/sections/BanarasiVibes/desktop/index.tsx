@@ -2,8 +2,6 @@
 
 import { memo, RefObject } from "react";
 import { RotatingMandala } from "./RotatingMandala";
-import { GangaAartiSaint } from "./GangaAartiSaint";
-import { BharatnatyamDancer } from "./BharatnatyamDancer";
 import { Rickshaw } from "./Rickshaw";
 
 interface BanarasiVibesDesktopProps {
@@ -14,7 +12,7 @@ interface BanarasiVibesDesktopProps {
 
 /**
  * Desktop-only elements for BanarasiVibes section
- * Shows: Rotating Mandala, Ganga Aarti Saint, Bharatnatyam Dancer, Rickshaw
+ * Shows: Rotating Mandala, Rickshaw
  * Hidden on mobile (< 640px)
  */
 export const BanarasiVibesDesktop = memo(function BanarasiVibesDesktop({
@@ -26,12 +24,6 @@ export const BanarasiVibesDesktop = memo(function BanarasiVibesDesktop({
     <>
       {/* Rotating Mandala backdrop */}
       <RotatingMandala isAnimating={isAnimating} shouldAnimate={shouldAnimate} />
-
-      {/* Ganga Aarti Saint - left side */}
-      <GangaAartiSaint />
-
-      {/* Bharatnatyam Dancer - right side */}
-      <BharatnatyamDancer />
 
       {/* Rickshaw - animated */}
       <Rickshaw ref={rickshawRef} />

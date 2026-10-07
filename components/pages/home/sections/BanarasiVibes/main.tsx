@@ -195,7 +195,7 @@ function BanarasiVibesContent() {
       <Road />
 
       {/* Common: Lamp Post - on bottom left, partially hidden, high z-index */}
-      <MotionZone className="absolute -bottom-4 left-[2%] z-[40] h-32 w-10 sm:-bottom-6 sm:left-[20%] sm:h-80 sm:w-30">
+      <MotionZone className="absolute -bottom-4 left-[2%] z-[40] h-32 w-10 sm:-bottom-6 sm:left-[20%] sm:h-[360px] sm:w-[135px]">
         <LampPost className="h-full w-full" />
       </MotionZone>
 

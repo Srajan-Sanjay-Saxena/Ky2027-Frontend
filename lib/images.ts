@@ -33,7 +33,7 @@ export const IMAGES = {
     ghatsNight: `${IMAGEKIT_BASE}/hero/common/ghats-night.png`,
     temple: `${IMAGEKIT_BASE}/hero/common/kashivishwanath-temple.png`,
     varanasiBack: `${IMAGEKIT_BASE}/hero/common/varanasi-back.png`,
-    steppingStone: `${IMAGEKIT_BASE}/hero/common/stepping-stone.png`,
+    steppingStone: "/home/hero/common/stepping-stone.webp",
     kites: `${IMAGEKIT_BASE}/hero/common/kites.png`,
   },
 
@@ -67,10 +67,10 @@ export const IMAGES = {
   vibes: {
     // Common (both platforms)
     background: `${IMAGEKIT_BASE}/vibes/common/vibes-bg.png`,
-    backgroundDark: `${IMAGEKIT_BASE}/vibes/common/banarasi-vibes-bg-dark.png`,
+    backgroundDark: "/home/banarasiVibes/banarasi-vibes-bg-dark.webp",
     mahamana: `${IMAGEKIT_BASE}/vibes/common/mahamana.png`,
     bhuGate: `${IMAGEKIT_BASE}/vibes/common/bhu-gate.png`,
-    rickshaw: `${IMAGEKIT_BASE}/vibes/common/rickshaw.png`,
+    rickshaw: "/home/banarasiVibes/rickshaw.webp",
 
     // Desktop-only decorative characters
     mandala: `${IMAGEKIT_BASE}/vibes/desktop/mandala.png`,
