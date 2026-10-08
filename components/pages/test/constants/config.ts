@@ -3,7 +3,7 @@ export const MAIN_URL = ""; // e.g. 'https://kashiyatra.in/' — where "Enter" l
 export const HOLD_SEC = 6; // seconds of holding needed
 
 // Concert image - replace with your actual concert image path
-export const CONCERT_IMAGE = "/intro/stage.png";
+export const CONCERT_IMAGE = "/intro/Stage.png";
 
 // Title bands configuration (x0, x1, y0, y1 in % of image)
 // These define the clipping regions for the title reveal animation

@@ -224,7 +224,7 @@ export function CampusMap({
         {/* Day image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/schedule-map/campus-day.jpg"
+          src="/scheduleMap/CampusDay.jpg"
           alt="Map of the IIT (BHU) campus"
           draggable={false}
           loading="eager"
@@ -235,7 +235,7 @@ export function CampusMap({
         {/* Night image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/schedule-map/campus-night.jpg"
+          src="/scheduleMap/CampusNight.jpg"
           alt=""
           draggable={false}
           loading="lazy"
@@ -275,7 +275,7 @@ export function CampusMap({
             // eslint-disable-next-line @next/next/no-img-element
             <img
               key={i}
-              src={`/schedule-map/cloud-${(i % 3) + 1}.png`}
+              src={`/scheduleMap/Cloud${(i % 3) + 1}.png`}
               alt=""
               loading="lazy"
               decoding="async"

@@ -48,17 +48,17 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   const [loadProgress, setLoadProgress] = useState(0);
   const [hasSeenIntro, setHasSeenIntro] = useState(globalHasSeenIntro);
   const [isMuted, setIsMuted] = useState(false);
-  
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Initialize audio
   useEffect(() => {
     if (typeof window !== "undefined") {
-      audioRef.current = new Audio("/intro/portalSong.mp3");
+      audioRef.current = new Audio("/intro/PortalSong.mp3");
       audioRef.current.loop = true;
       audioRef.current.volume = 0.5;
     }
-    
+
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
@@ -77,7 +77,7 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   const startLoading = useCallback(() => {
     setPhase("loading");
     setLoadProgress(0);
-    
+
     // Start playing audio
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
@@ -88,7 +88,7 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   const cancelLoading = useCallback(() => {
     setPhase("idle");
     setLoadProgress(0);
-    
+
     // Stop and reset audio
     if (audioRef.current) {
       audioRef.current.pause();
@@ -109,11 +109,11 @@ export function IntroProvider({ children }: { children: ReactNode }) {
 
   const completeIntro = useCallback(() => {
     setPhase("complete");
-    
+
     // Mark intro as seen globally (persists across client-side navigations)
     globalHasSeenIntro = true;
     setHasSeenIntro(true);
-    
+
     // Stop audio when intro completes
     if (audioRef.current) {
       audioRef.current.pause();
@@ -123,11 +123,11 @@ export function IntroProvider({ children }: { children: ReactNode }) {
 
   const skipIntro = useCallback(() => {
     setPhase("complete");
-    
+
     // Mark intro as seen globally
     globalHasSeenIntro = true;
     setHasSeenIntro(true);
-    
+
     // Stop audio when skipping
     if (audioRef.current) {
       audioRef.current.pause();
@@ -136,7 +136,7 @@ export function IntroProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const toggleMute = useCallback(() => {
-    setIsMuted(prev => !prev);
+    setIsMuted((prev) => !prev);
   }, []);
 
   const isIntroComplete = phase === "complete";

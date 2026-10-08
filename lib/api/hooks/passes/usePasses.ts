@@ -1,10 +1,10 @@
 "use client";
 
-import { useMemo } from "react";
-import { useApiQuery } from "wire-axon/hooks";
 import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
-import type { Pass, PassesApiResponse } from "@/lib/api/helper/types";
+import type { PassesApiResponse } from "@/lib/api/helper/types";
+import { useMemo } from "react";
+import { useApiQuery } from "wire-axon/hooks";
 
 // ═══════════════════════════════════════════════════════════════════
 // HOOK

@@ -40,7 +40,7 @@ const highlights = [
 
 // 3D Disco Ball Model Component - respects MotionZone pause state
 function DiscoBallModel() {
-  const { scene } = useGLTF("/home/discoBall.glb");
+  const { scene } = useGLTF("/models/DiscoBall.glb");
   const groupRef = useRef<THREE.Group>(null);
   const { isAnimating } = useMotionZone();
   const { invalidate } = useThree();
@@ -212,7 +212,7 @@ function DiscoBall3D() {
 }
 
 // Preload
-useGLTF.preload("/home/discoBall.glb");
+useGLTF.preload("/models/DiscoBall.glb");
 
 // Animated Laser Beams - Only 2 (extreme left and extreme right) - Desktop only
 function LaserBeams() {
@@ -308,7 +308,7 @@ function SilhouetteImage() {
         alt="Crowd silhouette"
         className="h-full w-full object-cover object-top"
         onError={(e) => {
-          (e.target as HTMLImageElement).src = "/home/proNites/common/silhoutte.png";
+          (e.target as HTMLImageElement).src = "/home/proNites/Silhouette.png";
         }}
       />
     </div>

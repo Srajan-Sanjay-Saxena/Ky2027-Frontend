@@ -49,7 +49,7 @@ export function StageBackground() {
           }}
         >
           <Image
-            src="/intro/stage.png"
+            src="/intro/Stage.png"
             alt="Concert Stage"
             fill
             className="object-cover object-center"
