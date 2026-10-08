@@ -1,2 +1,2 @@
 export { useCaApplication } from "./useCaApplication";
-export { useMyCaApplicationStatus } from "./useMyCaApplicationStatus";
+export { useCaInfo } from "./useCaInfo";

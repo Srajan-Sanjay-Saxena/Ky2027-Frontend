@@ -5,6 +5,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { COLORS } from "@/components/pages/profile/constants/palette";
 import { UserData, ProgressData, ProfileUser } from "@/lib/api/helper/types";
 import { AdminRoleBadge } from "./AdminRoleBadge";
+import { CaBadge } from "./CaBadge";
 
 // ═══════════════════════════════════════════════════════════════════
 // USER INFO SECTION
@@ -13,9 +14,10 @@ interface UserInfoSectionProps {
   userData: UserData | null;
   user: ProfileUser;
   progress: ProgressData | null;
+  isApprovedCa?: boolean;
 }
 
-export function UserInfoSection({ userData, user, progress }: UserInfoSectionProps) {
+export function UserInfoSection({ userData, user, progress, isApprovedCa }: UserInfoSectionProps) {
   const roleLevel = userData?.role?.level;
   const isAdmin = roleLevel && roleLevel !== "USER";
 
@@ -48,6 +50,13 @@ export function UserInfoSection({ userData, user, progress }: UserInfoSectionPro
       {isAdmin && (
         <div className="mb-6 flex justify-center lg:justify-start">
           <AdminRoleBadge role={roleLevel as "MASTER_ADMIN" | "MANAGER" | "OPERATOR"} />
+        </div>
+      )}
+
+      {/* CA Badge - Only show for approved Campus Ambassadors */}
+      {isApprovedCa && (
+        <div className="mb-6 flex justify-center lg:justify-start">
+          <CaBadge />
         </div>
       )}
 

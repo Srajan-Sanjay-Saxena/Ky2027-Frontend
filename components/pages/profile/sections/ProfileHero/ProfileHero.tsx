@@ -16,9 +16,10 @@ interface ProfileHeroProps {
   userData: UserData | null;
   user: ProfileUser;
   progress: ProgressData | null;
+  isApprovedCa?: boolean;
 }
 
-export function ProfileHero({ userData, user, progress }: ProfileHeroProps) {
+export function ProfileHero({ userData, user, progress, isApprovedCa }: ProfileHeroProps) {
   const initials =
     (userData?.firstName || user.name)
       ?.split(" ")
@@ -87,7 +88,12 @@ export function ProfileHero({ userData, user, progress }: ProfileHeroProps) {
           <AvatarSection userData={userData} user={user} progress={progress} initials={initials} />
 
           {/* User Info Section */}
-          <UserInfoSection userData={userData} user={user} progress={progress} />
+          <UserInfoSection
+            userData={userData}
+            user={user}
+            progress={progress}
+            isApprovedCa={isApprovedCa}
+          />
         </div>
       </div>
 

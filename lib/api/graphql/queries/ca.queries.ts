@@ -4,7 +4,7 @@ import { gql } from "@apollo/client/core";
 // ═══════════════════════════════════════════════════════════════════
 // QUERY 1: FULL CA INFO
 // Returns complete CA data - application status + profile
-// Use for: CA dashboard, full CA page load
+// Use for: CA dashboard, full CA page load, profile page CA section
 // ═══════════════════════════════════════════════════════════════════
 
 export const fullCaInfoQueryDef = query("GetFullCaInfo", {
@@ -13,6 +13,7 @@ export const fullCaInfoQueryDef = query("GetFullCaInfo", {
     application: optional({
       id: types.string,
       status: types.constant<"PENDING" | "ACCEPTED" | "REJECTED">("PENDING"),
+      rejectionReason: optional(types.string),
       appliedAt: types.string,
       updatedAt: types.string,
     }),
@@ -36,6 +37,7 @@ export const caApplicationStatusQueryDef = query("GetCaApplicationStatus", {
     hasApplied: types.boolean,
     application: optional({
       status: types.constant<"PENDING" | "ACCEPTED" | "REJECTED">("PENDING"),
+      rejectionReason: optional(types.string),
       appliedAt: types.string,
     }),
   },

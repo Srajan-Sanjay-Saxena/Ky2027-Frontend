@@ -31,6 +31,7 @@ export interface CaApplicationApiResponse {
 export interface CaApplicationGql {
   id: string;
   status: CAApplicationStatus;
+  rejectionReason: string | null;
   appliedAt: string;
   updatedAt: string;
 }
@@ -58,6 +59,7 @@ export interface FullCaInfoQueryResponse {
 
 export interface CaApplicationStatusOnly {
   status: CAApplicationStatus;
+  rejectionReason: string | null;
   appliedAt: string;
 }
 
