@@ -6,9 +6,8 @@ import { useRouter } from "next/navigation";
 import { LightNavbar } from "@/components/navbar/Navbar";
 import { PageLoader } from "@/components/loader";
 import { useSignIn } from "@/lib/api/hooks";
-import { ROYAL_COLORS } from "./constants";
-import { BackgroundEffects } from "./decors";
-import { MysticGateSection, LoginCard } from "./sections";
+import { ROYAL_COLORS } from "./constants/palette";
+import { MysticGateSection, LoginCard, BackgroundEffects } from "./sections";
 
 export function LoginContent() {
   const { data: session, status } = useSession();

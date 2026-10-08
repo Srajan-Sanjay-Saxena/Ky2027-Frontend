@@ -39,7 +39,7 @@ const MOON_CONFIG = {
  */
 function MoonModel() {
   const meshRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF("/models/moon.glb");
+  const { scene } = useGLTF("/models/Moon.glb");
 
   useFrame((state, delta) => {
     if (meshRef.current) {
@@ -64,7 +64,7 @@ function MoonModel() {
 }
 
 // Preload the model
-useGLTF.preload("/models/moon.glb");
+useGLTF.preload("/models/Moon.glb");
 
 /**
  * Moon3D - WebGL canvas with rotating moon model

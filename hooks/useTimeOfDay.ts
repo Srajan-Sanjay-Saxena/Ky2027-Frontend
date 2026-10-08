@@ -37,7 +37,23 @@ const DEV_TIME_OVERRIDE: TimeOfDay | null = null; // Change to null for producti
  */
 export function useTimeOfDay(): TimeOfDayState {
   const [state, setState] = useState<TimeOfDayState>(() => {
-    // Use override if set, otherwise default to night for SSR
+    // SSR DEFAULT (intentional): The server cannot know the visitor's local
+    // clock, so there is no server-correct value for time-of-day. We seed with
+    // "night" and switch to the real local time in the effect below after
+    // hydration. For visitors whose local time is NOT night, this produces a
+    // brief night -> actual-time transition on first paint.
+    //
+    // This is an accepted SSR limitation. We deliberately do NOT gate the hero
+    // behind a loading/hidden state (options considered: hide-until-hydrated,
+    // loading state), because the hero is the primary above-the-fold content
+    // (with a `priority` temple image) and blanking it would hurt perceived
+    // performance / LCP more than the transition hurts. Instead, the Hero
+    // section mitigates the visual by animating the change: the sky gradient
+    // uses `transition: background 2s ease-in-out`, stars use a 2s opacity
+    // fade, and the celestial body uses a 1s transition — so the shift reads
+    // as a smooth sunrise/sunset sweep rather than a hard flicker.
+    //
+    // Use the dev override if set, otherwise default to night for SSR.
     const defaultTime: TimeOfDay = DEV_TIME_OVERRIDE ?? "night";
     return {
       timeOfDay: defaultTime,

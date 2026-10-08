@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemedNavbar, LightNavbar } from "@/components/navbar";
+import { ThemedNavbar } from "@/components/navbar";
 import { useScrollPosition } from "@/hooks/useScrollPosition";
 
 /**

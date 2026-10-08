@@ -11,7 +11,8 @@ import {
   MandalaRing,
   FloatingParticles,
 } from "@/components/pages/passes/sections/decor";
-import { PassesLoader, PassesError } from "@/components/pages/passes/loader";
+import { PassesLoader } from "@/components/pages/passes/sections/loader";
+import { PassesError } from "@/components/pages/passes/sections/error";
 import { toPassConfig } from "@/lib/api/helper/functions";
 import { ANIMATION, type PassConfig } from "@/components/pages/passes/config/passes.config";
 import { usePasses } from "@/lib/api/hooks";
@@ -173,10 +174,9 @@ export function PassesSection() {
         {!isLoading && !isError && (
           <motion.p
             className="mb-8 hidden text-center text-sm text-gray-500 sm:block"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { delay: 0.5 } },
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
           >
             [ HOVER TO SEE BENEFITS ]
           </motion.p>
@@ -204,10 +204,9 @@ export function PassesSection() {
         {!isLoading && !isError && (
           <motion.p
             className="mt-8 text-center text-sm text-gray-500 sm:hidden"
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { delay: 0.5 } },
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
           >
             [ TAP TO SEE BENEFITS ]
           </motion.p>

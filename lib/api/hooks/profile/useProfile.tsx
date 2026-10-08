@@ -3,16 +3,11 @@
 import { useEffect, useState } from "react";
 import { useApiMutation } from "wire-axon/hooks";
 import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
-import {
-  CollegeSuccessToast,
-  CollegeErrorToast,
-} from "@/components/pages/complete-profile/steps/college/toasts";
+import { CollegeSuccessToast } from "@/components/pages/complete-profile/steps/college/toasts/success/CollegeSuccessToast";
+import { CollegeErrorToast } from "@/components/pages/complete-profile/steps/college/toasts/error/CollegeErrorToast";
 import type { UpdateCollegeData } from "@/lib/api/helper/types/profile.types";
 import { UpdateCollegeSchema } from "@/lib/api/utils/profile.schema";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
-
-// Re-export for backward compatibility
-export type { UpdateCollegeData };
 
 // ═══════════════════════════════════════════════════════════════════
 // HOOKS

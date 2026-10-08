@@ -12,9 +12,6 @@ import type {
   AadhaarExtractedData,
 } from "@/lib/api/helper/types/aadhaar.types";
 
-// Re-export for backward compatibility
-export type { AadhaarExtractedData } from "@/lib/api/helper/types/aadhaar.types";
-
 // ═══════════════════════════════════════════════════════════════════
 // HOOK 1: useAadhaarUpload
 // Handles: Get presigned URL → Upload to S3 → Confirm upload

@@ -28,7 +28,7 @@ export function VideoPlayer() {
       <video
         ref={videoRef}
         className="h-full w-full object-cover"
-        src="/intro/concertStage.webm"
+        src="/intro/ConcertStage.webm"
         loop
         muted
         playsInline

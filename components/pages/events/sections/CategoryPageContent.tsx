@@ -8,8 +8,8 @@ import {
   usePaymentStatus,
   CATEGORY_METADATA,
 } from "@/lib/api/hooks";
-import { JAZZ_COLORS } from "../constants/palette";
-import { SubEventCard, CategoryHeader } from "../components";
+import { JAZZ_COLORS } from "@/components/pages/events/constants/palette";
+import { SubEventCard, CategoryHeader } from "@/components/pages/events/components";
 import { EventsLoader } from "./loader/EventsLoader";
 import { AlertCircle } from "lucide-react";
 import Link from "next/link";

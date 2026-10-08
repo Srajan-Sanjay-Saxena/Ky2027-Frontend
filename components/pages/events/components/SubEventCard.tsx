@@ -2,7 +2,7 @@
 
 import { memo, useState, useCallback, useEffect, useRef } from "react";
 import type { SubEvent } from "@/lib/api/helper/types";
-import { COLORS, EVENT_TYPE_COLORS } from "../constants/palette";
+import { COLORS, EVENT_TYPE_COLORS } from "@/components/pages/events/constants/palette";
 import { useEventRegisterIndividual } from "@/lib/api/hooks";
 import { TeamSelectorModal } from "./TeamSelectorModal";
 import { Loader2, Check } from "lucide-react";

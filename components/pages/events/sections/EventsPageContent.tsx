@@ -1,9 +1,9 @@
 "use client";
 
 import { LightNavbar } from "@/components/navbar/Navbar";
-import { EVENT_CATEGORIES } from "../config/events.config";
-import { COLORS, JAZZ_COLORS } from "../constants/palette";
-import { CategoryCard, PageTitle } from "../components";
+import { EVENT_CATEGORIES } from "@/components/pages/events/config/events.config";
+import { COLORS, JAZZ_COLORS } from "@/components/pages/events/constants/palette";
+import { CategoryCard, PageTitle } from "@/components/pages/events/components";
 import { DecorativeElements } from "./decor/DecorativeElements";
 
 // ═══════════════════════════════════════════════════════════════════

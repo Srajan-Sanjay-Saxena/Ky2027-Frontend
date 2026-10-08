@@ -4,7 +4,7 @@ import Image from "next/image";
 import { memo } from "react";
 import { IMAGES } from "@/lib/images";
 import { COLORS } from "@/components/pages/contact/constants/palette";
-import { MysticDivider } from "@/components/pages/contact/decors";
+import { MysticDivider } from "./decor";
 
 // ═══════════════════════════════════════════════════════════════════
 // HERO SECTION

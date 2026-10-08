@@ -5,7 +5,7 @@ import { useCreateTeam, useUserSearch, useFullAccount, type SearchedUser } from 
 import { TEAMS_COLORS } from "../constants/palette";
 import { X, Search, UserPlus, Trash2, Users, Loader2, Crown } from "lucide-react";
 import Image from "next/image";
-import { useDebounce } from "@/lib/api/hooks/useDebounce";
+import { useDebounce } from "@/hooks/useDebounce";
 
 interface CreateTeamModalProps {
   isOpen: boolean;

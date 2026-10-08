@@ -2,23 +2,21 @@
 // CONTACT FORM
 // ═══════════════════════════════════════════════════════════════════
 
-export { useContact } from "./useContactForm";
+export { useContact } from "./useContact";
 
 // ═══════════════════════════════════════════════════════════════════
 // PROFILE - College Update
 // ═══════════════════════════════════════════════════════════════════
 
-export { useUpdateCollege, type UpdateCollegeData } from "./profile/useProfile";
+export { useUpdateCollege } from "./profile/useProfile";
+export type { UpdateCollegeData } from "@/lib/api/helper/types/profile.types";
 
 // ═══════════════════════════════════════════════════════════════════
 // PROFILE - Aadhaar Verification
 // ═══════════════════════════════════════════════════════════════════
 
-export {
-  useAadhaarUpload,
-  useAadhaarVerify,
-  type AadhaarExtractedData,
-} from "./profile/useAadhaar";
+export { useAadhaarUpload, useAadhaarVerify } from "./profile/useAadhaar";
+export type { AadhaarExtractedData } from "@/lib/api/helper/types/aadhaar.types";
 
 // ═══════════════════════════════════════════════════════════════════
 // PROFILE - Phone Update
@@ -30,7 +28,8 @@ export { useUpdatePhone } from "./usePhoneUpdate";
 // PROFILE - College Search
 // ═══════════════════════════════════════════════════════════════════
 
-export { useCollegeSearch, type College } from "./profile/useCollegeSearch";
+export { useCollegeSearch } from "./profile/useCollegeSearch";
+export type { College } from "@/components/pages/complete-profile/steps/college/data/config";
 
 // ═══════════════════════════════════════════════════════════════════
 // AUTH - Sign In / Sign Out
@@ -56,7 +55,8 @@ export { useAccountAccessStatus } from "./profile/useAccountAccessStatus";
 // PASSES
 // ═══════════════════════════════════════════════════════════════════
 
-export { usePasses, type Pass, type PassBenefit, type PassDetail } from "./passes/usePasses";
+export { usePasses } from "./passes/usePasses";
+export type { Pass, PassBenefit, PassDetail } from "@/lib/api/helper/types";
 
 // ═══════════════════════════════════════════════════════════════════
 // EVENTS
@@ -104,3 +104,15 @@ export {
 // ═══════════════════════════════════════════════════════════════════
 
 export { usePaymentStatus } from "./payment/usePaymentStatus";
+
+// ═══════════════════════════════════════════════════════════════════
+// CAMPUS AMBASSADOR
+// ═══════════════════════════════════════════════════════════════════
+
+export { useCaApplication } from "./ca/useCaApplication";
+export { useMyCaApplicationStatus } from "./ca/useMyCaApplicationStatus";
+export type {
+  CAApplicationStatus,
+  CaApplication,
+  CaApplicationApiResponse,
+} from "@/lib/api/helper/types/ca.types";
