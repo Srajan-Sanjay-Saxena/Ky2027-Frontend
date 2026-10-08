@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User, LogOut, Loader2 } from "lucide-react";
+import { User, LogOut, Loader2, ShoppingCart } from "lucide-react";
 import { useSignOut } from "@/lib/api/hooks";
 import { useNavbar } from "@/components/navbar/config/NavbarContext";
 import { DROPDOWN_THEMES } from "@/components/navbar/config/dropdown.config";
@@ -137,6 +137,24 @@ export function UserAvatarDropdown({ user }: UserAvatarDropdownProps) {
           >
             <User className="h-4 w-4" style={{ color: styles.iconColor }} />
             <span>Profile</span>
+          </Link>
+        </DropdownMenuItem>
+
+        {/* My Cart Link */}
+        <DropdownMenuItem
+          asChild
+          className="mx-1 rounded-md"
+          style={{
+            ["--dropdown-hover" as string]: styles.menuItemHover,
+          }}
+        >
+          <Link
+            href="/cart"
+            className="flex cursor-pointer items-center gap-2 px-3 py-2 transition-colors hover:bg-[var(--dropdown-hover)]"
+            style={{ color: styles.itemColor }}
+          >
+            <ShoppingCart className="h-4 w-4" style={{ color: styles.iconColor }} />
+            <span>My Cart</span>
           </Link>
         </DropdownMenuItem>
 

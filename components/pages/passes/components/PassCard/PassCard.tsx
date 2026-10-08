@@ -7,9 +7,10 @@ import { useSession } from "next-auth/react";
 import type { PassConfig } from "@/components/pages/passes/config/passes.config";
 import { ANIMATION } from "@/components/pages/passes/config/passes.config";
 import { useAnimationPolicy } from "@/hooks";
-import { useMyAccount } from "@/lib/api/hooks";
+import { useMyAccount, useAddToMyCart } from "@/lib/api/hooks";
 import { ProfileIncompleteToast } from "@/components/pages/passes/toasts/error/ProfileIncompleteToast";
 import { LoginRequiredToast } from "@/components/pages/passes/toasts/error/LoginRequiredToast";
+import { ItemAddedToast } from "@/components/pages/cart/toasts/success/ItemAddedToast";
 import {
   COLORS,
   SHADOWS,
@@ -51,12 +52,17 @@ export const PassCard = memo(function PassCard({
   const { status } = useSession();
   const { progress, isLoading: isProfileLoading } = useMyAccount("access");
 
+  // Add to cart mutation
+  const { addToCart, isPending: isAddingToCart } = useAddToMyCart({
+    successToast: <ItemAddedToast passName={pass.name} />,
+  });
+
   const isAuthenticated = status === "authenticated";
   const isSessionLoading = status === "loading";
   const isProfileComplete = progress?.isProfileComplete ?? false;
 
   // Combined loading state
-  const isLoading = isSessionLoading || (isAuthenticated && isProfileLoading);
+  const isLoading = isSessionLoading || (isAuthenticated && isProfileLoading) || isAddingToCart;
 
   const handleMouseEnter = () => setIsFlipped(true);
   const handleMouseLeave = () => setIsFlipped(false);
@@ -76,8 +82,14 @@ export const PassCard = memo(function PassCard({
       return;
     }
 
-    // Profile is complete, proceed with checkout
-    onSelect?.(pass.id);
+    // Ensure pass has MongoDB _id (required for cart API)
+    if (!pass._id) {
+      console.error("Pass is missing _id, cannot add to cart");
+      return;
+    }
+
+    // Profile is complete, add to cart
+    addToCart({ passId: pass._id, quantity: 1 });
   };
 
   // Auto-hide toast after 5 seconds
@@ -416,11 +428,13 @@ export const PassCard = memo(function PassCard({
                   loading={isLoading}
                   disabled={!isProfileComplete && isAuthenticated && !isLoading}
                 >
-                  {isLoading
-                    ? "Loading..."
-                    : isAuthenticated && !isProfileComplete
-                      ? "Complete Profile First"
-                      : `Get ${pass.name.split(" ")[0]} Pass`}
+                  {isAddingToCart
+                    ? "Adding..."
+                    : isSessionLoading || isProfileLoading
+                      ? "Loading..."
+                      : isAuthenticated && !isProfileComplete
+                        ? "Complete Profile First"
+                        : "Add to Cart"}
                 </RoyalButton>
               )}
             </div>

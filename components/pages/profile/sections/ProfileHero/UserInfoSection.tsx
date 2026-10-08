@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, ShoppingCart } from "lucide-react";
 import { COLORS } from "@/components/pages/profile/constants/palette";
 import { UserData, ProgressData, ProfileUser } from "@/lib/api/helper/types";
 import { AdminRoleBadge } from "./AdminRoleBadge";
@@ -60,9 +60,10 @@ export function UserInfoSection({ userData, user, progress, isApprovedCa }: User
         </div>
       )}
 
-      {/* Complete Profile Button - Royal CTA */}
-      {!progress?.isProfileComplete && (
-        <div className="flex justify-center lg:justify-start">
+      {/* Action Buttons */}
+      <div className="flex flex-col justify-center gap-3 sm:flex-row sm:items-center lg:justify-start">
+        {/* Complete Profile Button - Royal CTA */}
+        {!progress?.isProfileComplete && (
           <Link href="/complete-profile">
             <button
               className="group relative flex items-center gap-3 overflow-hidden rounded-2xl px-8 py-4 font-bold tracking-wide transition-all duration-300 hover:scale-105"
@@ -105,8 +106,33 @@ export function UserInfoSection({ userData, user, progress, isApprovedCa }: User
               />
             </button>
           </Link>
-        </div>
-      )}
+        )}
+
+        {/* My Cart Button */}
+        <Link href="/cart">
+          <button
+            className="group relative flex items-center gap-3 overflow-hidden rounded-2xl px-6 py-4 font-bold tracking-wide transition-all duration-300 hover:scale-105"
+            style={{
+              background: `linear-gradient(135deg, ${COLORS.GOLD}15, ${COLORS.GOLD}05)`,
+              color: COLORS.GOLD,
+              border: `2px solid ${COLORS.GOLD}40`,
+              boxShadow: `0 0 20px ${COLORS.GOLD}10, 0 4px 15px rgba(0,0,0,0.3)`,
+            }}
+          >
+            <ShoppingCart
+              className="relative h-5 w-5 transition-transform group-hover:scale-110"
+              style={{ color: COLORS.GOLD }}
+            />
+            <span className="relative text-sm" style={{ textShadow: `0 0 15px ${COLORS.GOLD}30` }}>
+              My Cart
+            </span>
+            <ArrowRight
+              className="relative h-4 w-4 transition-transform group-hover:translate-x-1"
+              style={{ color: COLORS.GOLD_LIGHT }}
+            />
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }

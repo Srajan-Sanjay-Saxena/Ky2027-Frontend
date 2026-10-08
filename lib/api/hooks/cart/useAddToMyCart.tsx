@@ -2,40 +2,56 @@
 
 import { useEffect, useState } from "react";
 import { useApiMutation } from "wire-axon/hooks";
-import { z } from "zod";
+import { XCircle } from "lucide-react";
 import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
-import type { CartApiResponse } from "@/lib/api/helper/types";
-
-// Empty schema - no body required
-const ClearCartSchema = z.object({});
+import { AddToCartSchema } from "@/lib/api/utils/cart.schema";
+import type { CartApiResponse, AddToCartRequest } from "@/lib/api/helper/types";
 
 // ═══════════════════════════════════════════════════════════════════
 // TYPES
 // ═══════════════════════════════════════════════════════════════════
 
-interface UseClearMyCartOptions {
+interface UseAddToMyCartOptions {
   successToast?: React.ReactElement;
   errorToast?: React.ReactElement;
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// useClearMyCart Hook
-// Clears all items from the user's cart
+// Default Error Toast
 // ═══════════════════════════════════════════════════════════════════
 
-export function useClearMyCart(options?: UseClearMyCartOptions) {
+function DefaultErrorToast() {
+  return (
+    <div className="flex items-center gap-3">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500/20">
+        <XCircle className="h-5 w-5 text-red-400" />
+      </div>
+      <div>
+        <p className="font-semibold text-white">Failed to add to cart</p>
+        <p className="text-sm text-neutral-400">Please try again later</p>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// useAddToMyCart Hook
+// Adds an item to the user's cart
+// ═══════════════════════════════════════════════════════════════════
+
+export function useAddToMyCart(options?: UseAddToMyCartOptions) {
   const { mutate, isPending, isSuccess, isError, error, reset, data } =
     useApiMutation<CartApiResponse>({
-      url: "/user/cart/clear",
-      method: "delete",
+      url: "/user/cart/add",
+      method: "post",
       baseURL: BACKEND_URL,
       featureConfig: sharedFeatureConfig,
-      bodyValidator: { bodySchema: ClearCartSchema },
+      bodyValidator: { bodySchema: AddToCartSchema },
       invalidateQueryName: ["my-cart"],
       toastConfig: {
         successConfig: options?.successToast ? { customToast: options.successToast } : undefined,
-        errorConfig: options?.errorToast ? { customToast: options.errorToast } : undefined,
+        errorConfig: { customToast: options?.errorToast ?? <DefaultErrorToast /> },
       },
       mutationOptions: { retry: 2 },
     });
@@ -44,18 +60,18 @@ export function useClearMyCart(options?: UseClearMyCartOptions) {
 
   useEffect(() => {
     if (error) {
-      setErrorMessage(extractErrorMessage(error, "Failed to clear cart"));
+      setErrorMessage(extractErrorMessage(error, "Failed to add item to cart"));
     } else {
       setErrorMessage(null);
     }
   }, [error]);
 
-  const clearCart = () => {
-    mutate({});
+  const addToCart = (request: AddToCartRequest) => {
+    mutate(request as unknown as Record<string, unknown>);
   };
 
   return {
-    clearCart,
+    addToCart,
     reset,
     isPending,
     isSuccess,

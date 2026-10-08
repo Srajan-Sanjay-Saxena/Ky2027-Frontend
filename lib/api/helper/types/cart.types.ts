@@ -12,9 +12,18 @@ export interface CartItem {
 }
 
 /**
- * Cart response from API
+ * Cart data structure
+ */
+export interface CartData {
+  items: CartItem[];
+  totalQuantity: number;
+}
+
+/**
+ * Cart response from API (flat structure)
  */
 export interface CartApiResponse {
+  info: string;
   items: CartItem[];
   totalQuantity: number;
 }
