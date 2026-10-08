@@ -288,7 +288,7 @@ export function CartPageContent() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="grid gap-8 lg:grid-cols-3"
+              className="grid items-start gap-8 lg:grid-cols-3"
             >
               <div className="lg:col-span-2">
                 <CartSection
@@ -299,7 +299,7 @@ export function CartPageContent() {
                   updatingQuantityId={isUpdatingQuantity ? updatingQuantityId : null}
                 />
               </div>
-              <div className="lg:sticky lg:top-32 lg:h-fit">
+              <div className="lg:sticky lg:top-36 lg:self-start">
                 <CartSummary
                   totalItems={totalQuantity}
                   totalAmount={totalAmount}
