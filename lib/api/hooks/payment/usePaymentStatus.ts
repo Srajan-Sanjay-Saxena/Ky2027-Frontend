@@ -13,10 +13,8 @@ interface PaymentStatusApiResponse {
   statusCode: number;
   message: string;
   info: string;
-  data: {
-    hasPaid: boolean;
-    isIITBhuUser: boolean;
-  };
+  hasPaid: boolean;
+  isIITBhuUser: boolean;
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -47,8 +45,8 @@ export function usePaymentStatus() {
   }, [error]);
 
   return {
-    hasPaid: data?.data?.hasPaid ?? false,
-    isIITBhuUser: data?.data?.isIITBhuUser ?? false,
+    hasPaid: data?.hasPaid ?? false,
+    isIITBhuUser: data?.isIITBhuUser ?? false,
     isLoading,
     isError,
     errorMessage,

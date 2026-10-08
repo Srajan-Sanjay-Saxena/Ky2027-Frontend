@@ -35,7 +35,7 @@ interface TeamsApiResponse {
   statusCode: number;
   message: string;
   info: string;
-  data: Team[];
+  teams: Team[];
   count: number;
 }
 
@@ -43,16 +43,14 @@ interface CreateTeamResponse {
   statusCode: number;
   message: string;
   info: string;
-  data: {
-    teamId: string;
-    name: string;
-    memberCount: number;
-    members: Array<{
-      userId: string;
-      name: string | null;
-      email: string;
-    }>;
-  };
+  teamId: string;
+  name: string;
+  memberCount: number;
+  members: Array<{
+    userId: string;
+    name: string | null;
+    email: string;
+  }>;
 }
 
 // User search types
@@ -71,7 +69,7 @@ interface UserSearchApiResponse {
   statusCode: number;
   message: string;
   info: string;
-  data: SearchedUser[];
+  users: SearchedUser[];
   count: number;
 }
 
@@ -104,8 +102,10 @@ export function useMyTeams() {
   // Filter teams by size (useful for event registration)
   const getTeamsForSize = useCallback(
     (minSize: number, maxSize: number) => {
-      if (!data?.data) return [];
-      return data.data.filter((team) => team.memberCount >= minSize && team.memberCount <= maxSize);
+      if (!data?.teams) return [];
+      return data.teams.filter(
+        (team) => team.memberCount >= minSize && team.memberCount <= maxSize
+      );
     },
     [data]
   );
@@ -114,7 +114,7 @@ export function useMyTeams() {
   const duoTeams = useMemo(() => getTeamsForSize(2, 2), [getTeamsForSize]);
 
   return {
-    teams: data?.data ?? [],
+    teams: data?.teams ?? [],
     count: data?.count ?? 0,
     duoTeams,
     getTeamsForSize,
@@ -168,7 +168,7 @@ export function useCreateTeam() {
     isSuccess,
     isError,
     errorMessage,
-    data: data?.data?.data ?? null,
+    data: data?.data ?? null,
     reset,
   };
 }
@@ -183,7 +183,7 @@ export function useUserSearch(query: string, options?: { enabled?: boolean }) {
 
   const { data, isLoading, isError, error, refetch } = useApiQuery<UserSearchApiResponse>({
     queryKey: ["user-search", trimmedQuery],
-    url: `/user/search?q=${encodeURIComponent(trimmedQuery)}&limit=10`,
+    url: `/user/search?searchQuery=${encodeURIComponent(trimmedQuery)}&limit=10`,
     baseURL: BACKEND_URL,
     featureConfig: sharedFeatureConfig,
     queryOptions: {
@@ -202,7 +202,7 @@ export function useUserSearch(query: string, options?: { enabled?: boolean }) {
   }, [error]);
 
   return {
-    users: data?.data ?? [],
+    users: data?.users ?? [],
     count: data?.count ?? 0,
     isLoading: enabled && isLoading,
     isError,
