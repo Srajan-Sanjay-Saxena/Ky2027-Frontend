@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { ShoppingBag, Sparkles } from "lucide-react";
+import { ShoppingBag, Sparkles, Crown } from "lucide-react";
 import { LightNavbar } from "@/components/navbar/Navbar";
 import {
   useMyAccount,
@@ -18,6 +18,16 @@ import { EmptyCart } from "./sections/EmptyCart";
 import { CartSection } from "./sections/CartSection";
 import { CartSummary } from "./sections/CartSummary";
 import { CartLoader } from "./sections/loader/CartLoader";
+import {
+  FloatingMandalas,
+  GradientOrbs,
+  CornerOrnaments,
+  FloatingDiyas,
+  GoldenParticles,
+  LaserBeams,
+  StageSpotlights,
+  GridOverlay,
+} from "./sections/decor";
 import { LoginRequiredToast } from "./toasts/info/LoginRequiredToast";
 import { ItemRemovedToast } from "./toasts/success/ItemRemovedToast";
 import { CartClearedToast } from "./toasts/success/CartClearedToast";
@@ -144,16 +154,23 @@ export function CartPageContent() {
         style={{ background: COLORS.BG_DEEP }}
       >
         {/* Background decorative elements */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div
-            className="absolute -top-40 -left-40 h-80 w-80 rounded-full opacity-20 blur-3xl"
-            style={{ background: COLORS.GOLD }}
-          />
-          <div
-            className="absolute top-1/3 -right-40 h-96 w-96 rounded-full opacity-10 blur-3xl"
-            style={{ background: COLORS.MAROON }}
-          />
-        </div>
+        <GridOverlay />
+        <StageSpotlights />
+        <LaserBeams />
+        <GradientOrbs />
+        <FloatingMandalas />
+        <CornerOrnaments />
+        <FloatingDiyas />
+        <GoldenParticles />
+
+        {/* Banarasi pattern overlay */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30L30 0z' fill='none' stroke='%23D4A853' stroke-width='0.5'/%3E%3C/svg%3E")`,
+            backgroundSize: "60px 60px",
+          }}
+        />
 
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
           {/* Page Header */}
@@ -162,38 +179,63 @@ export function CartPageContent() {
             animate={{ opacity: 1, y: 0 }}
             className="mb-10 text-center"
           >
+            {/* Royal banner background */}
+            <div
+              className="absolute top-0 left-1/2 -z-10 h-32 w-full max-w-2xl -translate-x-1/2 opacity-20"
+              style={{
+                background: `radial-gradient(ellipse at center, ${COLORS.GOLD}30 0%, transparent 70%)`,
+              }}
+            />
+
+            {/* Crown icon */}
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: "spring" }}
+              className="mb-2 flex justify-center"
+            >
+              <Crown className="h-8 w-8" style={{ color: `${COLORS.GOLD}60` }} />
+            </motion.div>
+
             {/* Icon and Title */}
             <div className="mb-4 flex items-center justify-center gap-3">
-              <div
-                className="flex h-12 w-12 items-center justify-center rounded-full"
+              <motion.div
+                whileHover={{ rotate: 10 }}
+                className="flex h-14 w-14 items-center justify-center rounded-full"
                 style={{
-                  background: `linear-gradient(135deg, ${COLORS.GOLD}20, ${COLORS.DARK_GOLD}30)`,
-                  border: `2px solid ${COLORS.GOLD}40`,
+                  background: `linear-gradient(135deg, ${COLORS.GOLD}25, ${COLORS.DARK_GOLD}35)`,
+                  border: `2px solid ${COLORS.GOLD}50`,
+                  boxShadow: `0 0 30px ${COLORS.GOLD}20, inset 0 0 20px ${COLORS.GOLD}10`,
                 }}
               >
-                <ShoppingBag className="h-6 w-6" style={{ color: COLORS.GOLD }} />
-              </div>
+                <ShoppingBag className="h-7 w-7" style={{ color: COLORS.GOLD }} />
+              </motion.div>
               <h1
                 className="text-3xl font-bold sm:text-4xl lg:text-5xl"
                 style={{
                   color: COLORS.GOLD,
                   fontFamily: "var(--font-ethereal), serif",
-                  textShadow: `0 0 30px ${COLORS.GOLD}40`,
+                  textShadow: `0 0 40px ${COLORS.GOLD}50, 0 2px 10px rgba(0,0,0,0.5)`,
                 }}
               >
                 Your Cart
               </h1>
             </div>
 
-            {/* Decorative divider */}
-            <div className="flex items-center justify-center gap-2">
+            {/* Decorative divider with lotus */}
+            <div className="flex items-center justify-center gap-3">
               <div
-                className="h-px w-16 sm:w-24"
+                className="h-px w-20 sm:w-32"
                 style={{ background: `linear-gradient(90deg, transparent, ${COLORS.GOLD})` }}
               />
-              <Sparkles className="h-4 w-4" style={{ color: COLORS.GOLD }} />
+              <motion.div
+                animate={{ rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              >
+                <Sparkles className="h-5 w-5" style={{ color: COLORS.GOLD }} />
+              </motion.div>
               <div
-                className="h-px w-16 sm:w-24"
+                className="h-px w-20 sm:w-32"
                 style={{ background: `linear-gradient(90deg, ${COLORS.GOLD}, transparent)` }}
               />
             </div>

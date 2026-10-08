@@ -1,7 +1,9 @@
 "use client";
 
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Trash2, Loader2 } from "lucide-react";
 import { COLORS, GRADIENTS, SHADOWS } from "@/components/pages/cart/constants/palette";
 import type { CartItemWithDetails } from "@/lib/api/helper/types";
 
@@ -12,113 +14,180 @@ interface CartItemProps {
 }
 
 /**
- * Individual cart item display with pass details and remove action
+ * Individual cart item display with pass details, 3D tilt effect, and remove action
  */
 export function CartItem({ item, onRemove, isRemoving }: CartItemProps) {
   const total = item.price * item.quantity;
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
+
+  // 3D Tilt effect on mouse move
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -5;
+    const rotateY = ((x - centerX) / centerX) * 5;
+    setTilt({ rotateX, rotateY });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ rotateX: 0, rotateY: 0 });
+  };
 
   return (
     <motion.div
+      ref={cardRef}
       layout
       initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
+      animate={{
+        opacity: 1,
+        x: 0,
+        rotateX: tilt.rotateX,
+        rotateY: tilt.rotateY,
+        scale: tilt.rotateX !== 0 || tilt.rotateY !== 0 ? 1.02 : 1,
+      }}
       exit={{ opacity: 0, x: 20, height: 0 }}
-      className="relative overflow-hidden rounded-xl"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="group relative overflow-hidden rounded-2xl"
       style={{
         background: GRADIENTS.CARD_BG,
-        border: `1px solid rgba(212, 168, 83, 0.2)`,
-        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+        border: `1px solid ${item.accentColor || COLORS.GOLD}30`,
+        boxShadow: `0 4px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 ${COLORS.GOLD}10`,
+        transformStyle: "preserve-3d",
+        perspective: "1000px",
+        transition: "box-shadow 0.25s ease, border-color 0.25s ease",
       }}
     >
-      {/* Accent line with pass color */}
+      {/* Corner flourishes */}
+      <div className="absolute top-0 left-0 h-8 w-8 opacity-30">
+        <svg viewBox="0 0 32 32" fill="none">
+          <path d="M0 0 L12 0 L12 2 L2 2 L2 12 L0 12 Z" fill={item.accentColor || COLORS.GOLD} />
+        </svg>
+      </div>
+      <div className="absolute right-0 bottom-0 h-8 w-8 rotate-180 opacity-30">
+        <svg viewBox="0 0 32 32" fill="none">
+          <path d="M0 0 L12 0 L12 2 L2 2 L2 12 L0 12 Z" fill={item.accentColor || COLORS.GOLD} />
+        </svg>
+      </div>
+
+      {/* Top accent gradient line */}
       <div
         className="absolute top-0 right-0 left-0 h-1"
         style={{
-          background: `linear-gradient(90deg, transparent, ${item.accentColor || COLORS.GOLD}, transparent)`,
+          background: `linear-gradient(90deg, transparent 10%, ${item.accentColor || COLORS.GOLD} 50%, transparent 90%)`,
         }}
       />
 
-      <div className="flex gap-4 p-4">
-        {/* Pass image */}
-        <div
-          className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-lg"
-          style={{
-            background: "linear-gradient(135deg, rgba(20, 10, 30, 0.8), rgba(30, 15, 40, 0.8))",
-            border: `1px solid ${item.accentColor || COLORS.GOLD}30`,
-          }}
-        >
-          <Image
-            src={item.image}
-            alt={item.name}
-            fill
-            className="object-contain p-1"
-            sizes="80px"
+      {/* Hover glow effect */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background: `radial-gradient(ellipse at center, ${item.accentColor || COLORS.GOLD}08 0%, transparent 70%)`,
+        }}
+      />
+
+      <div className="relative flex gap-4 p-5">
+        {/* Pass image with decorative frame */}
+        <div className="relative flex-shrink-0">
+          {/* Decorative frame */}
+          <div
+            className="absolute -inset-1 rounded-xl opacity-50"
+            style={{
+              background: `linear-gradient(135deg, ${item.accentColor || COLORS.GOLD}40, transparent, ${item.accentColor || COLORS.GOLD}20)`,
+            }}
           />
+          <div
+            className="relative h-28 w-24 overflow-hidden rounded-lg"
+            style={{
+              background: "linear-gradient(135deg, rgba(20, 10, 30, 0.9), rgba(30, 15, 40, 0.9))",
+              border: `2px solid ${item.accentColor || COLORS.GOLD}40`,
+              boxShadow: `0 0 20px ${item.accentColor || COLORS.GOLD}20`,
+            }}
+          >
+            <Image
+              src={item.image}
+              alt={item.name}
+              fill
+              className="object-contain p-2"
+              sizes="96px"
+            />
+          </div>
         </div>
 
         {/* Pass details */}
-        <div className="flex min-w-0 flex-1 flex-col justify-between">
+        <div className="flex min-w-0 flex-1 flex-col justify-between py-1">
           <div>
             <h3
               className="mb-1 truncate text-lg font-bold"
-              style={{ color: item.accentColor || COLORS.GOLD }}
+              style={{
+                color: item.accentColor || COLORS.GOLD,
+                textShadow: `0 0 20px ${item.accentColor || COLORS.GOLD}30`,
+              }}
             >
               {item.name}
             </h3>
-            <p className="line-clamp-2 text-xs text-gray-400">{item.tagline}</p>
+            <p className="line-clamp-2 text-sm text-gray-400">{item.tagline}</p>
           </div>
 
           {/* Quantity and price */}
-          <div className="mt-2 flex items-center justify-between">
-            <div className="text-sm text-gray-400">
-              Qty: <span className="font-medium text-white">{item.quantity}</span>
+          <div className="mt-3 flex items-end justify-between">
+            <div
+              className="rounded-full px-3 py-1 text-sm"
+              style={{
+                background: `${item.accentColor || COLORS.GOLD}15`,
+                border: `1px solid ${item.accentColor || COLORS.GOLD}30`,
+              }}
+            >
+              <span className="text-gray-400">Qty: </span>
+              <span className="font-semibold text-white">{item.quantity}</span>
             </div>
             <div className="text-right">
               <div className="text-xs text-gray-500">₹{item.price.toLocaleString()} each</div>
-              <div className="font-bold text-white">₹{total.toLocaleString()}</div>
+              <div
+                className="text-xl font-bold"
+                style={{
+                  color: item.accentColor || COLORS.GOLD,
+                  textShadow: `0 0 15px ${item.accentColor || COLORS.GOLD}40`,
+                }}
+              >
+                ₹{total.toLocaleString()}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Remove button */}
-        <button
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => onRemove(item.passId)}
           disabled={isRemoving}
-          className="absolute top-3 right-3 rounded-full p-2 text-gray-400 transition-all hover:bg-red-500/20 hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-50"
+          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full text-gray-400 transition-all hover:bg-red-500/20 hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-50"
+          style={{
+            background: "rgba(0,0,0,0.3)",
+            border: "1px solid rgba(255,255,255,0.1)",
+          }}
         >
           {isRemoving ? (
-            <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
+            <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="3 6 5 6 21 6" />
-              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-            </svg>
+            <Trash2 className="h-4 w-4" />
           )}
-        </button>
+        </motion.button>
       </div>
+
+      {/* Bottom decorative line */}
+      <div
+        className="absolute right-4 bottom-0 left-4 h-px"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${item.accentColor || COLORS.GOLD}20, transparent)`,
+        }}
+      />
     </motion.div>
   );
 }
