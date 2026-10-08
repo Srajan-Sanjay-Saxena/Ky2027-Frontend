@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect, useMemo } from "react";
-import { useCreateTeam, useUserSearch, useFullAccount, type SearchedUser } from "@/lib/api/hooks";
+import { useCreateTeam, useUserSearch, useMyAccount, type SearchedUser } from "@/lib/api/hooks";
 import { TEAMS_COLORS } from "../constants/palette";
 import { X, Search, UserPlus, Trash2, Users, Loader2, Crown } from "lucide-react";
 import Image from "next/image";
@@ -18,7 +18,8 @@ export function CreateTeamModal({ isOpen, onClose, onSuccess }: CreateTeamModalP
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMembers, setSelectedMembers] = useState<SearchedUser[]>([]);
 
-  const { account } = useFullAccount();
+  const { profile, progress } = useMyAccount("full");
+  const account = profile && progress ? { profile, progress } : null;
   const debouncedSearch = useDebounce(searchQuery, 300);
   const { users, isLoading: isSearching } = useUserSearch(debouncedSearch);
   const { createTeam, isCreating, isSuccess, isError, errorMessage, reset } = useCreateTeam();

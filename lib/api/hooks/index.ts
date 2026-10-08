@@ -42,14 +42,12 @@ export { useSignOut } from "./profile/useSessionSignOut";
 // GRAPHQL HOOKS - Account & Profile Queries
 // ═══════════════════════════════════════════════════════════════════
 
-// Full account data (profile + progress) - for settings & dashboard
-export { useFullAccount } from "./profile/useFullAccount";
-
-// Profile with avatar + completion status - for navbar & greeting
-export { useProfileCompletionStatus } from "./profile/useProfileCompletionStatus";
-
-// Account status only (most lightweight) - for feature gating
-export { useAccountAccessStatus } from "./profile/useAccountAccessStatus";
+// Unified account hook - use query type to specify what data you need:
+//   useMyAccount("full")     - Full profile + progress (dashboard, settings)
+//   useMyAccount("navbar")   - Avatar + completion % (navbar, greeting)
+//   useMyAccount("access")   - Just isProfileComplete (feature gating)
+//   useMyAccount("progress") - Progress with step details (wizard)
+export { useMyAccount } from "./profile/useMyAccount";
 
 // ═══════════════════════════════════════════════════════════════════
 // PASSES
@@ -110,9 +108,28 @@ export { usePaymentStatus } from "./payment/usePaymentStatus";
 // ═══════════════════════════════════════════════════════════════════
 
 export { useCaApplication } from "./ca/useCaApplication";
-export { useMyCaApplicationStatus } from "./ca/useMyCaApplicationStatus";
+export { useCaInfo } from "./ca/useCaInfo";
 export type {
   CAApplicationStatus,
   CaApplication,
   CaApplicationApiResponse,
+  FullCaInfo,
+  CaApplicationGql,
+  CaProfileGql,
 } from "@/lib/api/helper/types/ca.types";
+
+// ═══════════════════════════════════════════════════════════════════
+// CART
+// ═══════════════════════════════════════════════════════════════════
+
+export { useGetMyCart } from "./cart/useGetMyCart";
+export { useAddToMyCart } from "./cart/useAddToMyCart";
+export { useRemoveFromMyCart } from "./cart/useRemoveFromMyCart";
+export { useClearMyCart } from "./cart/useClearMyCart";
+export type {
+  CartItem,
+  CartApiResponse,
+  AddToCartRequest,
+  RemoveFromCartRequest,
+  CartItemWithDetails,
+} from "@/lib/api/helper/types/cart.types";

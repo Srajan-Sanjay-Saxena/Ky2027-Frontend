@@ -257,8 +257,12 @@ components/pages/{page-name}/
 │       ├── FloatingOrbs.tsx
 │       └── BackgroundGrid.tsx
 ├── toasts/
-│   ├── SuccessToast.tsx
-│   └── ErrorToast.tsx
+│   ├── success/                   # Success feedback toasts
+│   │   └── SuccessToast.tsx
+│   ├── error/                     # Error feedback toasts
+│   │   └── ErrorToast.tsx
+│   └── info/                      # Informational toasts (redirects, warnings)
+│       └── InfoToast.tsx
 ├── config/
 │   └── data.ts                    # Configuration objects
 ├── data/
@@ -283,8 +287,12 @@ components/pages/{page-name}/
 │   └── decor/                     # Decorative elements
 │       └── BackgroundEffects.tsx
 ├── toasts/
-│   ├── SuccessToast.tsx
-│   └── ErrorToast.tsx
+│   ├── success/                   # Success feedback toasts
+│   │   └── SuccessToast.tsx
+│   ├── error/                     # Error feedback toasts
+│   │   └── ErrorToast.tsx
+│   └── info/                      # Informational toasts (redirects, warnings)
+│       └── InfoToast.tsx
 ├── config/
 │   └── data.ts
 ├── data/
@@ -384,16 +392,30 @@ components/pages/{page-name}/
    - Reusable types → `lib/api/helper/types/`
    - Page-specific helpers stay in that page's folder
 
-5. **NO deprecated re-exports**
+5. **NO deprecated re-exports or backwards compatibility aliases**
+
+   When refactoring or creating new hooks/components, do NOT preserve old versions:
 
    ```tsx
-   // ❌ Bad - deprecated aliases
-   /** @deprecated Use useFullAccount */
-   export const useMyAccount = useFullAccount;
+   // ❌ Bad - deprecated aliases for backwards compatibility
+   /** @deprecated Use useMyAccount */
+   export const useFullAccount = useMyAccount;
+   export const useProfileCompletionStatus = (opts) => useMyAccount("navbar", opts);
 
-   // ✅ Good - just export the new name, update usages
-   export { useFullAccount } from "./useFullAccount";
+   // ❌ Bad - keeping old hook alongside new one
+   export { useFullAccount } from "./useFullAccount"; // OLD
+   export { useMyAccount } from "./useMyAccount"; // NEW
+
+   // ✅ Good - just create the new version, update all usages
+   export { useMyAccount } from "./useMyAccount";
+   // Then find & replace all useFullAccount → useMyAccount("full") in codebase
    ```
+
+   **Rule:** When creating a new unified hook/component that replaces multiple old ones:
+   1. Create the new version
+   2. Update ALL usages in the codebase to use new version
+   3. Delete the old files
+   4. Do NOT create aliases or re-exports for backwards compatibility
 
 6. **Index files (re-exports) - ONLY when 3+ exports**
    This applies to ALL folders: sections, components, loader, decor, toasts, constants, config, etc.

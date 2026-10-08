@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import type { PassConfig } from "@/components/pages/passes/config/passes.config";
 import { ANIMATION } from "@/components/pages/passes/config/passes.config";
 import { useAnimationPolicy } from "@/hooks";
-import { useFullAccount } from "@/lib/api/hooks";
+import { useMyAccount } from "@/lib/api/hooks";
 import { ProfileIncompleteToast } from "@/components/pages/passes/toasts/error/ProfileIncompleteToast";
 import { LoginRequiredToast } from "@/components/pages/passes/toasts/error/LoginRequiredToast";
 import {
@@ -49,7 +49,7 @@ export const PassCard = memo(function PassCard({
 
   // Auth and profile status
   const { status } = useSession();
-  const { progress, isLoading: isProfileLoading } = useFullAccount();
+  const { progress, isLoading: isProfileLoading } = useMyAccount("access");
 
   const isAuthenticated = status === "authenticated";
   const isSessionLoading = status === "loading";

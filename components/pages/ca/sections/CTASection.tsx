@@ -5,11 +5,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  useProfileCompletionStatus,
-  useCaApplication,
-  useMyCaApplicationStatus,
-} from "@/lib/api/hooks";
+import { useMyAccount, useCaApplication, useCaInfo } from "@/lib/api/hooks";
 import { AnimatedRocket } from "@/components/pages/ca/components/AnimatedRocket";
 import { ProfileIncompleteToast } from "@/components/pages/ca/toasts/error/ProfileIncompleteToast";
 import { ApplicationSuccessToast } from "@/components/pages/ca/toasts/success/ApplicationSuccessToast";
@@ -54,8 +50,7 @@ function ApplicationStatusDisplay({ status, appliedAt }: ApplicationStatusDispla
     REJECTED: {
       icon: "😔",
       title: "Application Not Selected",
-      description:
-        "Unfortunately, your application was not selected this time. Thank you for your interest in Kashi Yatra 2027.",
+      description: "Unfortunately, your application was not selected this time.",
       color: "red",
       bgGradient: "from-red-500/20 to-pink-500/20",
       borderColor: "border-red-500/30",
@@ -111,6 +106,29 @@ function ApplicationStatusDisplay({ status, appliedAt }: ApplicationStatusDispla
           </p>
         </div>
       )}
+
+      {/* View Details button for REJECTED */}
+      {status === "REJECTED" && (
+        <Link
+          href="/campus-ambassador/application"
+          className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-all hover:opacity-90"
+          style={{
+            background: "linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(236, 72, 153, 0.1))",
+            border: "1px solid rgba(239, 68, 68, 0.3)",
+            color: "#f87171",
+          }}
+        >
+          View Rejection Details
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 7l5 5m0 0l-5 5m5-5H6"
+            />
+          </svg>
+        </Link>
+      )}
     </div>
   );
 }
@@ -128,7 +146,7 @@ export function CTASection() {
 
   const { status } = useSession();
   const { isProfileComplete, isLoading, completionPercentage, displayName } =
-    useProfileCompletionStatus();
+    useMyAccount("navbar");
 
   // CA Application Status hook - check if already applied
   const {
@@ -136,7 +154,7 @@ export function CTASection() {
     applicationStatus,
     appliedAt,
     isLoading: isStatusLoading,
-  } = useMyCaApplicationStatus();
+  } = useCaInfo("status");
 
   // CA Application hook - for submitting new application
   const {
