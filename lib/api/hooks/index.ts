@@ -126,6 +126,7 @@ export { useGetMyCart } from "./cart/useGetMyCart";
 export { useAddToMyCart } from "./cart/useAddToMyCart";
 export { useRemoveFromMyCart } from "./cart/useRemoveFromMyCart";
 export { useClearMyCart } from "./cart/useClearMyCart";
+export { useUpdateCartQuantity } from "./cart/useUpdateCartQuantity";
 export type {
   CartItem,
   CartApiResponse,

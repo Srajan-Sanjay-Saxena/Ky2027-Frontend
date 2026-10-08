@@ -9,10 +9,18 @@ import type { CartItemWithDetails } from "@/lib/api/helper/types";
 interface CartSectionProps {
   items: CartItemWithDetails[];
   onRemove: (passId: string) => void;
+  onUpdateQuantity: (passId: string, quantity: number) => void;
   removingId?: string | null;
+  updatingQuantityId?: string | null;
 }
 
-export function CartSection({ items, onRemove, removingId }: CartSectionProps) {
+export function CartSection({
+  items,
+  onRemove,
+  onUpdateQuantity,
+  removingId,
+  updatingQuantityId,
+}: CartSectionProps) {
   return (
     <div className="space-y-4">
       {/* Section header */}
@@ -43,7 +51,13 @@ export function CartSection({ items, onRemove, removingId }: CartSectionProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <CartItem item={item} onRemove={onRemove} isRemoving={removingId === item.passId} />
+            <CartItem
+              item={item}
+              onRemove={onRemove}
+              onUpdateQuantity={onUpdateQuantity}
+              isRemoving={removingId === item.passId}
+              isUpdatingQuantity={updatingQuantityId === item.passId}
+            />
           </motion.div>
         ))}
       </AnimatePresence>

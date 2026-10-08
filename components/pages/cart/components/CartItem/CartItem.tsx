@@ -3,20 +3,28 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Trash2, Loader2 } from "lucide-react";
-import { COLORS, GRADIENTS, SHADOWS } from "@/components/pages/cart/constants/palette";
+import { Trash2, Loader2, Minus, Plus } from "lucide-react";
+import { COLORS, GRADIENTS } from "@/components/pages/cart/constants/palette";
 import type { CartItemWithDetails } from "@/lib/api/helper/types";
 
 interface CartItemProps {
   item: CartItemWithDetails;
   onRemove: (passId: string) => void;
+  onUpdateQuantity: (passId: string, quantity: number) => void;
   isRemoving?: boolean;
+  isUpdatingQuantity?: boolean;
 }
 
 /**
- * Individual cart item display with pass details, 3D tilt effect, and remove action
+ * Individual cart item display with pass details, quantity controls, 3D tilt effect, and remove action
  */
-export function CartItem({ item, onRemove, isRemoving }: CartItemProps) {
+export function CartItem({
+  item,
+  onRemove,
+  onUpdateQuantity,
+  isRemoving,
+  isUpdatingQuantity,
+}: CartItemProps) {
   const total = item.price * item.quantity;
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
@@ -36,6 +44,18 @@ export function CartItem({ item, onRemove, isRemoving }: CartItemProps) {
 
   const handleMouseLeave = () => {
     setTilt({ rotateX: 0, rotateY: 0 });
+  };
+
+  const handleIncrement = () => {
+    if (item.quantity < 50) {
+      onUpdateQuantity(item.passId, item.quantity + 1);
+    }
+  };
+
+  const handleDecrement = () => {
+    if (item.quantity > 1) {
+      onUpdateQuantity(item.passId, item.quantity - 1);
+    }
   };
 
   return (
@@ -134,18 +154,45 @@ export function CartItem({ item, onRemove, isRemoving }: CartItemProps) {
             <p className="line-clamp-2 text-sm text-gray-400">{item.tagline}</p>
           </div>
 
-          {/* Quantity and price */}
+          {/* Quantity controls and price */}
           <div className="mt-3 flex items-end justify-between">
+            {/* Quantity stepper */}
             <div
-              className="rounded-full px-3 py-1 text-sm"
+              className="flex items-center gap-1 rounded-full"
               style={{
-                background: `${item.accentColor || COLORS.GOLD}15`,
+                background: `${item.accentColor || COLORS.GOLD}10`,
                 border: `1px solid ${item.accentColor || COLORS.GOLD}30`,
               }}
             >
-              <span className="text-gray-400">Qty: </span>
-              <span className="font-semibold text-white">{item.quantity}</span>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={handleDecrement}
+                disabled={item.quantity <= 1 || isUpdatingQuantity}
+                className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Minus className="h-3.5 w-3.5 text-gray-300" />
+              </motion.button>
+
+              <div className="relative min-w-[40px] text-center">
+                {isUpdatingQuantity ? (
+                  <Loader2 className="mx-auto h-4 w-4 animate-spin text-amber-400" />
+                ) : (
+                  <span className="text-sm font-semibold text-white">{item.quantity}</span>
+                )}
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={handleIncrement}
+                disabled={item.quantity >= 50 || isUpdatingQuantity}
+                className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Plus className="h-3.5 w-3.5 text-gray-300" />
+              </motion.button>
             </div>
+
             <div className="text-right">
               <div className="text-xs text-gray-500">₹{item.price.toLocaleString()} each</div>
               <div

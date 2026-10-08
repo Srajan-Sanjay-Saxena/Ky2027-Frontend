@@ -11,6 +11,7 @@ import {
   useGetMyCart,
   useRemoveFromMyCart,
   useClearMyCart,
+  useUpdateCartQuantity,
   usePasses,
 } from "@/lib/api/hooks";
 import { ProfileIncompleteCard } from "./components/ProfileIncompleteCard";
@@ -39,6 +40,7 @@ export function CartPageContent() {
   const { status } = useSession();
   const [showLoginToast, setShowLoginToast] = useState(false);
   const [removingId, setRemovingId] = useState<string | null>(null);
+  const [updatingQuantityId, setUpdatingQuantityId] = useState<string | null>(null);
 
   // Auth & profile state
   const {
@@ -62,6 +64,8 @@ export function CartPageContent() {
   const { clearCart, isPending: isClearing } = useClearMyCart({
     successToast: <CartClearedToast />,
   });
+
+  const { mutate: updateQuantity, isPending: isUpdatingQuantity } = useUpdateCartQuantity();
 
   const isAuthenticated = status === "authenticated";
   const isAuthLoading = status === "loading";
@@ -101,6 +105,16 @@ export function CartPageContent() {
   const handleRemove = (passId: string) => {
     setRemovingId(passId);
     removeFromCart({ passId });
+  };
+
+  const handleUpdateQuantity = (passId: string, quantity: number) => {
+    setUpdatingQuantityId(passId);
+    updateQuantity(
+      { passId, quantity },
+      {
+        onSettled: () => setUpdatingQuantityId(null),
+      }
+    );
   };
 
   const handleClearCart = () => {
@@ -280,7 +294,9 @@ export function CartPageContent() {
                 <CartSection
                   items={enrichedItems}
                   onRemove={handleRemove}
+                  onUpdateQuantity={handleUpdateQuantity}
                   removingId={isRemoving ? removingId : null}
+                  updatingQuantityId={isUpdatingQuantity ? updatingQuantityId : null}
                 />
               </div>
               <div className="lg:sticky lg:top-32 lg:h-fit">

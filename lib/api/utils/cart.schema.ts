@@ -23,3 +23,13 @@ export const RemoveFromCartSchema = z.object({
 });
 
 export type RemoveFromCartSchemaType = z.infer<typeof RemoveFromCartSchema>;
+
+/**
+ * Schema for updating item quantity in cart
+ */
+export const UpdateCartQuantitySchema = z.object({
+  passId: z.string().min(1, "Pass ID is required"),
+  quantity: z.number().int().min(0, "Quantity cannot be negative").max(50, "Maximum 50 per item"),
+});
+
+export type UpdateCartQuantitySchemaType = z.infer<typeof UpdateCartQuantitySchema>;
