@@ -6,7 +6,13 @@ import { LightNavbar } from "@/components/navbar/Navbar";
 import { IMAGES } from "@/lib/images";
 import { COLORS, GRADIENTS, SHADOWS } from "../constants/palette";
 import { SPONSORS_2026, groupSponsorsByTier } from "../config/sponsors.config";
-import { LeftSideDecor, RightSideDecor, BackgroundEffects, FloatingElements } from "./decor";
+import {
+  LeftSideDecor,
+  RightSideDecor,
+  BackgroundEffects,
+  FloatingElements,
+  Bitcoin3D,
+} from "./decor";
 import { TierSection } from "./TierSection/TierSection";
 
 // ═══════════════════════════════════════════════════════════════════
@@ -32,6 +38,9 @@ export function SponsorsPageContent() {
         {/* Background effects */}
         <BackgroundEffects />
 
+        {/* 3D Bitcoin - scroll controlled */}
+        <Bitcoin3D />
+
         {/* Floating elements */}
         <FloatingElements />
 
@@ -39,7 +48,7 @@ export function SponsorsPageContent() {
         <LeftSideDecor />
         <RightSideDecor />
 
-        {/* Tree branch decoration - Desktop */}
+        {/* Tree branch decoration - Desktop (Left only) */}
         <div className="pointer-events-none fixed -top-12 left-0 z-20 hidden lg:block">
           <Image
             src={IMAGES.sponsors.leftTreeBranch}
@@ -53,31 +62,17 @@ export function SponsorsPageContent() {
           />
         </div>
 
-        {/* Tree branch decoration - Top Right (mirrored) */}
-        <div className="pointer-events-none fixed -top-12 right-0 z-20 hidden lg:block">
-          <Image
-            src={IMAGES.sponsors.leftTreeBranch}
-            alt=""
-            width={1000}
-            height={1200}
-            className="w-[480px] opacity-90"
-            style={{
-              filter: SHADOWS.BRANCH_GLOW,
-              transform: "scaleX(-1)",
-            }}
-          />
-        </div>
-
-        {/* Sponsor Presenter - Bottom Left */}
-        <div className="pointer-events-none fixed bottom-0 -left-32 z-20 hidden lg:block">
+        {/* Sponsor Presenter - Bottom Right (flipped to point left) */}
+        <div className="pointer-events-none fixed right-[-300] bottom-0 z-20 hidden lg:block">
           <Image
             src={IMAGES.sponsors.sponsorPresentor}
             alt=""
             width={1200}
             height={1400}
-            className="w-[700px] opacity-90"
+            className="w-[900px] opacity-90"
             style={{
               filter: SHADOWS.BRANCH_GLOW,
+              transform: "scaleX(-1)",
             }}
           />
         </div>
