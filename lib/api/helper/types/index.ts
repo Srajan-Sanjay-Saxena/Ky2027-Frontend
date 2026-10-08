@@ -13,3 +13,4 @@ export * from "./pass.types";
 export * from "./cinematic.types";
 export * from "./account.types";
 export * from "./ca.types";
+export * from "./cart.types";
