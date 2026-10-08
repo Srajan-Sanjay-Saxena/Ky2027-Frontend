@@ -59,6 +59,53 @@ export { usePasses } from "./passes/usePasses";
 export type { Pass, PassBenefit, PassDetail } from "@/lib/api/helper/types";
 
 // ═══════════════════════════════════════════════════════════════════
+// EVENTS
+// ═══════════════════════════════════════════════════════════════════
+
+export {
+  useEvents,
+  useEvent,
+  useEventsByCategory,
+  CATEGORY_METADATA,
+  type Event,
+  type EventDetails,
+  type EventCategorySlug,
+  type EventCategory,
+  type ParticipationType,
+  type EventsQueryParams,
+} from "./events/useEvents";
+
+// ═══════════════════════════════════════════════════════════════════
+// REGISTRATIONS
+// ═══════════════════════════════════════════════════════════════════
+
+export {
+  useMyRegistrations,
+  useEventRegisterIndividual,
+  useEventRegisterTeam,
+  type Registration,
+} from "./registrations/useRegistrations";
+
+// ═══════════════════════════════════════════════════════════════════
+// TEAMS
+// ═══════════════════════════════════════════════════════════════════
+
+export {
+  useMyTeams,
+  useCreateTeam,
+  useUserSearch,
+  type Team,
+  type TeamMember,
+  type SearchedUser,
+} from "./teams/useTeams";
+
+// ═══════════════════════════════════════════════════════════════════
+// PAYMENT
+// ═══════════════════════════════════════════════════════════════════
+
+export { usePaymentStatus } from "./payment/usePaymentStatus";
+
+// ═══════════════════════════════════════════════════════════════════
 // CAMPUS AMBASSADOR
 // ═══════════════════════════════════════════════════════════════════
 

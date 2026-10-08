@@ -2,7 +2,15 @@
 
 import { LightNavbar } from "@/components/navbar/Navbar";
 import { useFullAccount, useSignOut } from "@/lib/api/hooks";
-import { ProfileHero, DetailedInfo, ProfileFooter, ProfileLoader, ErrorState } from "./sections";
+import {
+  ProfileHero,
+  DetailedInfo,
+  ProfileFooter,
+  ProfileLoader,
+  ErrorState,
+  MyTeamsSection,
+  MyRegistrationsSection,
+} from "./sections";
 import { COLORS } from "./constants/palette";
 import { ProfileUser } from "@/lib/api/helper/types";
 
@@ -50,6 +58,12 @@ export function ProfilePageContent({ user }: ProfilePageContentProps) {
 
               {/* Detailed Info Section - Cards & Verification */}
               <DetailedInfo userData={userData} user={user} progress={progress} />
+
+              {/* Teams & Registrations Grid */}
+              <div className="mt-8 grid gap-6 md:grid-cols-2">
+                <MyTeamsSection />
+                <MyRegistrationsSection />
+              </div>
 
               {/* Footer Section - Sign Out & Decorative */}
               <ProfileFooter isSigningOut={isSigningOut} handleSignOut={handleSignOut} />
