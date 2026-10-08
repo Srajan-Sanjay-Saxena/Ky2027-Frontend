@@ -112,7 +112,7 @@ export function CartSummary({
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative overflow-hidden rounded-2xl"
+      className="relative mt-5 overflow-visible rounded-2xl"
       style={{
         background:
           "linear-gradient(145deg, rgba(28, 18, 38, 0.98) 0%, rgba(38, 22, 48, 0.98) 100%)",
