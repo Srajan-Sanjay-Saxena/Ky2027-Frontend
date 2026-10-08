@@ -34,8 +34,9 @@ export function useAadhaarUpload(userId?: string) {
   });
 
   // Confirm upload mutation
+  // Backend returns a flat response: { info: string }
   const { mutate: mutateConfirm, reset: resetConfirm } = useApiMutation<{
-    success: boolean;
+    info: string;
   }>({
     url: "/aadhaar/confirm-upload",
     method: "patch",
@@ -63,7 +64,7 @@ export function useAadhaarUpload(userId?: string) {
 
   // Promisified confirm upload
   const confirmUpload = useCallback(
-    (s3Key: string): Promise<{ success: boolean }> => {
+    (s3Key: string): Promise<{ info: string }> => {
       return new Promise((resolve, reject) => {
         mutateConfirm(
           { s3Key },
