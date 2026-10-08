@@ -57,3 +57,15 @@ export { useAccountAccessStatus } from "./profile/useAccountAccessStatus";
 
 export { usePasses } from "./passes/usePasses";
 export type { Pass, PassBenefit, PassDetail } from "@/lib/api/helper/types";
+
+// ═══════════════════════════════════════════════════════════════════
+// CAMPUS AMBASSADOR
+// ═══════════════════════════════════════════════════════════════════
+
+export { useCaApplication } from "./ca/useCaApplication";
+export { useMyCaApplicationStatus } from "./ca/useMyCaApplicationStatus";
+export type {
+  CAApplicationStatus,
+  CaApplication,
+  CaApplicationApiResponse,
+} from "@/lib/api/helper/types/ca.types";

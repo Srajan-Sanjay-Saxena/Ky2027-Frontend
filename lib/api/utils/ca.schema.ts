@@ -1,15 +1,16 @@
+import { z } from "zod";
+
 // ═══════════════════════════════════════════════════════════════════
-// HELPER TYPES — BARREL
-// Re-exports all types from the helper/types folder.
+// CAMPUS AMBASSADOR SCHEMA
+// Validation schema for CA application
 // ═══════════════════════════════════════════════════════════════════
 
-export * from "./aadhaar.types";
-export * from "./phone.types";
-export * from "./profile.types";
-export * from "./schedule.types";
-export * from "./events.types";
-export * from "./session.types";
-export * from "./pass.types";
-export * from "./cinematic.types";
-export * from "./account.types";
-export * from "./ca.types";
+/**
+ * Schema for CA application submission
+ * Empty object since userId is derived from auth header
+ */
+const CaApplicationSchema = z.object({});
+
+type CaApplicationSchemaType = z.infer<typeof CaApplicationSchema>;
+
+export { CaApplicationSchema, type CaApplicationSchemaType };
