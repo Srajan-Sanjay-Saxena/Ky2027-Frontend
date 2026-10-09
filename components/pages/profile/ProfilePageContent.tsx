@@ -1,6 +1,8 @@
 "use client";
 
+import { Suspense } from "react";
 import { ThemedNavbar } from "@/components/navbar";
+import { AuthSuccessToastHandler } from "@/components/auth";
 import { useMyAccount, useSignOut, useCaInfo } from "@/lib/api/hooks";
 import {
   ProfileHero,
@@ -43,6 +45,11 @@ export function ProfilePageContent({ user }: ProfilePageContentProps) {
 
   return (
     <>
+      {/* Auth success toast handler - handles success & already-logged-in toasts */}
+      <Suspense fallback={null}>
+        <AuthSuccessToastHandler />
+      </Suspense>
+
       {/* Fixed navbar */}
       <div className="fixed inset-x-0 top-0 z-[200]">
         <ThemedNavbar position="relative" topOffset={18} theme="main" />

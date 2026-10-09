@@ -47,8 +47,9 @@ export function CartPageContent() {
     isProfileComplete,
     completionPercentage,
     displayName,
+    steps,
     isLoading: isAccountLoading,
-  } = useMyAccount("navbar");
+  } = useMyAccount("progress");
 
   // Cart data
   const { items, totalQuantity, isEmpty, isLoading: isCartLoading, refetch } = useGetMyCart();
@@ -278,6 +279,7 @@ export function CartPageContent() {
               <ProfileIncompleteCard
                 completionPercentage={completionPercentage}
                 displayName={displayName}
+                steps={steps ?? undefined}
               />
             </motion.div>
           ) : isEmpty ? (

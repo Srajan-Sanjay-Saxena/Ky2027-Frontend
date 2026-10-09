@@ -1,7 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
-import { BadgeCheck } from "lucide-react";
+import {
+  BadgeCheck,
+  Sparkles,
+  ArrowRight,
+  Crown,
+  Check,
+  X,
+  Upload,
+  ShieldCheck,
+  GraduationCap,
+  Phone,
+} from "lucide-react";
 import { COLORS } from "@/components/pages/profile/constants/palette";
 import { UserProfile, UserAccountProgress, ProfileUser } from "@/lib/api/helper/types";
 
@@ -16,10 +28,32 @@ interface AvatarSectionProps {
 }
 
 export function AvatarSection({ userData, user, progress, initials }: AvatarSectionProps) {
+  const isPaidUser = userData?.isPaidUser ?? false;
+
   return (
     <div className="flex flex-col items-center">
       {/* Royal Frame for Avatar */}
       <div className="relative">
+        {/* Payment Status Badge - Top Right */}
+        <div
+          className="absolute -top-1 -right-8 z-10 flex items-center gap-1 rounded-full px-2.5 py-1"
+          style={{
+            background: isPaidUser
+              ? `linear-gradient(135deg, ${COLORS.SUCCESS}20, ${COLORS.SUCCESS}10)`
+              : `linear-gradient(135deg, ${COLORS.BG_DEEP}, ${COLORS.BG_ROYAL})`,
+            border: `1.5px solid ${isPaidUser ? COLORS.SUCCESS : COLORS.GOLD}60`,
+            boxShadow: `0 0 12px ${isPaidUser ? COLORS.SUCCESS : COLORS.GOLD}30`,
+          }}
+        >
+          <Crown className="h-3 w-3" style={{ color: isPaidUser ? COLORS.SUCCESS : COLORS.GOLD }} />
+          <span
+            className="text-[10px] font-semibold"
+            style={{ color: isPaidUser ? COLORS.SUCCESS : COLORS.GOLD }}
+          >
+            {isPaidUser ? "Paid" : "Not Paid"}
+          </span>
+        </div>
+
         {/* Progress Ring around avatar (when incomplete) */}
         {progress && !progress.isProfileComplete && (
           <div className="absolute -inset-6">
@@ -151,7 +185,7 @@ export function AvatarSection({ userData, user, progress, initials }: AvatarSect
 
       {/* Royal Status Badge */}
       <div
-        className="mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5"
+        className="mt-8 inline-flex items-center gap-2 rounded-full px-5 py-2.5"
         style={{
           background: progress?.isProfileComplete
             ? `linear-gradient(135deg, ${COLORS.SUCCESS}15, ${COLORS.SUCCESS}08)`
@@ -177,46 +211,84 @@ export function AvatarSection({ userData, user, progress, initials }: AvatarSect
         </span>
       </div>
 
-      {/* Pending steps chips (when incomplete) */}
-      {progress && !progress.isProfileComplete && (
-        <div className="mt-3 flex max-w-[200px] flex-wrap justify-center gap-1.5">
-          {!progress.steps.aadhaarVerified && (
-            <span
-              className="rounded-full px-2.5 py-1 text-[10px] font-medium"
-              style={{
-                background: `${COLORS.ERROR}15`,
-                color: `${COLORS.ERROR}cc`,
-                border: `1px solid ${COLORS.ERROR}25`,
-              }}
-            >
-              Aadhaar
-            </span>
-          )}
-          {!progress.steps.college && (
-            <span
-              className="rounded-full px-2.5 py-1 text-[10px] font-medium"
-              style={{
-                background: `${COLORS.ERROR}15`,
-                color: `${COLORS.ERROR}cc`,
-                border: `1px solid ${COLORS.ERROR}25`,
-              }}
-            >
-              College
-            </span>
-          )}
-          {!progress.steps.phone && (
-            <span
-              className="rounded-full px-2.5 py-1 text-[10px] font-medium"
-              style={{
-                background: `${COLORS.ERROR}15`,
-                color: `${COLORS.ERROR}cc`,
-                border: `1px solid ${COLORS.ERROR}25`,
-              }}
-            >
-              Phone
-            </span>
-          )}
+      {/* All steps chips - green for completed, red for pending */}
+      {progress && (
+        <div className="mt-3 grid grid-cols-2 gap-1.5">
+          {/* Aadhaar Upload */}
+          <span
+            className="flex items-center justify-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium"
+            style={{
+              background: progress.steps.aadhaarUploaded
+                ? `${COLORS.SUCCESS}15`
+                : `${COLORS.ERROR}15`,
+              color: progress.steps.aadhaarUploaded ? `${COLORS.SUCCESS}` : `${COLORS.ERROR}cc`,
+              border: `1px solid ${progress.steps.aadhaarUploaded ? COLORS.SUCCESS : COLORS.ERROR}25`,
+            }}
+          >
+            <Upload className="h-3 w-3" />
+            Upload Aadhaar
+          </span>
+
+          {/* Aadhaar Verify */}
+          <span
+            className="flex items-center justify-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium"
+            style={{
+              background: progress.steps.aadhaarVerified
+                ? `${COLORS.SUCCESS}15`
+                : `${COLORS.ERROR}15`,
+              color: progress.steps.aadhaarVerified ? `${COLORS.SUCCESS}` : `${COLORS.ERROR}cc`,
+              border: `1px solid ${progress.steps.aadhaarVerified ? COLORS.SUCCESS : COLORS.ERROR}25`,
+            }}
+          >
+            <ShieldCheck className="h-3 w-3" />
+            Verify
+          </span>
+
+          {/* College */}
+          <span
+            className="flex items-center justify-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium"
+            style={{
+              background: progress.steps.college ? `${COLORS.SUCCESS}15` : `${COLORS.ERROR}15`,
+              color: progress.steps.college ? `${COLORS.SUCCESS}` : `${COLORS.ERROR}cc`,
+              border: `1px solid ${progress.steps.college ? COLORS.SUCCESS : COLORS.ERROR}25`,
+            }}
+          >
+            <GraduationCap className="h-3 w-3" />
+            College
+          </span>
+
+          {/* Phone */}
+          <span
+            className="flex items-center justify-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium"
+            style={{
+              background: progress.steps.phone ? `${COLORS.SUCCESS}15` : `${COLORS.ERROR}15`,
+              color: progress.steps.phone ? `${COLORS.SUCCESS}` : `${COLORS.ERROR}cc`,
+              border: `1px solid ${progress.steps.phone ? COLORS.SUCCESS : COLORS.ERROR}25`,
+            }}
+          >
+            <Phone className="h-3 w-3" />
+            Phone
+          </span>
         </div>
+      )}
+
+      {/* Complete Profile Button (below chips when incomplete) */}
+      {progress && !progress.isProfileComplete && (
+        <Link href="/complete-profile" className="mt-4">
+          <button
+            className="group flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-semibold tracking-wide transition-all duration-300 hover:scale-105"
+            style={{
+              background: `linear-gradient(135deg, #1a0a12 0%, #2d1520 50%, #1a0a12 100%)`,
+              color: COLORS.GOLD,
+              border: `1.5px solid ${COLORS.GOLD}50`,
+              boxShadow: `0 0 15px ${COLORS.GOLD}15`,
+            }}
+          >
+            <Sparkles className="h-3.5 w-3.5" style={{ color: COLORS.GOLD_LIGHT }} />
+            <span>Complete Profile</span>
+            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+          </button>
+        </Link>
       )}
     </div>
   );

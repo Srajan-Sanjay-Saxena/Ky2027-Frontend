@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ThemedNavbar } from "@/components/navbar";
 import { PageLoader } from "@/components/loader";
+import { AuthErrorToastHandler } from "@/components/auth";
 import { useSignIn } from "@/lib/api/hooks";
 import { ROYAL_COLORS } from "./constants/palette";
 import { MysticGateSection, LoginCard, BackgroundEffects } from "./sections";
@@ -31,6 +32,11 @@ export function LoginContent() {
 
   return (
     <>
+      {/* Auth error toast handler - handles error toasts on login page */}
+      <Suspense fallback={null}>
+        <AuthErrorToastHandler />
+      </Suspense>
+
       {/* Full page loader when signing in */}
       {isSigningIn && <PageLoader />}
 

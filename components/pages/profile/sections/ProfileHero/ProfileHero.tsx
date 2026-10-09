@@ -87,6 +87,32 @@ export function ProfileHero({ userData, user, progress, isApprovedCa }: ProfileH
           {/* Avatar Section */}
           <AvatarSection userData={userData} user={user} progress={progress} initials={initials} />
 
+          {/* Decorative Divider */}
+          <div className="hidden lg:flex lg:flex-col lg:items-center lg:gap-2 lg:self-stretch lg:py-4">
+            <div
+              className="h-full w-px"
+              style={{
+                background: `linear-gradient(180deg, transparent, ${COLORS.GOLD}50, ${COLORS.GOLD}, ${COLORS.GOLD}50, transparent)`,
+              }}
+            />
+            <div
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full"
+              style={{
+                background: `linear-gradient(135deg, ${COLORS.BG_DEEP}, ${COLORS.BG_ROYAL})`,
+                border: `1.5px solid ${COLORS.GOLD}60`,
+                boxShadow: `0 0 15px ${COLORS.GOLD}30`,
+              }}
+            >
+              <span style={{ color: COLORS.GOLD, fontSize: "14px" }}>✦</span>
+            </div>
+            <div
+              className="h-full w-px"
+              style={{
+                background: `linear-gradient(180deg, transparent, ${COLORS.GOLD}50, ${COLORS.GOLD}, ${COLORS.GOLD}50, transparent)`,
+              }}
+            />
+          </div>
+
           {/* User Info Section */}
           <UserInfoSection
             userData={userData}

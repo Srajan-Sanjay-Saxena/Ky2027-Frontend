@@ -2,11 +2,27 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import {
+  Upload,
+  ShieldCheck,
+  GraduationCap,
+  Phone,
+  Check,
+  X,
+  Sparkles,
+  ArrowRight,
+} from "lucide-react";
 import { COLORS, GRADIENTS, SHADOWS } from "@/components/pages/cart/constants/palette";
 
 interface ProfileIncompleteCardProps {
   completionPercentage: number;
   displayName?: string | null;
+  steps?: {
+    aadhaarUploaded: boolean;
+    aadhaarVerified: boolean;
+    college: boolean;
+    phone: boolean;
+  };
 }
 
 /**
@@ -16,124 +32,180 @@ interface ProfileIncompleteCardProps {
 export function ProfileIncompleteCard({
   completionPercentage,
   displayName,
+  steps,
 }: ProfileIncompleteCardProps) {
+  const stepsList = [
+    {
+      key: "aadhaarUploaded",
+      label: "Upload Aadhaar",
+      icon: Upload,
+      completed: steps?.aadhaarUploaded ?? false,
+    },
+    {
+      key: "aadhaarVerified",
+      label: "Verify Aadhaar",
+      icon: ShieldCheck,
+      completed: steps?.aadhaarVerified ?? false,
+    },
+    {
+      key: "college",
+      label: "College Details",
+      icon: GraduationCap,
+      completed: steps?.college ?? false,
+    },
+    {
+      key: "phone",
+      label: "Phone Verification",
+      icon: Phone,
+      completed: steps?.phone ?? false,
+    },
+  ];
+
+  const completedCount = stepsList.filter((s) => s.completed).length;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="mx-auto max-w-lg overflow-hidden rounded-2xl"
+      className="mx-auto max-w-md overflow-hidden rounded-2xl"
       style={{
-        background: GRADIENTS.CARD_BG,
-        border: `1px solid rgba(245, 158, 11, 0.3)`,
-        boxShadow: SHADOWS.CARD,
+        background: `linear-gradient(135deg, ${COLORS.BG_DEEP}ee, ${COLORS.BG_CARD}dd)`,
+        border: `2px solid ${COLORS.GOLD}40`,
+        boxShadow: `0 0 40px ${COLORS.GOLD}15, ${SHADOWS.CARD}`,
       }}
     >
-      {/* Warning accent line at top */}
+      {/* Golden accent line at top */}
       <div
-        className="h-1"
+        className="h-1.5"
         style={{
-          background: `linear-gradient(90deg, transparent, ${COLORS.WARNING}, transparent)`,
+          background: `linear-gradient(90deg, transparent, ${COLORS.GOLD}, ${COLORS.GOLD}, transparent)`,
         }}
       />
 
       <div className="p-6 sm:p-8">
-        {/* Icon and heading */}
-        <div className="mb-6 flex items-start gap-4">
-          <div
-            className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full"
+        {/* Header */}
+        <div className="mb-6 text-center">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.1, type: "spring" }}
+            className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full"
             style={{
-              background: `linear-gradient(135deg, ${COLORS.WARNING}20, ${COLORS.WARNING}10)`,
-              border: `1px solid ${COLORS.WARNING}40`,
+              background: `linear-gradient(135deg, ${COLORS.GOLD}20, ${COLORS.GOLD}08)`,
+              border: `2px solid ${COLORS.GOLD}50`,
+              boxShadow: `0 0 25px ${COLORS.GOLD}20`,
             }}
           >
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke={COLORS.WARNING}
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-              <line x1="12" y1="11" x2="12" y2="17" />
-              <line x1="9" y1="14" x2="15" y2="14" />
-            </svg>
-          </div>
+            <Sparkles className="h-8 w-8" style={{ color: COLORS.GOLD }} />
+          </motion.div>
 
-          <div>
-            <h2 className="mb-1 text-xl font-bold text-white">
-              {displayName ? `Hi ${displayName.split(" ")[0]}!` : "Complete Your Profile"}
-            </h2>
-            <p className="text-sm text-gray-400">
-              Please complete your profile to add items to your cart.
+          <h2
+            className="mb-2 text-2xl font-bold"
+            style={{
+              color: COLORS.GOLD,
+              fontFamily: "var(--font-ethereal), serif",
+            }}
+          >
+            {displayName ? `Welcome, ${displayName.split(" ")[0]}!` : "Almost There!"}
+          </h2>
+          <p className="text-sm text-gray-400">Complete your profile to unlock cart access</p>
+        </div>
+
+        {/* Progress Ring & Percentage */}
+        <div className="mb-6 flex items-center justify-center gap-6">
+          <div className="relative h-20 w-20">
+            <svg className="h-full w-full -rotate-90" viewBox="0 0 100 100">
+              <circle
+                cx="50"
+                cy="50"
+                r="42"
+                fill="none"
+                stroke={`${COLORS.GOLD}15`}
+                strokeWidth="8"
+              />
+              <motion.circle
+                cx="50"
+                cy="50"
+                r="42"
+                fill="none"
+                stroke={COLORS.GOLD}
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={2 * Math.PI * 42}
+                initial={{ strokeDashoffset: 2 * Math.PI * 42 }}
+                animate={{
+                  strokeDashoffset:
+                    2 * Math.PI * 42 - (completionPercentage / 100) * 2 * Math.PI * 42,
+                }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                style={{ filter: `drop-shadow(0 0 6px ${COLORS.GOLD}60)` }}
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-xl font-bold" style={{ color: COLORS.GOLD }}>
+                {completionPercentage}%
+              </span>
+            </div>
+          </div>
+          <div className="text-left">
+            <p className="text-sm text-gray-400">Profile Status</p>
+            <p className="text-lg font-semibold" style={{ color: COLORS.WARNING }}>
+              {completedCount}/4 Steps Done
             </p>
           </div>
         </div>
 
-        {/* Progress bar */}
-        <div className="mb-6">
-          <div className="mb-2 flex items-center justify-between text-sm">
-            <span className="text-gray-400">Profile Completion</span>
-            <span style={{ color: COLORS.WARNING }} className="font-semibold">
-              {completionPercentage}%
-            </span>
-          </div>
-          <div className="h-3 overflow-hidden rounded-full bg-gray-800">
+        {/* Steps Grid */}
+        <div className="mb-6 grid grid-cols-2 gap-2">
+          {stepsList.map((step, index) => (
             <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${completionPercentage}%` }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="h-full rounded-full"
+              key={step.key}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 * index }}
+              className="flex items-center gap-2 rounded-lg px-3 py-2"
               style={{
-                background: `linear-gradient(90deg, ${COLORS.WARNING}, ${COLORS.GOLD})`,
+                background: step.completed ? `${COLORS.SUCCESS}12` : `${COLORS.ERROR}08`,
+                border: `1px solid ${step.completed ? COLORS.SUCCESS : COLORS.ERROR}30`,
               }}
-            />
-          </div>
-        </div>
-
-        {/* Steps needed */}
-        <div className="mb-6 rounded-lg bg-black/30 p-4">
-          <p className="mb-3 text-sm font-medium text-gray-300">Steps to complete:</p>
-          <ul className="space-y-2 text-sm text-gray-400">
-            <li className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-gray-500" />
-              Phone number verification
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-gray-500" />
-              College details
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-gray-500" />
-              Aadhaar verification (upload & verify)
-            </li>
-          </ul>
+            >
+              <div
+                className="flex h-6 w-6 items-center justify-center rounded-full"
+                style={{
+                  background: step.completed ? `${COLORS.SUCCESS}25` : `${COLORS.ERROR}15`,
+                }}
+              >
+                {step.completed ? (
+                  <Check className="h-3.5 w-3.5" style={{ color: COLORS.SUCCESS }} />
+                ) : (
+                  <step.icon className="h-3.5 w-3.5" style={{ color: `${COLORS.ERROR}cc` }} />
+                )}
+              </div>
+              <span
+                className="text-xs font-medium"
+                style={{ color: step.completed ? COLORS.SUCCESS : `${COLORS.ERROR}cc` }}
+              >
+                {step.label}
+              </span>
+            </motion.div>
+          ))}
         </div>
 
         {/* Action button */}
-        <Link
-          href="/complete-profile"
-          className="flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold text-white transition-all hover:scale-[1.02]"
-          style={{
-            background: `linear-gradient(135deg, ${COLORS.WARNING}, ${COLORS.GOLD})`,
-            boxShadow: SHADOWS.BUTTON,
-          }}
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
+        <Link href="/complete-profile">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 font-semibold transition-all"
+            style={{
+              background: `linear-gradient(135deg, ${COLORS.GOLD}, ${COLORS.DARK_GOLD})`,
+              color: COLORS.BG_DEEP,
+              boxShadow: `0 0 25px ${COLORS.GOLD}30, ${SHADOWS.BUTTON}`,
+            }}
           >
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-          Complete Your Profile
+            Complete Your Profile
+            <ArrowRight className="h-4 w-4" />
+          </motion.button>
         </Link>
       </div>
     </motion.div>

@@ -36,7 +36,7 @@ export const authOptions: NextAuthOptions = {
       options: {
         httpOnly: true,
         sameSite: "lax",
-        path: "/profile",
+        path: "/",
         secure: isProduction,
       },
     },

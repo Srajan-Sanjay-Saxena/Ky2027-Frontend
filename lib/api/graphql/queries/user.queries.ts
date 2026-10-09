@@ -24,6 +24,7 @@ export const fullAccountQueryDef = query("GetFullAccount", {
       joinedAt: types.string,
       aadhaarNumber: optional(types.string),
       isFromIITBhu: types.boolean,
+      isPaidUser: types.boolean,
       role: optional({
         level: types.constant<"MASTER_ADMIN" | "MANAGER" | "OPERATOR" | "USER">("USER"),
       }),
