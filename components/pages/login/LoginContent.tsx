@@ -13,13 +13,13 @@ export function LoginContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const { isSigningIn, handleSignIn } = useSignIn({
-    callbackUrl: "/?auth=success",
+    callbackUrl: "/profile?auth=success",
   });
 
-  // Redirect to home if already logged in
+  // Redirect to profile if already logged in
   useEffect(() => {
     if (status === "authenticated" && session) {
-      router.replace("/?info=already-logged-in");
+      router.replace("/profile?info=already-logged-in");
       router.refresh();
     }
   }, [status, session, router]);
