@@ -115,37 +115,4 @@ export interface SubEvent {
   prizePool?: string;
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// COMPONENT PROP TYPES
-// ═══════════════════════════════════════════════════════════════════
-
-export interface EventCardProps {
-  event: Event;
-  categoryColor?: string;
-  index?: number;
-}
-
-export interface EventDetailsProps {
-  event: EventDetails;
-}
-
-export interface CategoryCardProps {
-  category: EventCategory;
-  index: number;
-}
-
-export interface SubEventCardProps {
-  event: SubEvent;
-  categoryColor: string;
-  index: number;
-}
-
-export interface CategoryHeaderProps {
-  category: EventCategory;
-}
-
-export interface CategoryPageContentProps {
-  category: EventCategory;
-}
-
-export type EventType = SubEvent["type"];
+// Component prop types removed - each component defines its own props locally

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { IMAGES } from "@/lib/images";
 import { COLORS } from "@/components/pages/profile/constants/palette";
-import { UserData, ProgressData, ProfileUser } from "@/lib/api/helper/types";
+import { UserProfile, UserAccountProgress, ProfileUser } from "@/lib/api/helper/types";
 import { AvatarSection } from "./AvatarSection";
 import { UserInfoSection } from "./UserInfoSection";
 
@@ -13,9 +13,9 @@ import { UserInfoSection } from "./UserInfoSection";
 // ═══════════════════════════════════════════════════════════════════
 
 interface ProfileHeroProps {
-  userData: UserData | null;
+  userData: UserProfile | null;
   user: ProfileUser;
-  progress: ProgressData | null;
+  progress: UserAccountProgress | null;
   isApprovedCa?: boolean;
 }
 

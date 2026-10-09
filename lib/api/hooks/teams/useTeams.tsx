@@ -3,7 +3,7 @@
 import { useMemo, useCallback, useState, useEffect } from "react";
 import { useApiQuery, useApiMutation } from "wire-axon/hooks";
 import { useQueryClient } from "@tanstack/react-query";
-import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { BACKEND_URL, sharedFeatureConfig, API_TIMEOUT } from "@/lib/api/constants";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
 import { CreateTeamSchema } from "@/lib/api/utils/team.schema";
 
@@ -83,6 +83,7 @@ export function useMyTeams() {
     url: "/teams/my",
     baseURL: BACKEND_URL,
     featureConfig: sharedFeatureConfig,
+    apiConfig: { timeout: API_TIMEOUT },
     queryOptions: {
       staleTime: 1000 * 60 * 2, // 2 minutes
       gcTime: 1000 * 60 * 15, // 15 minutes
@@ -139,6 +140,7 @@ export function useCreateTeam() {
       baseURL: BACKEND_URL,
       featureConfig: sharedFeatureConfig,
       method: "post",
+      apiConfig: { timeout: API_TIMEOUT },
       bodyValidator: { bodySchema: CreateTeamSchema },
       mutationOptions: {
         onSuccess: () => {
@@ -186,11 +188,12 @@ export function useUserSearch(query: string, options?: { enabled?: boolean }) {
     url: `/user/search?searchQuery=${encodeURIComponent(trimmedQuery)}&limit=10`,
     baseURL: BACKEND_URL,
     featureConfig: sharedFeatureConfig,
+    apiConfig: { timeout: API_TIMEOUT },
     queryOptions: {
       enabled,
       staleTime: 1000 * 60 * 1, // 1 minute
       gcTime: 1000 * 60 * 5, // 5 minutes
-      retry: 1, // Don't retry search much
+      retry: 3, // Don't retry search much
     },
   });
 

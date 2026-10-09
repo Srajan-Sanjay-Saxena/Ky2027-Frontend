@@ -1,8 +1,8 @@
 "use client";
 
-import { COLORS } from "../../constants/palette";
-import { type Sponsor, type SponsorTier } from "../../config/sponsors.config";
-import { SponsorCard } from "../SponsorCard/SponsorCard";
+import { COLORS } from "@/components/pages/sponsors/constants/palette";
+import { type Sponsor, type SponsorTier } from "@/components/pages/sponsors/config/sponsors.config";
+import { SponsorCard } from "@/components/pages/sponsors/sections/SponsorCard/SponsorCard";
 
 // ═══════════════════════════════════════════════════════════════════
 // TIER SECTION

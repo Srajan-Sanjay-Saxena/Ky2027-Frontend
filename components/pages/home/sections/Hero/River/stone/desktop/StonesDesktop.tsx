@@ -3,7 +3,7 @@
 import { memo } from "react";
 import { useSession } from "next-auth/react";
 import { Z_HERO, POS_STONES, SIZE_STONES } from "@/components/pages/home/constants";
-import { SteppingStone } from "../SteppingStone";
+import { SteppingStone } from "@/components/pages/home/sections/Hero/River/stone/SteppingStone";
 
 /**
  * Desktop stones - shown only on sm+ (>= 640px)

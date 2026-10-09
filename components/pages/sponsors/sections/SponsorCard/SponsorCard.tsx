@@ -3,8 +3,12 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { IMAGES } from "@/lib/images";
-import { SHADOWS } from "../../constants/palette";
-import { TIER_CONFIG, CARD_SIZES, type Sponsor } from "../../config/sponsors.config";
+import { SHADOWS } from "@/components/pages/sponsors/constants/palette";
+import {
+  TIER_CONFIG,
+  CARD_SIZES,
+  type Sponsor,
+} from "@/components/pages/sponsors/config/sponsors.config";
 
 // ═══════════════════════════════════════════════════════════════════
 // SPONSOR CARD - Stamp style design (responsive)

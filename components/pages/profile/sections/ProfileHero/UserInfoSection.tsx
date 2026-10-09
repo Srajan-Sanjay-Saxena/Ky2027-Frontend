@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, Sparkles, ShoppingCart } from "lucide-react";
 import { COLORS } from "@/components/pages/profile/constants/palette";
-import { UserData, ProgressData, ProfileUser } from "@/lib/api/helper/types";
+import { UserProfile, UserAccountProgress, ProfileUser } from "@/lib/api/helper/types";
 import { AdminRoleBadge } from "./AdminRoleBadge";
 import { CaBadge } from "./CaBadge";
 
@@ -11,9 +11,9 @@ import { CaBadge } from "./CaBadge";
 // USER INFO SECTION
 // ═══════════════════════════════════════════════════════════════════
 interface UserInfoSectionProps {
-  userData: UserData | null;
+  userData: UserProfile | null;
   user: ProfileUser;
-  progress: ProgressData | null;
+  progress: UserAccountProgress | null;
   isApprovedCa?: boolean;
 }
 

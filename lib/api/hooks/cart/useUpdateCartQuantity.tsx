@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useApiMutation } from "wire-axon/hooks";
-import { Minus, Plus } from "lucide-react";
-import { toast } from "sonner";
-import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { BACKEND_URL, sharedFeatureConfig, API_TIMEOUT } from "@/lib/api/constants";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
 import { UpdateCartQuantitySchema } from "@/lib/api/utils/cart.schema";
 import type { CartApiResponse } from "@/lib/api/helper/types";
@@ -24,11 +22,27 @@ interface UpdateQuantityRequest {
 
 function QuantityUpdatedToast() {
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-amber-500/30 bg-gradient-to-r from-amber-950/90 to-stone-900/90 px-4 py-3 shadow-lg">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500/20">
-        <Plus className="h-4 w-4 text-amber-400" />
+    <div className="flex items-center gap-3 rounded-xl border border-emerald-500/30 bg-gradient-to-r from-emerald-950/95 to-stone-900/95 px-5 py-4 shadow-2xl backdrop-blur-sm">
+      <div
+        className="flex h-10 w-10 items-center justify-center rounded-full"
+        style={{
+          background: "linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.3))",
+          boxShadow: "0 0 20px rgba(16, 185, 129, 0.2)",
+        }}
+      >
+        <svg
+          className="h-5 w-5 text-emerald-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+        </svg>
       </div>
-      <p className="text-sm font-medium text-amber-100">Quantity updated</p>
+      <div>
+        <p className="font-semibold text-emerald-100">Cart Updated</p>
+        <p className="text-sm text-emerald-300/70">Quantity changed successfully</p>
+      </div>
     </div>
   );
 }
@@ -39,11 +53,27 @@ function QuantityUpdatedToast() {
 
 function QuantityErrorToast() {
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-red-500/30 bg-gradient-to-r from-red-950/90 to-stone-900/90 px-4 py-3 shadow-lg">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/20">
-        <Minus className="h-4 w-4 text-red-400" />
+    <div className="flex items-center gap-3 rounded-xl border border-red-500/30 bg-gradient-to-r from-red-950/95 to-stone-900/95 px-5 py-4 shadow-2xl backdrop-blur-sm">
+      <div
+        className="flex h-10 w-10 items-center justify-center rounded-full"
+        style={{
+          background: "linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(185, 28, 28, 0.3))",
+          boxShadow: "0 0 20px rgba(239, 68, 68, 0.2)",
+        }}
+      >
+        <svg className="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2.5}
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
       </div>
-      <p className="text-sm font-medium text-red-100">Failed to update quantity</p>
+      <div>
+        <p className="font-semibold text-red-100">Update Failed</p>
+        <p className="text-sm text-red-300/70">Could not change quantity</p>
+      </div>
     </div>
   );
 }
@@ -60,6 +90,7 @@ export function useUpdateCartQuantity() {
       method: "patch",
       baseURL: BACKEND_URL,
       featureConfig: sharedFeatureConfig,
+      apiConfig: { timeout: API_TIMEOUT },
       bodyValidator: { bodySchema: UpdateCartQuantitySchema },
       invalidateQueryName: ["my-cart"],
       toastConfig: {

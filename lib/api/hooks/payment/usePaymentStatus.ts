@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useApiQuery } from "wire-axon/hooks";
-import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { BACKEND_URL, sharedFeatureConfig, API_TIMEOUT } from "@/lib/api/constants";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
 
 // ═══════════════════════════════════════════════════════════════════
@@ -28,10 +28,11 @@ export function usePaymentStatus() {
     url: "/user/payment-status",
     baseURL: BACKEND_URL,
     featureConfig: sharedFeatureConfig,
+    apiConfig: { timeout: API_TIMEOUT },
     queryOptions: {
       staleTime: 1000 * 60 * 5, // 5 minutes - payment status doesn't change often
       gcTime: 1000 * 60 * 30, // 30 minutes
-      retry: 2,
+      retry: 3,
       refetchInterval: false,
       refetchOnWindowFocus: false,
     },

@@ -165,9 +165,13 @@ export function CartItem({
               }}
             >
               <motion.button
+                type="button"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={handleDecrement}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDecrement();
+                }}
                 disabled={item.quantity <= 1 || isUpdatingQuantity}
                 className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
               >
@@ -183,9 +187,13 @@ export function CartItem({
               </div>
 
               <motion.button
+                type="button"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={handleIncrement}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleIncrement();
+                }}
                 disabled={item.quantity >= 50 || isUpdatingQuantity}
                 className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
               >

@@ -3,7 +3,7 @@
 import { useMemo, useCallback, useState, useEffect } from "react";
 import { useApiQuery, useApiMutation } from "wire-axon/hooks";
 import { useQueryClient } from "@tanstack/react-query";
-import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { BACKEND_URL, sharedFeatureConfig, API_TIMEOUT } from "@/lib/api/constants";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
 import { RegisterIndividualSchema, RegisterTeamSchema } from "@/lib/api/utils/registration.schema";
 import type { EventCategorySlug, ParticipationType } from "@/lib/api/helper/types";
@@ -68,6 +68,7 @@ export function useMyRegistrations() {
     url: "/user/registrations",
     baseURL: BACKEND_URL,
     featureConfig: sharedFeatureConfig,
+    apiConfig: { timeout: API_TIMEOUT },
     queryOptions: {
       staleTime: 1000 * 60 * 2, // 2 minutes
       gcTime: 1000 * 60 * 15, // 15 minutes
@@ -130,6 +131,7 @@ export function useEventRegisterIndividual(eventSlug: string) {
       baseURL: BACKEND_URL,
       featureConfig: sharedFeatureConfig,
       method: "post",
+      apiConfig: { timeout: API_TIMEOUT },
       bodyValidator: { bodySchema: RegisterIndividualSchema },
       mutationOptions: {
         onSuccess: () => {
@@ -175,6 +177,7 @@ export function useEventRegisterTeam(eventSlug: string) {
       baseURL: BACKEND_URL,
       featureConfig: sharedFeatureConfig,
       method: "post",
+      apiConfig: { timeout: API_TIMEOUT },
       bodyValidator: { bodySchema: RegisterTeamSchema },
       mutationOptions: {
         onSuccess: () => {

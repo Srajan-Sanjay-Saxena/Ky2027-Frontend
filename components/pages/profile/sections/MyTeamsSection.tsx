@@ -1,7 +1,7 @@
 "use client";
 
 import { useMyTeams } from "@/lib/api/hooks";
-import { COLORS } from "../constants/palette";
+import { COLORS } from "@/components/pages/profile/constants/palette";
 import { Users, Crown, ChevronRight } from "lucide-react";
 import Link from "next/link";
 

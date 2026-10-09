@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@apollo/client/react";
-import { LightNavbar } from "@/components/navbar/Navbar";
+import { ThemedNavbar } from "@/components/navbar";
 import {
   ACCOUNT_PROGRESS_WITH_STEPS_QUERY,
   type AccountProgressWithStepsQueryResponse,
@@ -146,7 +146,7 @@ export function CompleteProfileContent() {
     <>
       {/* Fixed navbar */}
       <div className="fixed inset-x-0 top-0 z-[200]">
-        <LightNavbar position="relative" topOffset={18} theme="main" />
+        <ThemedNavbar position="relative" topOffset={18} theme="main" />
       </div>
 
       {/* Main content with background - always rendered */}

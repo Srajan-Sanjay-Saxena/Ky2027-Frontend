@@ -1,6 +1,6 @@
 "use client";
 
-import { LightNavbar } from "@/components/navbar/Navbar";
+import { ThemedNavbar } from "@/components/navbar";
 import { EVENT_CATEGORIES } from "@/components/pages/events/config/events.config";
 import { COLORS, JAZZ_COLORS } from "@/components/pages/events/constants/palette";
 import { CategoryCard, PageTitle } from "@/components/pages/events/components";
@@ -16,7 +16,7 @@ export function EventsPageContent() {
     <>
       {/* Fixed navbar */}
       <div className="fixed inset-x-0 top-0 z-[200]">
-        <LightNavbar position="relative" topOffset={18} theme="main" />
+        <ThemedNavbar position="relative" topOffset={18} theme="main" />
       </div>
 
       <main

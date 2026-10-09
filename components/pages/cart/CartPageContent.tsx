@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ShoppingBag, Sparkles, Crown } from "lucide-react";
-import { LightNavbar } from "@/components/navbar/Navbar";
+import { ThemedNavbar } from "@/components/navbar";
 import {
   useMyAccount,
   useGetMyCart,
@@ -131,7 +131,7 @@ export function CartPageContent() {
     return (
       <>
         <div className="fixed inset-x-0 top-0 z-[200]">
-          <LightNavbar position="relative" topOffset={18} theme="main" />
+          <ThemedNavbar position="relative" topOffset={18} theme="main" />
         </div>
         <main className="min-h-screen pt-32" style={{ background: COLORS.BG_DEEP }}>
           <CartLoader />
@@ -160,7 +160,7 @@ export function CartPageContent() {
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-[200]">
-        <LightNavbar position="relative" topOffset={18} theme="main" />
+        <ThemedNavbar position="relative" topOffset={18} theme="main" />
       </div>
 
       <main

@@ -1,6 +1,6 @@
 "use client";
 
-import { COLORS } from "../../constants/palette";
+import { COLORS } from "@/components/pages/sponsors/constants/palette";
 
 // ═══════════════════════════════════════════════════════════════════
 // BACKGROUND EFFECTS

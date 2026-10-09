@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useApiMutation } from "wire-axon/hooks";
 import { z } from "zod";
 import { XCircle } from "lucide-react";
-import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { BACKEND_URL, sharedFeatureConfig, API_TIMEOUT } from "@/lib/api/constants";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
 import type { CartApiResponse } from "@/lib/api/helper/types";
 
@@ -21,8 +21,29 @@ interface UseClearMyCartOptions {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// Default Error Toast
+// Default Toasts
 // ═══════════════════════════════════════════════════════════════════
+
+function DefaultSuccessToast() {
+  return (
+    <div className="flex items-center gap-3">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-500/20">
+        <svg
+          className="h-5 w-5 text-green-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <div>
+        <p className="font-semibold text-white">Cart cleared</p>
+        <p className="text-sm text-neutral-400">All items have been removed</p>
+      </div>
+    </div>
+  );
+}
 
 function DefaultErrorToast() {
   return (
@@ -50,10 +71,11 @@ export function useClearMyCart(options?: UseClearMyCartOptions) {
       method: "delete",
       baseURL: BACKEND_URL,
       featureConfig: sharedFeatureConfig,
+      apiConfig: { timeout: API_TIMEOUT },
       bodyValidator: { bodySchema: ClearCartSchema },
       invalidateQueryName: ["my-cart"],
       toastConfig: {
-        successConfig: options?.successToast ? { customToast: options.successToast } : undefined,
+        successConfig: { customToast: options?.successToast ?? <DefaultSuccessToast /> },
         errorConfig: { customToast: options?.errorToast ?? <DefaultErrorToast /> },
       },
       mutationOptions: { retry: 2 },

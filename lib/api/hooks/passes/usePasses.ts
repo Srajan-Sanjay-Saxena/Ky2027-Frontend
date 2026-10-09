@@ -1,6 +1,6 @@
 "use client";
 
-import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { BACKEND_URL, sharedFeatureConfig, API_TIMEOUT } from "@/lib/api/constants";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
 import type { PassesApiResponse } from "@/lib/api/helper/types";
 import { useMemo } from "react";
@@ -20,6 +20,7 @@ export function usePasses() {
     url: "/pass",
     baseURL: BACKEND_URL,
     featureConfig: sharedFeatureConfig,
+    apiConfig: { timeout: API_TIMEOUT },
     queryOptions: {
       staleTime: 1000 * 60 * 5, // 5 minutes
       gcTime: 1000 * 60 * 30, // 30 minutes

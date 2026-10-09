@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useApiMutation } from "wire-axon/hooks";
-import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { BACKEND_URL, sharedFeatureConfig, API_TIMEOUT } from "@/lib/api/constants";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
 import { CaApplicationSchema } from "@/lib/api/utils/ca.schema";
 import type { CaApplicationApiResponse } from "@/lib/api/helper/types/ca.types";
@@ -31,6 +31,7 @@ export function useCaApplication(options?: UseCaApplicationOptions) {
       method: "post",
       baseURL: BACKEND_URL,
       featureConfig: sharedFeatureConfig,
+      apiConfig: { timeout: API_TIMEOUT },
       bodyValidator: { bodySchema: CaApplicationSchema },
       toastConfig: {
         successConfig: options?.successToast ? { customToast: options.successToast } : undefined,

@@ -7,7 +7,7 @@ import {
   type ContactSchemaType,
   type ContactResponse,
 } from "@/lib/api/utils/contact.schema";
-import { BACKEND_URL } from "@/lib/api/constants";
+import { BACKEND_URL, API_TIMEOUT } from "@/lib/api/constants";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
 
 interface UseContactOptions {
@@ -20,6 +20,7 @@ export function useContact(options?: UseContactOptions) {
     url: "/contact",
     method: "post",
     baseURL: BACKEND_URL,
+    apiConfig: { timeout: API_TIMEOUT },
     bodyValidator: { bodySchema: ContactSchema },
     toastConfig: {
       successConfig: options?.successToast ? { customToast: options.successToast } : undefined,

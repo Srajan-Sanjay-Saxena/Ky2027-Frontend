@@ -1,6 +1,6 @@
 "use client";
 
-import { TEAMS_COLORS } from "../constants/palette";
+import { TEAMS_COLORS } from "@/components/pages/teams/constants/palette";
 
 export function TeamsLoader() {
   return (

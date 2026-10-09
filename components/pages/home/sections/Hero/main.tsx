@@ -14,10 +14,10 @@ import { useAnimationPolicy } from "@/hooks";
 import { MotionZone } from "@/lib/motion";
 import { Z_HERO } from "@/components/pages/home/constants";
 import { IMAGES } from "@/lib/images";
-import { Kandeels } from "@/components/pages/home/sections/Hero/desktop";
-import { DriftingClouds } from "@/components/pages/home/sections/Hero/desktop";
-import { EmberField } from "@/components/pages/home/sections/Hero/desktop";
-import { MobileKite } from "@/components/pages/home/sections/Hero/mobile";
+import { Kandeels } from "@/components/pages/home/sections/Hero/desktop/Kandeels";
+import { DriftingClouds } from "@/components/pages/home/sections/Hero/desktop/DriftingClouds";
+import { EmberField } from "@/components/pages/home/sections/Hero/desktop/EmberField";
+import { MobileKite } from "@/components/pages/home/sections/Hero/mobile/MobileKite";
 import { Ghats } from "@/components/pages/home/sections/Hero/common";
 
 // Register plugin at module level (runs once when file is imported)

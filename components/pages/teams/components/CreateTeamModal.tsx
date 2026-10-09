@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { useCreateTeam, useUserSearch, useMyAccount, type SearchedUser } from "@/lib/api/hooks";
-import { TEAMS_COLORS } from "../constants/palette";
+import { TEAMS_COLORS } from "@/components/pages/teams/constants/palette";
 import { X, Search, UserPlus, Trash2, Users, Loader2, Crown } from "lucide-react";
 import Image from "next/image";
 import { useDebounce } from "@/hooks/useDebounce";

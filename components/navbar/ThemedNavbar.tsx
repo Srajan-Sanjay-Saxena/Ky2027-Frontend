@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useIsMobile } from "@/hooks";
 import { NavbarDesktop } from "@/components/navbar/desktop";
 import { NavbarMobile } from "@/components/navbar/mobile";
 import { NavBadge } from "@/components/navbar/common/NavBadge";
@@ -38,7 +39,7 @@ export function ThemedNavbar({
   theme = "main",
 }: ThemedNavbarProps) {
   const [scrolled, setScrolled] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile(640);
 
   const config = THEME_CONFIG[theme];
   const aspectRatio = THEME_ASPECT_RATIOS[theme];
@@ -58,14 +59,6 @@ export function ThemedNavbar({
     : desktopDimensions;
 
   const navbarOffsetY = isMobile ? mobileDimensions.navbarOffsetY : layout.navbarOffsetY;
-
-  useEffect(() => {
-    // Check if mobile on mount and resize
-    const checkMobile = () => setIsMobile(window.innerWidth < 640); // sm breakpoint
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   useEffect(() => {
     if (position !== "fixed") return;

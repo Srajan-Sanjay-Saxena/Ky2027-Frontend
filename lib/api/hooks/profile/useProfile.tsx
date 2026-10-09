@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useApiMutation } from "wire-axon/hooks";
-import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { BACKEND_URL, sharedFeatureConfig, API_TIMEOUT } from "@/lib/api/constants";
 import { CollegeSuccessToast } from "@/components/pages/complete-profile/steps/college/toasts/success/CollegeSuccessToast";
 import { CollegeErrorToast } from "@/components/pages/complete-profile/steps/college/toasts/error/CollegeErrorToast";
 import type { UpdateCollegeData } from "@/lib/api/helper/types/profile.types";
@@ -26,6 +26,7 @@ export function useUpdateCollege(userId?: string) {
     method: "patch",
     baseURL: BACKEND_URL,
     featureConfig: sharedFeatureConfig,
+    apiConfig: { timeout: API_TIMEOUT },
     bodyValidator: { bodySchema: UpdateCollegeSchema },
     invalidateQueryName: ["account-progress", userId!],
     toastConfig: {

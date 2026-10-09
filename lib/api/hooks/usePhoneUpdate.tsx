@@ -3,7 +3,7 @@
 import { useApiMutation } from "wire-axon/hooks";
 import { z } from "zod";
 import { useEffect, useState } from "react";
-import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { BACKEND_URL, sharedFeatureConfig, API_TIMEOUT } from "@/lib/api/constants";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
 import type { PhoneUpdateData } from "@/lib/api/helper/types";
 
@@ -29,6 +29,7 @@ export function useUpdatePhone(userId?: string) {
     method: "patch",
     baseURL: BACKEND_URL,
     featureConfig: sharedFeatureConfig,
+    apiConfig: { timeout: API_TIMEOUT },
     bodyValidator: { bodySchema: UpdatePhoneSchema },
     invalidateQueryName: ["account-progress", userId!],
     toastConfig: {

@@ -4,7 +4,7 @@ import { useApiMutation } from "wire-axon/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useCallback } from "react";
 import { z } from "zod";
-import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { BACKEND_URL, sharedFeatureConfig, API_TIMEOUT } from "@/lib/api/constants";
 import { AadhaarUploadUrlSchema, ConfirmUploadSchema } from "@/lib/api/utils/aadhaar.schema";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
 import type {
@@ -29,6 +29,7 @@ export function useAadhaarUpload(userId?: string) {
     method: "post",
     baseURL: BACKEND_URL,
     featureConfig: sharedFeatureConfig,
+    apiConfig: { timeout: API_TIMEOUT },
     bodyValidator: { bodySchema: AadhaarUploadUrlSchema },
     mutationOptions: { retry: false },
   });
@@ -42,6 +43,7 @@ export function useAadhaarUpload(userId?: string) {
     method: "patch",
     baseURL: BACKEND_URL,
     featureConfig: sharedFeatureConfig,
+    apiConfig: { timeout: API_TIMEOUT },
     bodyValidator: { bodySchema: ConfirmUploadSchema },
     mutationOptions: { retry: 3 },
   });
@@ -177,6 +179,7 @@ export function useAadhaarVerify(userId?: string) {
     method: "post",
     baseURL: BACKEND_URL,
     featureConfig: sharedFeatureConfig,
+    apiConfig: { timeout: API_TIMEOUT },
     bodyValidator: { bodySchema: z.object({}) },
     mutationOptions: { retry: false },
   });

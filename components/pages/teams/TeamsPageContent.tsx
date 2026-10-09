@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { LightNavbar } from "@/components/navbar/Navbar";
+import { ThemedNavbar } from "@/components/navbar";
 import { useMyTeams } from "@/lib/api/hooks";
 import { TEAMS_COLORS } from "./constants/palette";
 import { TeamCard } from "./components/TeamCard";
@@ -23,7 +23,7 @@ export function TeamsPageContent() {
     <>
       {/* Fixed navbar */}
       <div className="fixed inset-x-0 top-0 z-[200]">
-        <LightNavbar position="relative" topOffset={18} theme="main" />
+        <ThemedNavbar position="relative" topOffset={18} theme="main" />
       </div>
 
       <main

@@ -6,7 +6,7 @@ import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { COLORS } from "../../constants/palette";
+import { COLORS } from "@/components/pages/sponsors/constants/palette";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,18 +18,18 @@ const BITCOIN_CONFIG = {
   modelPath: "/sponsors/bitcoin.glb",
 
   // Scale - changes during scroll (big at start, small at end)
-  startScale: 4, // Size at start
-  endScale: 2.6, // Size at end
+  startScale: 2.5, // Size at start
+  endScale: 2.5, // Size at end
 
   // Camera
   cameraZ: 12,
   fov: 50,
 
   // Diagonal motion: Mid-Right to Bottom-Left (avoiding navbar)
-  startX: 5.7, // Start more right
-  endX: -3, // End left
-  startY: 1.1, // Start slightly above middle
-  endY: -4, // End bottom
+  startX: 5.4, // Start more right
+  endX: 5.4, // End left
+  startY: 0.9, // Start slightly above middle
+  endY: 0.9, // End bottom
 
   // Scroll-controlled rotation (Y axis only)
   rotationY: Math.PI * 8, // Total Y rotation during scroll

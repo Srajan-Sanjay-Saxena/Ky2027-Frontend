@@ -3,15 +3,15 @@
 import Image from "next/image";
 import { BadgeCheck } from "lucide-react";
 import { COLORS } from "@/components/pages/profile/constants/palette";
-import { UserData, ProgressData, ProfileUser } from "@/lib/api/helper/types";
+import { UserProfile, UserAccountProgress, ProfileUser } from "@/lib/api/helper/types";
 
 // ═══════════════════════════════════════════════════════════════════
 // AVATAR SECTION
 // ═══════════════════════════════════════════════════════════════════
 interface AvatarSectionProps {
-  userData: UserData | null;
+  userData: UserProfile | null;
   user: ProfileUser;
-  progress: ProgressData | null;
+  progress: UserAccountProgress | null;
   initials: string;
 }
 

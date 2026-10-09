@@ -95,7 +95,7 @@ export const SteppingStone = memo(function SteppingStone({
           </span>
         ) : label ? (
           <span
-            className="stone-label absolute inset-0 flex items-center justify-center text-center text-[8px] font-bold tracking-wide text-amber-100 uppercase sm:text-[15px]"
+            className="stone-label absolute inset-0 flex items-center justify-center text-center text-[7px] font-bold tracking-wide text-amber-100 uppercase sm:text-[12px]"
             style={{
               fontFamily: "var(--font-ethereal), serif",
               textShadow: "0 1px 4px rgba(0,0,0,0.95), 0 0 2px rgba(0,0,0,0.9)",

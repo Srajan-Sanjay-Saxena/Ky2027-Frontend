@@ -1,1 +1,0 @@
-export { SponsorsPageContent } from "./sections";

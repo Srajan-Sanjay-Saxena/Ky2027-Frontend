@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { type Team } from "@/lib/api/hooks";
-import { TEAMS_COLORS } from "../constants/palette";
+import { TEAMS_COLORS } from "@/components/pages/teams/constants/palette";
 import { Users, Crown, ChevronDown, ChevronUp } from "lucide-react";
 import Image from "next/image";
 

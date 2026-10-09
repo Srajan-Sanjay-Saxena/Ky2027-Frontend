@@ -1,1 +1,2 @@
-export { PassCardSkeleton, PassesLoader } from "./PassesLoader";
+export { PassCardSkeleton } from "./PassCardSkeleton";
+export { PassesLoader } from "./PassesLoader";

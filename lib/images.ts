@@ -56,9 +56,6 @@ export const IMAGES = {
       background: "/navbar/SponsorBackground.png",
       badge: "/navbar/SponsorBadge.png",
     },
-    // Legacy aliases for backwards compatibility
-    background: "/navbar/MainBackground.png",
-    badge: "/navbar/MainBadge.png",
   },
 
   // ============================================

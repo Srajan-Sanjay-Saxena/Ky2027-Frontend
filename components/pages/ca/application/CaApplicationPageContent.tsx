@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Clock, CheckCircle, XCircle, ArrowLeft, Mail, Copy, Rocket } from "lucide-react";
 import { useState } from "react";
-import { LightNavbar } from "@/components/navbar/Navbar";
+import { ThemedNavbar } from "@/components/navbar";
 import { useCaInfo } from "@/lib/api/hooks";
 import { COLORS, COLORS_RGBA, GRADIENTS } from "@/components/pages/ca/constants/palette";
 import { GridBackground, FloatingElements } from "@/components/pages/ca/sections/decor";
@@ -130,7 +130,7 @@ export function CaApplicationPageContent() {
     >
       {/* Fixed navbar */}
       <div className="fixed inset-x-0 top-0 z-[200]">
-        <LightNavbar position="relative" topOffset={18} theme="about" />
+        <ThemedNavbar position="relative" topOffset={18} theme="about" />
       </div>
 
       {/* Background effects */}

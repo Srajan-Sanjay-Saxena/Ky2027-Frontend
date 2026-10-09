@@ -16,9 +16,6 @@ import { useScrollPosition } from "@/hooks/useScrollPosition";
  *   <ThemedNavbar position="fixed" topOffset={18} theme="main" />
  */
 
-// Re-export themed navbar
-export { ThemedNavbar, LightNavbar } from "@/components/navbar";
-
 /**
  * Navbar (Default)
  *

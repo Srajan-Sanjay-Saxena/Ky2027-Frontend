@@ -1,6 +1,6 @@
 "use client";
 
-import { LightNavbar } from "@/components/navbar/Navbar";
+import { ThemedNavbar } from "@/components/navbar";
 import { useMyAccount, useSignOut, useCaInfo } from "@/lib/api/hooks";
 import {
   ProfileHero,
@@ -45,7 +45,7 @@ export function ProfilePageContent({ user }: ProfilePageContentProps) {
     <>
       {/* Fixed navbar */}
       <div className="fixed inset-x-0 top-0 z-[200]">
-        <LightNavbar position="relative" topOffset={18} theme="main" />
+        <ThemedNavbar position="relative" topOffset={18} theme="main" />
       </div>
 
       <main

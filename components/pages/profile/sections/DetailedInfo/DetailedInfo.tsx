@@ -2,7 +2,7 @@
 
 import { Mail, User, Shield, Calendar, Phone, GraduationCap, FileCheck } from "lucide-react";
 import { COLORS } from "@/components/pages/profile/constants/palette";
-import { UserData, ProgressData, ProfileUser } from "@/lib/api/helper/types";
+import { UserProfile, UserAccountProgress, ProfileUser } from "@/lib/api/helper/types";
 import { InfoCard } from "./InfoCard";
 import { VerificationStep } from "./VerificationStep";
 
@@ -12,9 +12,9 @@ import { VerificationStep } from "./VerificationStep";
 // ═══════════════════════════════════════════════════════════════════
 
 interface DetailedInfoProps {
-  userData: UserData | null;
+  userData: UserProfile | null;
   user: ProfileUser;
-  progress: ProgressData | null;
+  progress: UserAccountProgress | null;
 }
 
 export function DetailedInfo({ userData, user, progress }: DetailedInfoProps) {

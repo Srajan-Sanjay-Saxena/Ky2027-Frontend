@@ -3,7 +3,7 @@
 import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { LightNavbar } from "@/components/navbar/Navbar";
+import { ThemedNavbar } from "@/components/navbar";
 import {
   HeroSection,
   PerksSection,
@@ -76,7 +76,7 @@ export function CAPageContent() {
     >
       {/* Fixed navbar */}
       <div className="fixed inset-x-0 top-0 z-[200]">
-        <LightNavbar position="relative" topOffset={18} theme="about" />
+        <ThemedNavbar position="relative" topOffset={18} theme="about" />
       </div>
 
       {/* Background effects */}

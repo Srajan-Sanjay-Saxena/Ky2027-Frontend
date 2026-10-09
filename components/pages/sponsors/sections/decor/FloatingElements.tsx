@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { COLORS } from "../../constants/palette";
+import { COLORS } from "@/components/pages/sponsors/constants/palette";
 
 // ═══════════════════════════════════════════════════════════════════
 // FLOATING ELEMENTS - Scattered across the page

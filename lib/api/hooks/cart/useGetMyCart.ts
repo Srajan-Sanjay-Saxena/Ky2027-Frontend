@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { useApiQuery } from "wire-axon/hooks";
-import { BACKEND_URL, sharedFeatureConfig } from "@/lib/api/constants";
+import { BACKEND_URL, sharedFeatureConfig, API_TIMEOUT } from "@/lib/api/constants";
 import { extractErrorMessage } from "@/lib/api/helper/functions/error.functions";
 import type { CartApiResponse } from "@/lib/api/helper/types";
 
@@ -21,6 +21,7 @@ export function useGetMyCart() {
     url: "/user/cart",
     baseURL: BACKEND_URL,
     featureConfig: sharedFeatureConfig,
+    apiConfig: { timeout: API_TIMEOUT },
     queryOptions: {
       enabled: isAuthenticated,
       staleTime: 1000 * 60 * 2, // 2 minutes

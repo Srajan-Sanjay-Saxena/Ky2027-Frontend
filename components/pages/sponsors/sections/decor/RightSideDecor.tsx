@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { COLORS, SHADOWS } from "../../constants/palette";
+import { COLORS, SHADOWS } from "@/components/pages/sponsors/constants/palette";
 
 // ═══════════════════════════════════════════════════════════════════
 // RIGHT SIDE DECORATION - Stage/Theatrical Concert Theme

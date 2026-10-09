@@ -2,10 +2,13 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { LightNavbar } from "@/components/navbar/Navbar";
+import { ThemedNavbar } from "@/components/navbar";
 import { IMAGES } from "@/lib/images";
-import { COLORS, GRADIENTS, SHADOWS } from "../constants/palette";
-import { SPONSORS_2026, groupSponsorsByTier } from "../config/sponsors.config";
+import { COLORS, GRADIENTS, SHADOWS } from "@/components/pages/sponsors/constants/palette";
+import {
+  SPONSORS_2026,
+  groupSponsorsByTier,
+} from "@/components/pages/sponsors/config/sponsors.config";
 import {
   LeftSideDecor,
   RightSideDecor,
@@ -26,7 +29,7 @@ export function SponsorsPageContent() {
     <>
       {/* Navbar - Sponsor theme (green/gold nature) */}
       <div className="fixed inset-x-0 top-0 z-[200]">
-        <LightNavbar position="relative" topOffset={18} theme="sponsor" />
+        <ThemedNavbar position="relative" topOffset={18} theme="sponsor" />
       </div>
 
       <main
@@ -69,7 +72,7 @@ export function SponsorsPageContent() {
             alt=""
             width={1200}
             height={1400}
-            className="w-[900px] opacity-90"
+            className="w-[950px] opacity-90"
             style={{
               filter: SHADOWS.BRANCH_GLOW,
               transform: "scaleX(-1)",

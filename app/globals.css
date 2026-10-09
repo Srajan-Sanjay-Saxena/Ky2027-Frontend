@@ -1,8 +1,5 @@
 @import "tailwindcss";
 
-/* ── Cinematic Intro Styles ── */
-@import "../components/pages/test/styles/cinematic-intro.css";
-
 /* ── Tailwind Animate Plugin Keyframes ── */
 @keyframes enter {
   from {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMyRegistrations } from "@/lib/api/hooks";
-import { COLORS } from "../constants/palette";
+import { COLORS } from "@/components/pages/profile/constants/palette";
 import { Ticket, Check, Clock, ChevronRight } from "lucide-react";
 import Link from "next/link";
 

@@ -112,7 +112,7 @@ export function CartSummary({
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative mt-5 overflow-visible rounded-2xl"
+      className="relative overflow-hidden rounded-2xl"
       style={{
         background:
           "linear-gradient(145deg, rgba(28, 18, 38, 0.98) 0%, rgba(38, 22, 48, 0.98) 100%)",
@@ -138,29 +138,29 @@ export function CartSummary({
 
       {/* Header */}
       <div
-        className="relative px-5 py-4"
+        className="relative px-6 py-5"
         style={{
           background: `linear-gradient(135deg, ${COLORS.GOLD}12, transparent)`,
           borderBottom: `1px solid ${COLORS.GOLD}20`,
         }}
       >
-        {/* Crown - properly centered */}
-        <div className="absolute -top-3 right-0 left-0 flex justify-center">
+        {/* Crown - inside the card */}
+        <div className="mb-3 flex justify-center">
           <div
-            className="rounded-full p-1.5"
+            className="rounded-full p-2"
             style={{
-              background: `linear-gradient(135deg, ${COLORS.GOLD}25, ${COLORS.DARK_GOLD}15)`,
+              background: `linear-gradient(135deg, ${COLORS.GOLD}20, ${COLORS.DARK_GOLD}10)`,
               border: `1px solid ${COLORS.GOLD}30`,
             }}
           >
-            <Crown className="h-4 w-4" style={{ color: COLORS.GOLD }} />
+            <Crown className="h-5 w-5" style={{ color: COLORS.GOLD }} />
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-2 pt-1">
-          <CreditCard className="h-4 w-4" style={{ color: COLORS.GOLD }} />
+        <div className="flex items-center justify-center gap-2">
+          <CreditCard className="h-5 w-5" style={{ color: COLORS.GOLD }} />
           <h3
-            className="text-base font-bold tracking-wide"
+            className="text-lg font-bold tracking-wide"
             style={{ color: COLORS.GOLD, textShadow: `0 0 20px ${COLORS.GOLD}30` }}
           >
             Order Summary
@@ -168,9 +168,9 @@ export function CartSummary({
         </div>
       </div>
 
-      <div className="p-5">
+      <div className="p-6">
         {/* Price breakdown */}
-        <div className="mb-4 space-y-2.5">
+        <div className="mb-6 space-y-4">
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">Subtotal ({totalItems} items)</span>
             <span className="font-medium text-white">₹{totalAmount.toLocaleString()}</span>
@@ -185,7 +185,7 @@ export function CartSummary({
                 className="flex justify-between text-sm"
               >
                 <span className="flex items-center gap-1 text-green-400">
-                  <Tag className="h-3 w-3" />
+                  <Tag className="h-3.5 w-3.5" />
                   {appliedCoupon.code}
                 </span>
                 <span className="font-medium text-green-400">
@@ -205,17 +205,17 @@ export function CartSummary({
           </div>
         </div>
 
-        {/* Coupon Section - Fixed layout */}
+        {/* Coupon Section */}
         <div
-          className="mb-4 rounded-lg p-3"
+          className="mb-6 rounded-xl p-4"
           style={{
             background: `${COLORS.GOLD}05`,
             border: `1px solid ${COLORS.GOLD}15`,
           }}
         >
-          <div className="mb-2 flex items-center gap-1.5">
-            <Gift className="h-3.5 w-3.5" style={{ color: COLORS.GOLD }} />
-            <span className="text-xs font-medium" style={{ color: COLORS.GOLD }}>
+          <div className="mb-3 flex items-center gap-2">
+            <Gift className="h-4 w-4" style={{ color: COLORS.GOLD }} />
+            <span className="text-sm font-medium" style={{ color: COLORS.GOLD }}>
               Have a coupon?
             </span>
           </div>
@@ -224,17 +224,17 @@ export function CartSummary({
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="flex items-center justify-between rounded-md p-2"
+              className="flex items-center justify-between rounded-lg p-3"
               style={{
                 background: "rgba(74, 222, 128, 0.1)",
                 border: "1px solid rgba(74, 222, 128, 0.25)",
               }}
             >
               <div className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-green-400" />
+                <Check className="h-5 w-5 text-green-400" />
                 <div>
-                  <p className="text-xs font-semibold text-green-400">{appliedCoupon.code}</p>
-                  <p className="text-[10px] text-green-400/70">
+                  <p className="text-sm font-semibold text-green-400">{appliedCoupon.code}</p>
+                  <p className="text-xs text-green-400/70">
                     {appliedCoupon.type === "percentage"
                       ? `${appliedCoupon.discount}% off`
                       : `₹${appliedCoupon.discount} off`}
@@ -243,13 +243,13 @@ export function CartSummary({
               </div>
               <button
                 onClick={handleRemoveCoupon}
-                className="rounded-full p-1 text-green-400/70 hover:bg-green-500/20 hover:text-green-400"
+                className="rounded-full p-1.5 text-green-400/70 hover:bg-green-500/20 hover:text-green-400"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-4 w-4" />
               </button>
             </motion.div>
           ) : (
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -259,7 +259,7 @@ export function CartSummary({
                     setCouponError(null);
                   }}
                   placeholder="Enter code"
-                  className="min-w-0 flex-1 rounded-md bg-black/30 px-2.5 py-2 text-xs text-white placeholder-gray-500 outline-none"
+                  className="min-w-0 flex-1 rounded-lg bg-black/30 px-3 py-2.5 text-sm text-white placeholder-gray-500 outline-none"
                   style={{
                     border: `1px solid ${couponError ? "rgba(239, 68, 68, 0.4)" : `${COLORS.GOLD}20`}`,
                   }}
@@ -267,28 +267,28 @@ export function CartSummary({
                 <button
                   onClick={handleApplyCoupon}
                   disabled={isApplyingCoupon || !couponCode.trim()}
-                  className="flex shrink-0 items-center gap-1 rounded-md px-3 py-2 text-xs font-medium text-white disabled:opacity-50"
+                  className="flex shrink-0 items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50"
                   style={{
                     background: `linear-gradient(135deg, ${COLORS.GOLD}90, ${COLORS.DARK_GOLD})`,
                   }}
                 >
                   {isApplyingCoupon ? (
-                    <Loader2 className="h-3 w-3 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <>
-                      <Percent className="h-3 w-3" />
+                      <Percent className="h-4 w-4" />
                       Apply
                     </>
                   )}
                 </button>
               </div>
-              {couponError && <p className="text-[10px] text-red-400">{couponError}</p>}
+              {couponError && <p className="text-xs text-red-400">{couponError}</p>}
             </div>
           )}
         </div>
 
         {/* Divider */}
-        <div className="relative mb-4">
+        <div className="relative mb-6">
           <div
             className="h-px"
             style={{
@@ -296,16 +296,16 @@ export function CartSummary({
             }}
           />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#261630] px-2">
-            <Sparkles className="h-3 w-3" style={{ color: `${COLORS.GOLD}50` }} />
+            <Sparkles className="h-4 w-4" style={{ color: `${COLORS.GOLD}50` }} />
           </div>
         </div>
 
-        {/* Total - Smaller font */}
-        <div className="mb-4 flex items-center justify-between">
-          <span className="text-sm font-semibold text-white">Total Amount</span>
+        {/* Total */}
+        <div className="mb-6 flex items-center justify-between">
+          <span className="font-semibold text-white">Total Amount</span>
           <div className="text-right">
             {appliedCoupon && (
-              <span className="mr-1.5 text-xs text-gray-500 line-through">
+              <span className="mr-2 text-sm text-gray-500 line-through">
                 ₹{totalAmount.toLocaleString()}
               </span>
             )}
@@ -318,7 +318,7 @@ export function CartSummary({
                 ],
               }}
               transition={{ duration: 2, repeat: Infinity }}
-              className="text-xl font-bold"
+              className="text-2xl font-bold"
               style={{ color: COLORS.GOLD }}
             >
               ₹{finalAmount.toLocaleString()}
@@ -333,14 +333,14 @@ export function CartSummary({
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 5 }}
-              className="mb-3 flex items-center justify-center gap-1.5 rounded-md py-1.5"
+              className="mb-4 flex items-center justify-center gap-2 rounded-lg py-2.5"
               style={{
                 background: "rgba(74, 222, 128, 0.08)",
                 border: "1px solid rgba(74, 222, 128, 0.15)",
               }}
             >
-              <Gift className="h-3 w-3 text-green-400" />
-              <span className="text-xs font-medium text-green-400">
+              <Gift className="h-4 w-4 text-green-400" />
+              <span className="text-sm font-medium text-green-400">
                 You save ₹{discountAmount.toLocaleString()}!
               </span>
             </motion.div>
@@ -352,7 +352,7 @@ export function CartSummary({
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
           onClick={onCheckout}
-          className="group relative mb-3 w-full overflow-hidden rounded-xl py-3 font-semibold text-white"
+          className="group relative mb-4 w-full overflow-hidden rounded-xl py-4 font-semibold text-white"
           style={{
             background: `linear-gradient(135deg, ${COLORS.GOLD}, ${COLORS.DARK_GOLD})`,
             boxShadow: `0 4px 20px ${COLORS.GOLD}30`,
@@ -367,9 +367,9 @@ export function CartSummary({
               width: "50%",
             }}
           />
-          <span className="relative flex items-center justify-center gap-2 text-sm">
+          <span className="relative flex items-center justify-center gap-2">
             Proceed to Checkout
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
           </span>
         </motion.button>
 
@@ -377,23 +377,23 @@ export function CartSummary({
         <button
           onClick={onClearCart}
           disabled={isClearing}
-          className="flex w-full items-center justify-center gap-1.5 rounded-lg border py-2.5 text-xs transition-all hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400 disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border py-3 text-sm transition-all hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400 disabled:opacity-50"
           style={{ borderColor: "rgba(100, 100, 100, 0.25)", color: "rgba(150, 150, 150, 1)" }}
         >
           {isClearing ? (
-            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
-            <Trash2 className="h-3.5 w-3.5" />
+            <Trash2 className="h-4 w-4" />
           )}
           {isClearing ? "Clearing..." : "Clear Cart"}
         </button>
 
         {/* Security */}
         <div
-          className="mt-4 flex items-center justify-center gap-1.5 text-[10px]"
+          className="mt-6 flex items-center justify-center gap-2 text-xs"
           style={{ color: `${COLORS.GOLD}70` }}
         >
-          <ShieldCheck className="h-3 w-3" />
+          <ShieldCheck className="h-4 w-4" />
           <span>Secure checkout with encrypted payment</span>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { SponsorsPageContent } from "@/components/pages/sponsors";
+import { SponsorsPageContent } from "@/components/pages/sponsors/sections/SponsorsPageContent";
 
 export const metadata: Metadata = {
   title: "Sponsors",
